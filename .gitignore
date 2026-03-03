@@ -26,4 +26,5 @@ docs/_markbind/logs/
 # VS Code files
 .vscode/
 
+# Build output
 /bin/
