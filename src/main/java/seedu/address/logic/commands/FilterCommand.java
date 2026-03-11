@@ -6,11 +6,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-
+import seedu.address.model.person.LocationContainsKeywordsPredicate;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Finds and lists all persons in address book whose location contains any of the argument keywords.
  * Keyword matching is case-insensitive.
  */
 public class FilterCommand extends Command {
@@ -24,9 +23,9 @@ public class FilterCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + PREFIX_LOCATION
             + " Kent Ridge Clementi";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final LocationContainsKeywordsPredicate predicate;
 
-    public FilterCommand(NameContainsKeywordsPredicate predicate) {
+    public FilterCommand(LocationContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
     }
 

@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.LocationContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new NoteCommand object
@@ -31,6 +31,6 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         String filterContent = argMultimap.getValue(PREFIX_LOCATION).get();
         String[] locationKeywords = filterContent.split("\\s+");
 
-        return new FilterCommand(new NameContainsKeywordsPredicate(Arrays.asList(locationKeywords)));
+        return new FilterCommand(new LocationContainsKeywordsPredicate(Arrays.asList(locationKeywords)));
     }
 }
