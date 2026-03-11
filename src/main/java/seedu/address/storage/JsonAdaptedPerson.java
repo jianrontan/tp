@@ -95,7 +95,8 @@ class JsonAdaptedPerson {
         final Gender modelGender = new Gender(gender);
 
         if (dob == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, DateOfBirth.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DateOfBirth.class.getSimpleName()));
         }
         if (!DateOfBirth.isValidDob(dob)) {
             throw new IllegalValueException(DateOfBirth.MESSAGE_CONSTRAINTS);

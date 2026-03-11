@@ -12,11 +12,11 @@ import java.time.format.DateTimeParseException;
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
 public class DateOfBirth {
-    public static final String MESSAGE_CONSTRAINTS = 
+    public static final String MESSAGE_CONSTRAINTS =
             "Date of Birth must be in the format DD/MM/YYYY and cannot be in the future.";
 
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public final LocalDate value;
     /**
      * Constructs a {@code DateOfBirth}.
@@ -26,7 +26,7 @@ public class DateOfBirth {
     public DateOfBirth(String dob) {
         requireNonNull(dob);
         checkArgument(isValidDob(dob), MESSAGE_CONSTRAINTS);
-        value = LocalDate.parse(dob, DateOfBirth.formatter);
+        value = LocalDate.parse(dob, DateOfBirth.FORMATTER);
     }
 
     /**
@@ -35,7 +35,7 @@ public class DateOfBirth {
     public static boolean isValidDob(String test) {
         boolean isValidDate = true;
         try {
-            LocalDate testDate = LocalDate.parse(test, DateOfBirth.formatter);
+            LocalDate testDate = LocalDate.parse(test, DateOfBirth.FORMATTER);
             if (testDate.isAfter(LocalDate.now())) {
                 isValidDate = false;
             }
@@ -47,7 +47,7 @@ public class DateOfBirth {
 
     @Override
     public String toString() {
-        return value.format(DateOfBirth.formatter);
+        return value.format(DateOfBirth.FORMATTER);
     }
 
     @Override
