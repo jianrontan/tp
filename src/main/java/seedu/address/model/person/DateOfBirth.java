@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException;
 
 /**
  * Represents a person's date of birth in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidDob(String)}
  */
 public class DateOfBirth {
     public static final String MESSAGE_CONSTRAINTS =
@@ -21,7 +21,7 @@ public class DateOfBirth {
     /**
      * Constructs a {@code DateOfBirth}.
      *
-     * @param gender A valid date of birth string.
+     * @param dob A valid date of birth string.
      */
     public DateOfBirth(String dob) {
         requireNonNull(dob);
