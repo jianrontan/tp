@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
 import seedu.address.model.person.Name;
@@ -27,6 +28,7 @@ class JsonAdaptedPerson {
 
     private final String name;
     private final String gender;
+    private final String dob;
     private final String phone;
     private final String email;
     private final String address;
@@ -37,10 +39,11 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("gender") String gender,
-            @JsonProperty("phone") String phone, @JsonProperty("email") String email,
+            @JsonProperty("dob") String dob, @JsonProperty("phone") String phone, @JsonProperty("email") String email,
             @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.gender = gender;
+        this.dob = dob;
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -55,6 +58,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
         gender = source.getGender().value.toString();
+        dob = source.getDateOfBirth().toString();
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
@@ -90,6 +94,15 @@ class JsonAdaptedPerson {
         }
         final Gender modelGender = new Gender(gender);
 
+        if (dob == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DateOfBirth.class.getSimpleName()));
+        }
+        if (!DateOfBirth.isValidDob(dob)) {
+            throw new IllegalValueException(DateOfBirth.MESSAGE_CONSTRAINTS);
+        }
+        final DateOfBirth modelDateOfBirth = new DateOfBirth(dob);
+
         if (phone == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
         }
@@ -115,7 +128,7 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelGender, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Person(modelName, modelGender, modelDateOfBirth, modelPhone, modelEmail, modelAddress, modelTags);
     }
 
 }

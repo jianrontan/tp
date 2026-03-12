@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
+import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
 import seedu.address.model.person.Name;
@@ -19,12 +20,14 @@ public class PersonBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_GENDER = "F";
+    public static final String DEFAULT_DOB = "24/04/1976";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
 
     private Name name;
     private Gender gender;
+    private DateOfBirth dob;
     private Phone phone;
     private Email email;
     private Address address;
@@ -36,6 +39,7 @@ public class PersonBuilder {
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
         gender = new Gender(DEFAULT_GENDER);
+        dob = new DateOfBirth(DEFAULT_DOB);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
@@ -48,6 +52,7 @@ public class PersonBuilder {
     public PersonBuilder(Person personToCopy) {
         name = personToCopy.getName();
         gender = personToCopy.getGender();
+        dob = personToCopy.getDateOfBirth();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
@@ -67,6 +72,14 @@ public class PersonBuilder {
      */
     public PersonBuilder withGender(String gender) {
         this.gender = new Gender(gender);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Gender} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withDateOfBirth(String dob) {
+        this.dob = new DateOfBirth(dob);
         return this;
     }
 
@@ -103,7 +116,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, gender, phone, email, address, tags);
+        return new Person(name, gender, dob, phone, email, address, tags);
     }
 
 }
