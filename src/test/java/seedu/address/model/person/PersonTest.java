@@ -105,6 +105,7 @@ public class PersonTest {
                 + ", email=" + ALICE.getEmail()
                 + ", address=" + ALICE.getAddress()
                 + ", location=" + ALICE.getLocation()
+                + ", note=" + ALICE.getNote()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }

@@ -16,6 +16,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -34,6 +35,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final String location;
+    private final String note;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -47,6 +49,7 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email,
             @JsonProperty("address") String address,
             @JsonProperty("location") String location,
+            @JsonProperty("note") String note,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.gender = gender;
@@ -55,6 +58,7 @@ class JsonAdaptedPerson {
         this.email = email;
         this.address = address;
         this.location = location;
+        this.note = note;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -71,6 +75,7 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         location = source.getLocation().value;
+        note = source.getNote().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -145,6 +150,11 @@ class JsonAdaptedPerson {
         }
         final Location modelLocation = new Location(location);
 
+        if (note == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Note.class.getSimpleName()));
+        }
+        final Note modelNote = new Note(note);
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName,
                 modelGender,
@@ -153,6 +163,7 @@ class JsonAdaptedPerson {
                 modelEmail,
                 modelAddress,
                 modelLocation,
+                modelNote,
                 modelTags);
     }
 

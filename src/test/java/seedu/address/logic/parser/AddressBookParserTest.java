@@ -6,6 +6,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE_APPEND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -29,6 +30,7 @@ import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.LocationContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -72,9 +74,15 @@ public class AddressBookParserTest {
         NoteCommand command = (NoteCommand) parser
                 .parseCommand(NoteCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_NOTE + "New note.");
-        assertEquals(new NoteCommand(INDEX_FIRST_PERSON, "New note."), command);
-        // assertTrue(parser.parseCommand(NoteCommand.COMMAND_WORD + " "
-        //         + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_NOTE + "New note.") instanceof NoteCommand);
+        assertEquals(new NoteCommand(INDEX_FIRST_PERSON, new Note("New note."), false), command);
+    }
+
+    @Test
+    public void parseCommand_noteAppend() throws Exception {
+        NoteCommand command = (NoteCommand) parser
+                .parseCommand(NoteCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_NOTE_APPEND + "Append text.");
+        assertEquals(new NoteCommand(INDEX_FIRST_PERSON, new Note("Append text."), true), command);
     }
 
     @Test

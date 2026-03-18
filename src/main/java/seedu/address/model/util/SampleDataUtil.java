@@ -12,6 +12,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -30,6 +31,7 @@ public class SampleDataUtil {
                     new Email("alexyeoh@example.com"),
                     new Address("Blk 30 Geylang Street 29, #06-40"),
                     new Location("Anytime Fitness Geylang South East"),
+                    new Note("Prefers morning workouts"),
                     getTagSet("friends")),
             new Person(
                     new Name("Bernice Yu"),
@@ -39,6 +41,7 @@ public class SampleDataUtil {
                     new Email("berniceyu@example.com"),
                     new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                     new Location("ActiveSG Gym @ Serangoon Central"),
+                    new Note("Enjoys group fitness classes"),
                     getTagSet("colleagues", "friends")),
             new Person(
                     new Name("Charlotte Oliveiro"),
@@ -48,6 +51,7 @@ public class SampleDataUtil {
                     new Email("charlotte@example.com"),
                     new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
                     new Location("ActiveSG Gym @ Ang Mo Kio Community Centre"),
+                    new Note("Interested in yoga"),
                     getTagSet("neighbours")),
             new Person(
                     new Name("David Li"),
@@ -57,6 +61,7 @@ public class SampleDataUtil {
                     new Email("lidavid@example.com"),
                     new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
                     new Location("ActiveSG Gym @ Serangoon Central"),
+                    new Note("Prefers evening workouts"),
                     getTagSet("family")),
             new Person(
                     new Name("Irfan Ibrahim"),
@@ -66,6 +71,7 @@ public class SampleDataUtil {
                     new Email("irfan@example.com"),
                     new Address("Blk 47 Tampines Street 20, #17-35"),
                     new Location("Tampines ActiveSG Gym"),
+                    new Note("Enjoys swimming"),
                     getTagSet("classmates")),
             new Person(
                     new Name("Roy Balakrishnan"),
@@ -75,6 +81,7 @@ public class SampleDataUtil {
                     new Email("royb@example.com"),
                     new Address("Blk 45 Aljunied Street 85, #11-31"),
                     new Location("Anytime Fitness Aljunied 119"),
+                    new Note("Prefers morning workouts"),
                     getTagSet("colleagues"))
         };
     }
