@@ -37,6 +37,7 @@ public class TypicalPersons {
             .withEmail("alice@example.com")
             .withPhone("94351253")
             .withLocation("Jurong West ActiveSG Gym")
+            .withNote("Likes morning workouts")
             .withTags("friends")
             .build();
     public static final Person BENSON = new PersonBuilder()
@@ -47,16 +48,18 @@ public class TypicalPersons {
             .withEmail("johnd@example.com")
             .withPhone("98765432")
             .withLocation("Clementi ActiveSG Gym")
-            .withTags("owesMoney", "friends")
+            .withNote("Focuses on strength training")
+            .withTags("friends")
             .build();
     public static final Person CARL = new PersonBuilder()
             .withName("Carl Kurz")
             .withGender("M")
             .withDateOfBirth("22/07/2001")
+            .withAddress("wall street")
+            .withEmail("heinz@example.com")
             .withPhone("95352563")
             .withLocation("Anytime Fitness Tampines East")
-            .withEmail("heinz@example.com")
-            .withAddress("wall street")
+            .withNote("Enjoys cardio workouts")
             .build();
     public static final Person DANIEL = new PersonBuilder()
             .withName("Daniel Meier")
@@ -66,6 +69,7 @@ public class TypicalPersons {
             .withEmail("cornelia@example.com")
             .withAddress("10th street")
             .withLocation("Anytime Fitness Marine Parade")
+            .withNote("Enjoys cardio and yoga")
             .withTags("friends")
             .build();
     public static final Person ELLE = new PersonBuilder()
@@ -76,6 +80,7 @@ public class TypicalPersons {
             .withEmail("werner@example.com")
             .withAddress("michegan ave")
             .withLocation("Anytime Fitness Buona Vista")
+            .withNote("Loves HIIT")
             .build();
     public static final Person FIONA = new PersonBuilder()
             .withName("Fiona Kunz")
@@ -85,6 +90,7 @@ public class TypicalPersons {
             .withEmail("lydia@example.com")
             .withAddress("little tokyo")
             .withLocation("Anytime Fitness Taman Jurong")
+            .withNote("Enjoys group fitness classes")
             .build();
     public static final Person GEORGE = new PersonBuilder()
             .withName("George Best")
@@ -94,6 +100,7 @@ public class TypicalPersons {
             .withEmail("anna@example.com")
             .withAddress("4th street")
             .withLocation("Anytime Fitness Lower Peirce")
+            .withNote("Focuses on cardio and HIIT workouts")
             .build();
 
     // Manually added
@@ -105,6 +112,7 @@ public class TypicalPersons {
             .withEmail("stefan@example.com")
             .withAddress("little india")
             .withLocation("Heartbeat @ Bedok ActiveSG Gym")
+            .withNote("Interested in martial arts")
             .build();
     public static final Person IDA = new PersonBuilder()
             .withName("Ida Mueller")
@@ -114,6 +122,7 @@ public class TypicalPersons {
             .withEmail("hans@example.com")
             .withAddress("chicago ave")
             .withLocation("Jurong Lake Gardens ActiveSG Gym")
+            .withNote("Enjoys cardio")
             .build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}

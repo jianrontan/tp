@@ -8,6 +8,7 @@
     "email" : "alice@example.com",
     "address" : "123, Jurong West Ave 6, #08-111",
     "location" : "Jurong West ActiveSG Gym",
+    "note": "Likes morning workouts",
     "tags" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
@@ -17,7 +18,8 @@
     "email" : "johnd@example.com",
     "address" : "311, Clementi Ave 2, #02-25",
     "location" : "Clementi ActiveSG Gym",
-    "tags" : [ "owesMoney", "friends" ]
+    "note" : "Focuses on strength training",
+    "tags" : [ "friends" ]
   }, {
     "name" : "Carl Kurz",
     "gender" : "M",
@@ -26,6 +28,7 @@
     "email" : "heinz@example.com",
     "address" : "wall street",
     "location" : "Anytime Fitness Tampines East",
+    "note" : "Enjoys cardio workouts",
     "tags" : [ ]
   }, {
     "name" : "Daniel Meier",
@@ -35,6 +38,7 @@
     "email" : "cornelia@example.com",
     "address" : "10th street",
     "location" : "Anytime Fitness Marine Parade",
+    "note" : "Enjoys cardio and yoga",
     "tags" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
@@ -44,6 +48,7 @@
     "email" : "werner@example.com",
     "address" : "michegan ave",
     "location" : "Anytime Fitness Buona Vista",
+    "note" : "Loves HIIT",
     "tags" : [ ]
   }, {
     "name" : "Fiona Kunz",
@@ -53,6 +58,7 @@
     "email" : "lydia@example.com",
     "address" : "little tokyo",
     "location" : "Anytime Fitness Taman Jurong",
+    "note" : "Enjoys group fitness classes",
     "tags" : [ ]
   }, {
     "name" : "George Best",
@@ -62,6 +68,7 @@
     "email" : "anna@example.com",
     "address" : "4th street",
     "location" : "Anytime Fitness Lower Peirce",
+    "note" : "Focuses on cardio and HIIT workouts",
     "tags" : [ ]
   } ]
 }

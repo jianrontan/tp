@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Note;
 
 /**
  * Parses input arguments and creates a new NoteCommand object
@@ -37,6 +38,6 @@ public class NoteCommandParser implements Parser<NoteCommand> {
 
         String noteContent = argMultimap.getValue(PREFIX_NOTE).get();
 
-        return new NoteCommand(index, noteContent);
+        return new NoteCommand(index, new Note(noteContent));
     }
 }
