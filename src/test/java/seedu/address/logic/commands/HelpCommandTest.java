@@ -29,14 +29,14 @@ public class HelpCommandTest {
 
     @Test
     public void execute_helpWithSpecificCommand_success() {
-        CommandResult expectedCommandResult = new CommandResult(AddCommand.MESSAGE_USAGE, true, false);
+        CommandResult expectedCommandResult = new CommandResult(AddCommand.MESSAGE_USAGE, false, false);
         assertCommandSuccess(new HelpCommand("add"), model, expectedCommandResult, expectedModel);
     }
 
     @Test
     public void execute_helpWithUnknownCommand_success() {
         String expectedMessage = "Unknown command: xyz\n\nType 'help' to see all available commands.";
-        CommandResult expectedCommandResult = new CommandResult(expectedMessage, true, false);
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage, false, false);
         assertCommandSuccess(new HelpCommand("xyz"), model, expectedCommandResult, expectedModel);
     }
 }

@@ -27,7 +27,7 @@ public class HelpCommand extends Command {
         if (targetCommand.isEmpty()) {
             return new CommandResult(getAllCommandsUsage(), true, false);
         } else {
-            return new CommandResult(getCommandUsage(targetCommand), true, false);
+            return new CommandResult(getCommandUsage(targetCommand), false, false);
         }
     }
 
