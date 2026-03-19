@@ -408,7 +408,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: UC04 \- View Help and Command Guide**  
 **Actor: New user**  
 **Preconditions: User has launched PowerRoster.**  
-**Guarantees: The list of available commands and their usage is displayed.**
+**Guarantees: The requested command usage information is displayed.**
 
 **MSS:**
 
@@ -416,6 +416,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. PowerRoster displays the list of all available commands with their syntax and descriptions.
 
    Use case ends.
+
+**Extensions:**
+
+* 1a. User requests help for a specific command.
+    * 1a1. PowerRoster displays only the usage instructions for the specified command.
+
+      Use case ends.
+
+* 1b. User requests help for an unknown command.
+    * 1b1. PowerRoster informs the User that the command is unknown.
+    * 1b2. PowerRoster displays a message suggesting to type 'help' to see all available commands.
+
+      Use case ends.
 
 **Use case: UC05 \- Search for a Client by Name**  
 **Preconditions: Trainer has launched PowerRoster.**  

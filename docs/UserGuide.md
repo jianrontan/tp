@@ -69,11 +69,20 @@ PowerRoster is a **desktop app built to help Freelance Personal Fitness Trainers
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows program usage instructions for all commands or a specific command.
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+Format: `help [COMMAND_WORD]`
+
+* `help` shows usage instructions for all available commands.
+* `help COMMAND_WORD` shows usage instructions for the specified command only.
+* The command word is case-insensitive. e.g. `help ADD` works the same as `help add`
+
+Examples:
+* `help` shows all available commands and their usage
+* `help add` shows only the usage instructions for the add command
+* `help filter` shows only the usage instructions for the filter command
 
 
 ### Adding a client: `add`
@@ -240,4 +249,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Filter** | `filter l/LOCATION_PHRASE [l/MORE_LOCATION_PHRASES]...`<br> e.g., `filter l/Clementi l/ActiveSG`
 **List**   | `list`
-**Help**   | `help`
+**Help**   | `help [COMMAND_WORD]`<br> e.g., `help`, `help add`
