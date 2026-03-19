@@ -15,7 +15,10 @@ UniquePersonList -right-> Person
 Person -up-> "*" Tag
 
 Person *--> Name
+Person *--> Gender
+Person *--> DateOfBirth
 Person *--> Phone
 Person *--> Email
 Person *--> Address
+Person *--> Location
 @enduml
