@@ -148,6 +148,25 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Filtering clients by location: `filter`
+
+Filters clients whose gym location contain any of the given location phrase(s).
+
+Format: `filter l/LOCATION_PHRASE [l/MORE_LOCATION_PHRASES]...`
+
+* At least one `l/` prefix must be provided.
+* The search is case-insensitive. e.g. specifying `l/Clementi` will match `Clementi ActiveSG Gym`.
+* Each `l/` prefix is treated as one location phrase. e.g. `filter l/Anytime Fitness Jurong` will use `Anytime Fitness Jurong` as a phrase to match. 
+* Multiple `l/` prefixes for multiple location phrases is supported and clients matching at least one phrase will be returned (i.e. `OR` search). e.g. `filter l/Anytime Fitness l/Jurong` will use `Anytime Fitness` and `Jurong` as separate phrases to match.
+* Extra spaces within a phrase are normalised. e.g. `filter l/Anytime   Fitness` will be treated as `filter l/Anytime Fitness`.
+* Blank prefixed values are considered invalid. e.g. `filter l/` is invalid or `filter l/ l/` is invalid.
+
+Examples:
+* `filter l/Clementi` returns all clients whose locations contain the phrase `Clementi` such as `Clementi ActiveSG Gym` and `Anytime Fitness Clementi`.
+* `filter l/Anytime Fitness Jurong` returns all clients whose locations contain the phrase `Anytime Fitness Jurong` such as `Anytime Fitness Jurong East` but not `Anytime Fitness Clementi` or `Jurong Point ActiveSG Gym`.
+* `filter l/Anytime Fitness l/Jurong` returns all clients whose locations contain the phrase `Anytime Fitness` or `Jurong` such as `Anytime Fitness Jurong East`, `Anytime Fitness Clementi`, `Jurong Point ActiveSG Gym` but not `Clementi ActiveSG Gym`.
+
+
 ### Deleting a client : `delete`
 
 Deletes the specified client from PowerRoster.
@@ -213,11 +232,12 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/ADDRESS [l/LOCATION] [t/TAG]…​` <br> e.g., `add n/James Ho g/M dob/09/12/1977 p/92224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/beginer`
+**Add**    | `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/ADDRESS [l/LOCATION] [t/TAG]…​` <br> e.g., `add n/James Ho g/M dob/09/12/1977 p/92224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/beginner`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [g/GENDER] [dob/DATE_OF_BIRTH] [p/PHONE] [e/EMAIL] [a/ADDRESS] [l/LOCATION] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Note**   | `note INDEX n/NOTE` or `note INDEX a/NOTE`<br> e.g., `note 1 n/Prefers morning sessions.`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Filter** | `filter l/LOCATION_PHRASE [l/MORE_LOCATION_PHRASES]...`<br> e.g., `filter l/Clementi l/ActiveSG`
 **List**   | `list`
 **Help**   | `help`
