@@ -16,6 +16,9 @@ import seedu.address.model.tag.Tag;
  */
 public class Person {
 
+    // Unique ID
+    private final ClientId id;
+
     // Identity fields
     private final Name name;
     private final Gender gender;
@@ -30,9 +33,10 @@ public class Person {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Returns a Person object for use when the ID is known
      */
-    public Person(Name name,
+    public Person(ClientId id,
+            Name name,
             Gender gender,
             DateOfBirth dob,
             Phone phone,
@@ -42,6 +46,7 @@ public class Person {
             Note note,
             Set<Tag> tags) {
         requireAllNonNull(name, gender, phone, email, address, location, note, tags);
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.dob = dob;
@@ -51,6 +56,10 @@ public class Person {
         this.location = location;
         this.note = note;
         this.tags.addAll(tags);
+    }
+
+    public ClientId getId() {
+        return id;
     }
 
     public Name getName() {
