@@ -98,7 +98,9 @@ class JsonAdaptedPerson {
         }
 
         if (id == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, ClientId.class.getSimpleName()));
+            throw new IllegalValueException(String.format(
+                    MISSING_FIELD_MESSAGE_FORMAT,
+                    ClientId.class.getSimpleName()));
         }
         if (!ClientId.isValidId(id)) {
             throw new IllegalValueException(ClientId.MESSAGE_CONSTRAINTS);

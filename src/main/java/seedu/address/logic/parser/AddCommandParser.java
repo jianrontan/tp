@@ -11,8 +11,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
-import java.util.stream.Stream;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -73,7 +73,17 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         ClientId id = new ClientId(UUID.randomUUID().toString());
 
-        Person person = new Person(id, name, gender, dob, phone, email, address, location, new Note(EMPTY_NOTE), tagList);
+        Person person = new Person(
+                id,
+                name,
+                gender,
+                dob,
+                phone,
+                email,
+                address,
+                location,
+                new Note(EMPTY_NOTE),
+                tagList);
 
         return new AddCommand(person);
     }
