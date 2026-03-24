@@ -33,6 +33,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.JsonWorkoutLogBookStorage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
 
@@ -50,8 +51,11 @@ public class LogicManagerTest {
     public void setUp() {
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
-        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
+        JsonWorkoutLogBookStorage workoutLogBookStorage =
+                new JsonWorkoutLogBookStorage(temporaryFolder.resolve("workoutLogBook.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, workoutLogBookStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -163,7 +167,9 @@ public class LogicManagerTest {
 
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonWorkoutLogBookStorage workoutLogBookStorage =
+                new JsonWorkoutLogBookStorage(temporaryFolder.resolve("workoutLogBook.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, workoutLogBookStorage);
 
         logic = new LogicManager(model, storage);
 
