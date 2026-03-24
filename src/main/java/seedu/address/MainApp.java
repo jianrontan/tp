@@ -104,7 +104,7 @@ public class MainApp extends Application {
             if (!workoutLogBookOptional.isPresent()) {
                 logger.info("Creating new workout log file " + storage.getWorkoutLogBookFilePath());
             }
-            initialLogs = workoutLogBookOptional.get();
+            initialLogs = workoutLogBookOptional.orElseGet(SampleDataUtil::getSampleWorkoutLogBook);
         } catch (DataLoadingException e) {
             logger.warning("Workout Log File at " + storage.getWorkoutLogBookFilePath() + " could not be loaded."
                 + " Will be starting with empty workout log book.");

@@ -25,7 +25,7 @@ public class WorkoutTime {
     public WorkoutTime(String time) {
         requireNonNull(time);
         if (isValidTime(time)) {
-            this.value = LocalDateTime.parse(time);
+            this.value = LocalDateTime.parse(time, FORMATTER);
         } else {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }

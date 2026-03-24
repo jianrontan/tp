@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.WorkoutLogBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.ClientId;
 import seedu.address.model.person.DateOfBirth;
@@ -17,6 +18,8 @@ import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.workout.WorkoutLog;
+import seedu.address.model.workout.WorkoutTime;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -93,12 +96,33 @@ public class SampleDataUtil {
         };
     }
 
+    public static WorkoutLog[] getSampleWorkoutLogs() {
+        return new WorkoutLog[] {
+            new WorkoutLog(
+                    new ClientId("4f7026f6-af46-437c-8d61-3c4b557146b5"),
+                    new WorkoutTime("25/02/2025 12:00"),
+                    new Location("Anytime Fitness Geylang South East")),
+            new WorkoutLog(
+                    new ClientId("e6e66102-3112-45e3-9975-ed1e35a11c21"),
+                    new WorkoutTime("16/01/2026 15:30"),
+                    new Location("ActiveSG Gym @ Serangoon Central"))
+        };
+    }
+
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
         }
         return sampleAb;
+    }
+
+    public static WorkoutLogBook getSampleWorkoutLogBook() {
+        WorkoutLogBook sampleWlb = new WorkoutLogBook();
+        for (WorkoutLog sampleLog : getSampleWorkoutLogs()) {
+            sampleWlb.addLog(sampleLog);
+        }
+        return sampleWlb;
     }
 
     /**
