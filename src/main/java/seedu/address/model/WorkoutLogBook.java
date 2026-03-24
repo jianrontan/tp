@@ -51,4 +51,18 @@ public class WorkoutLogBook {
         logs.add(log);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof WorkoutLogBook)) {
+            return false;
+        }
+
+        WorkoutLogBook otherLogBook = (WorkoutLogBook) other;
+        return this.logs.equals(otherLogBook.logs);
+    }
+
 }
