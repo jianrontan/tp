@@ -106,6 +106,9 @@ public class PersonTest {
                 + ", address=" + ALICE.getAddress()
                 + ", location=" + ALICE.getLocation()
                 + ", note=" + ALICE.getNote()
+                + ", height=" + ALICE.getHeight()
+                + ", weight=" + ALICE.getWeight()
+                + ", bodyFatPercentage=" + ALICE.getBodyFatPercentage()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }

@@ -14,11 +14,14 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
+import seedu.address.model.person.Height;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Weight;
+import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -36,6 +39,9 @@ class JsonAdaptedPerson {
     private final String address;
     private final String location;
     private final String note;
+    private final String height;
+    private final String weight;
+    private final String bodyFatPercentage;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -50,6 +56,9 @@ class JsonAdaptedPerson {
             @JsonProperty("address") String address,
             @JsonProperty("location") String location,
             @JsonProperty("note") String note,
+            @JsonProperty("height") String height,
+            @JsonProperty("weight") String weight,
+            @JsonProperty("bodyFatPercentage") String bodyFatPercentage,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.gender = gender;
@@ -59,9 +68,28 @@ class JsonAdaptedPerson {
         this.address = address;
         this.location = location;
         this.note = note;
+        this.height = height;
+        this.weight = weight;
+        this.bodyFatPercentage = bodyFatPercentage;
         if (tags != null) {
             this.tags.addAll(tags);
         }
+    }
+
+    /**
+     * Backward-compatible constructor used in tests and old call sites.
+     */
+    public JsonAdaptedPerson(String name,
+            String gender,
+            String dob,
+            String phone,
+            String email,
+            String address,
+            String location,
+            String note,
+            List<JsonAdaptedTag> tags) {
+        this(name, gender, dob, phone, email, address, location, note,
+                null, null, null, tags);
     }
 
     /**
@@ -76,6 +104,9 @@ class JsonAdaptedPerson {
         address = source.getAddress().value;
         location = source.getLocation().value;
         note = source.getNote().value;
+        height = source.getHeight().value;
+        weight = source.getWeight().value;
+        bodyFatPercentage = source.getBodyFatPercentage().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -155,6 +186,36 @@ class JsonAdaptedPerson {
         }
         final Note modelNote = new Note(note);
 
+        final Height modelHeight;
+        if (height == null) {
+            modelHeight = new Height(Height.DEFAULT_HEIGHT_TEXT);
+        } else {
+            if (!Height.isValidHeight(height.trim().replaceAll("\\s+", " "))) {
+                throw new IllegalValueException(Height.MESSAGE_CONSTRAINTS);
+            }
+            modelHeight = new Height(height);
+        }
+
+        final Weight modelWeight;
+        if (weight == null) {
+            modelWeight = new Weight(Weight.DEFAULT_WEIGHT_TEXT);
+        } else {
+            if (!Weight.isValidWeight(weight.trim().replaceAll("\\s+", " "))) {
+                throw new IllegalValueException(Weight.MESSAGE_CONSTRAINTS);
+            }
+            modelWeight = new Weight(weight);
+        }
+
+        final BodyFatPercentage modelBodyFatPercentage;
+        if (bodyFatPercentage == null) {
+            modelBodyFatPercentage = new BodyFatPercentage(BodyFatPercentage.DEFAULT_BODY_FAT_TEXT);
+        } else {
+            if (!BodyFatPercentage.isValidBodyFatPercentage(bodyFatPercentage.trim().replaceAll("\\s+", " "))) {
+                throw new IllegalValueException(BodyFatPercentage.MESSAGE_CONSTRAINTS);
+            }
+            modelBodyFatPercentage = new BodyFatPercentage(bodyFatPercentage);
+        }
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName,
                 modelGender,
@@ -164,6 +225,9 @@ class JsonAdaptedPerson {
                 modelAddress,
                 modelLocation,
                 modelNote,
+                modelHeight,
+                modelWeight,
+                modelBodyFatPercentage,
                 modelTags);
     }
 

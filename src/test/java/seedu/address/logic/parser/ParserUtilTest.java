@@ -15,9 +15,12 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Height;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Weight;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -26,6 +29,9 @@ public class ParserUtilTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_HEIGHT = "49.9";
+    private static final String INVALID_WEIGHT = "10.0";
+    private static final String INVALID_BODY_FAT = "90.0";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -33,6 +39,9 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_HEIGHT = "175.5";
+    private static final String VALID_WEIGHT = "72.0";
+    private static final String VALID_BODY_FAT = "14.8";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -146,6 +155,75 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parseHeight_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseHeight((String) null));
+    }
+
+    @Test
+    public void parseHeight_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseHeight(INVALID_HEIGHT));
+    }
+
+    @Test
+    public void parseHeight_validValueWithoutWhitespace_returnsHeight() throws Exception {
+        Height expectedHeight = new Height(VALID_HEIGHT);
+        assertEquals(expectedHeight, ParserUtil.parseHeight(VALID_HEIGHT));
+    }
+
+    @Test
+    public void parseHeight_validValueWithWhitespace_returnsTrimmedHeight() throws Exception {
+        String heightWithWhitespace = WHITESPACE + VALID_HEIGHT + WHITESPACE;
+        Height expectedHeight = new Height(VALID_HEIGHT);
+        assertEquals(expectedHeight, ParserUtil.parseHeight(heightWithWhitespace));
+    }
+
+    @Test
+    public void parseWeight_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseWeight((String) null));
+    }
+
+    @Test
+    public void parseWeight_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseWeight(INVALID_WEIGHT));
+    }
+
+    @Test
+    public void parseWeight_validValueWithoutWhitespace_returnsWeight() throws Exception {
+        Weight expectedWeight = new Weight(VALID_WEIGHT);
+        assertEquals(expectedWeight, ParserUtil.parseWeight(VALID_WEIGHT));
+    }
+
+    @Test
+    public void parseWeight_validValueWithWhitespace_returnsTrimmedWeight() throws Exception {
+        String weightWithWhitespace = WHITESPACE + VALID_WEIGHT + WHITESPACE;
+        Weight expectedWeight = new Weight(VALID_WEIGHT);
+        assertEquals(expectedWeight, ParserUtil.parseWeight(weightWithWhitespace));
+    }
+
+    @Test
+    public void parseBodyFatPercentage_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseBodyFatPercentage((String) null));
+    }
+
+    @Test
+    public void parseBodyFatPercentage_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseBodyFatPercentage(INVALID_BODY_FAT));
+    }
+
+    @Test
+    public void parseBodyFatPercentage_validValueWithoutWhitespace_returnsBodyFatPercentage() throws Exception {
+        BodyFatPercentage expectedBodyFatPercentage = new BodyFatPercentage(VALID_BODY_FAT);
+        assertEquals(expectedBodyFatPercentage, ParserUtil.parseBodyFatPercentage(VALID_BODY_FAT));
+    }
+
+    @Test
+    public void parseBodyFatPercentage_validValueWithWhitespace_returnsTrimmedBodyFatPercentage() throws Exception {
+        String bodyFatWithWhitespace = WHITESPACE + VALID_BODY_FAT + WHITESPACE;
+        BodyFatPercentage expectedBodyFatPercentage = new BodyFatPercentage(VALID_BODY_FAT);
+        assertEquals(expectedBodyFatPercentage, ParserUtil.parseBodyFatPercentage(bodyFatWithWhitespace));
     }
 
     @Test

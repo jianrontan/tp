@@ -19,11 +19,14 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
+import seedu.address.model.person.Height;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Weight;
+import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -70,7 +73,11 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getValue(PREFIX_LOCATION).orElse("No Location Specified"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Person person = new Person(name, gender, dob, phone, email, address, location, new Note(EMPTY_NOTE), tagList);
+        Person person = new Person(name, gender, dob, phone, email, address, location, new Note(EMPTY_NOTE),
+                new Height(Height.DEFAULT_HEIGHT_TEXT),
+                new Weight(Weight.DEFAULT_WEIGHT_TEXT),
+                new BodyFatPercentage(BodyFatPercentage.DEFAULT_BODY_FAT_TEXT),
+                tagList);
 
         return new AddCommand(person);
     }

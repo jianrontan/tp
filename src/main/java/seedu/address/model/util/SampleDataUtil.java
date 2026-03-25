@@ -10,11 +10,14 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
+import seedu.address.model.person.Height;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Weight;
+import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -32,6 +35,9 @@ public class SampleDataUtil {
                     new Address("Blk 30 Geylang Street 29, #06-40"),
                     new Location("Anytime Fitness Geylang South East"),
                     new Note("Prefers morning workouts"),
+                    new Height("178.0"),
+                    new Weight("76.5"),
+                    new BodyFatPercentage("16.2"),
                     getTagSet("friends")),
             new Person(
                     new Name("Bernice Yu"),
@@ -42,6 +48,9 @@ public class SampleDataUtil {
                     new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                     new Location("ActiveSG Gym @ Serangoon Central"),
                     new Note("Enjoys group fitness classes"),
+                    new Height("162.4"),
+                    new Weight("60.8"),
+                    new BodyFatPercentage("24.5"),
                     getTagSet("colleagues", "friends")),
             new Person(
                     new Name("Charlotte Oliveiro"),
@@ -52,6 +61,9 @@ public class SampleDataUtil {
                     new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
                     new Location("ActiveSG Gym @ Ang Mo Kio Community Centre"),
                     new Note("Interested in yoga"),
+                    new Height("167.2"),
+                    new Weight("58.3"),
+                    new BodyFatPercentage("22.1"),
                     getTagSet("neighbours")),
             new Person(
                     new Name("David Li"),
@@ -62,6 +74,9 @@ public class SampleDataUtil {
                     new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
                     new Location("ActiveSG Gym @ Serangoon Central"),
                     new Note("Prefers evening workouts"),
+                    new Height("181.0"),
+                    new Weight("82.4"),
+                    new BodyFatPercentage("18.0"),
                     getTagSet("family")),
             new Person(
                     new Name("Irfan Ibrahim"),
@@ -72,6 +87,9 @@ public class SampleDataUtil {
                     new Address("Blk 47 Tampines Street 20, #17-35"),
                     new Location("Tampines ActiveSG Gym"),
                     new Note("Enjoys swimming"),
+                    new Height("173.5"),
+                    new Weight("77.2"),
+                    new BodyFatPercentage("20.3"),
                     getTagSet("classmates")),
             new Person(
                     new Name("Roy Balakrishnan"),
@@ -82,6 +100,9 @@ public class SampleDataUtil {
                     new Address("Blk 45 Aljunied Street 85, #11-31"),
                     new Location("Anytime Fitness Aljunied 119"),
                     new Note("Prefers morning workouts"),
+                    new Height("176.8"),
+                    new Weight("79.6"),
+                    new BodyFatPercentage("17.4"),
                     getTagSet("colleagues"))
         };
     }

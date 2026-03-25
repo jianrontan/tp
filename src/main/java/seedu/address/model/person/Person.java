@@ -27,6 +27,9 @@ public class Person {
     private final Address address;
     private final Location location;
     private final Note note;
+    private final Height height;
+    private final Weight weight;
+    private final BodyFatPercentage bodyFatPercentage;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -40,8 +43,12 @@ public class Person {
             Address address,
             Location location,
             Note note,
+            Height height,
+            Weight weight,
+            BodyFatPercentage bodyFatPercentage,
             Set<Tag> tags) {
-        requireAllNonNull(name, gender, phone, email, address, location, note, tags);
+        requireAllNonNull(name, gender, phone, email, address, location, note,
+                height, weight, bodyFatPercentage, tags);
         this.name = name;
         this.gender = gender;
         this.dob = dob;
@@ -50,6 +57,9 @@ public class Person {
         this.address = address;
         this.location = location;
         this.note = note;
+        this.height = height;
+        this.weight = weight;
+        this.bodyFatPercentage = bodyFatPercentage;
         this.tags.addAll(tags);
     }
 
@@ -86,6 +96,18 @@ public class Person {
      */
     public Note getNote() {
         return note;
+    }
+
+    public Height getHeight() {
+        return height;
+    }
+
+    public Weight getWeight() {
+        return weight;
+    }
+
+    public BodyFatPercentage getBodyFatPercentage() {
+        return bodyFatPercentage;
     }
 
     /**
@@ -133,13 +155,17 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && location.equals(otherPerson.location)
                 && note.equals(otherPerson.note)
+                && height.equals(otherPerson.height)
+                && weight.equals(otherPerson.weight)
+                && bodyFatPercentage.equals(otherPerson.bodyFatPercentage)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, gender, dob, phone, email, address, location, note, tags);
+        return Objects.hash(name, gender, dob, phone, email, address, location,
+                note, height, weight, bodyFatPercentage, tags);
     }
 
     @Override
@@ -153,6 +179,9 @@ public class Person {
                 .add("address", address)
                 .add("location", location)
                 .add("note", note)
+                .add("height", height)
+                .add("weight", weight)
+                .add("bodyFatPercentage", bodyFatPercentage)
                 .add("tags", tags)
                 .toString();
     }

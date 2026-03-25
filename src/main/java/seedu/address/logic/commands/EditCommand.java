@@ -25,14 +25,17 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
+import seedu.address.model.person.Height;
 import seedu.address.model.person.Location;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Weight;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -114,10 +117,16 @@ public class EditCommand extends Command {
         Location updatedLocation =
                 editPersonDescriptor.getLocation().orElse(personToEdit.getLocation());
         Note oldNote = personToEdit.getNote(); // Note is not editable through EditCommand
+        Height oldHeight = personToEdit.getHeight(); // Height is not editable through EditCommand
+        Weight oldWeight = personToEdit.getWeight(); // Weight is not editable through EditCommand
+        // Body fat percentage is not editable through EditCommand
+        BodyFatPercentage oldBodyFatPercentage = personToEdit.getBodyFatPercentage();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(updatedName, updatedGender, updatedDob, updatedPhone, updatedEmail,
-                updatedAddress, updatedLocation, oldNote, updatedTags);
+                updatedAddress, updatedLocation, oldNote,
+                oldHeight, oldWeight, oldBodyFatPercentage,
+                updatedTags);
     }
 
     @Override
@@ -177,7 +186,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, gender, dob, phone, email, address, location, note, tags);
+            return CollectionUtil.isAnyNonNull(name, gender, dob, phone, email, address, location, tags);
         }
 
         public void setName(Name name) {
