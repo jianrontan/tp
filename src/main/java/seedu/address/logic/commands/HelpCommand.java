@@ -70,4 +70,18 @@ public class HelpCommand extends Command {
             return "Unknown command: " + targetCommand + "\n\nType 'help' to see all available commands.";
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof HelpCommand)) {
+            return false;
+        }
+
+        HelpCommand otherHelpCommand = (HelpCommand) other;
+        return targetCommand.equals(otherHelpCommand.targetCommand);
+    }
 }
