@@ -19,6 +19,7 @@ import seedu.address.model.workout.WorkoutTime;
  */
 public class LogCommandParser implements Parser<LogCommand> {
 
+    @Override
     public LogCommand parse(String args) throws ParseException {
         requireNonNull(args);
 

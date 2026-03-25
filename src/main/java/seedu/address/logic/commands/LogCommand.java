@@ -16,6 +16,9 @@ import seedu.address.model.person.Person;
 import seedu.address.model.workout.WorkoutLog;
 import seedu.address.model.workout.WorkoutTime;
 
+/**
+ * Adds a WorkoutLog, linking a client to a workout session.
+ */
 public class LogCommand extends Command {
 
     public static final String COMMAND_WORD = "log";
@@ -44,7 +47,7 @@ public class LogCommand extends Command {
         requireNonNull(targetIndex);
         requireNonNull(time);
         requireNonNull(location);
-    
+
         this.targetIndex = targetIndex;
         this.time = time;
         this.location = location;
