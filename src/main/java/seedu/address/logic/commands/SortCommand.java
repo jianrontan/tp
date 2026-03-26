@@ -4,7 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.model.person.PersonComparators.ORDER_DESC;
 
 import java.util.Comparator;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonComparators;
@@ -13,6 +15,8 @@ import seedu.address.model.person.PersonComparators;
  * Sorts the person list by a specified attribute in ascending or descending order.
  */
 public class SortCommand extends Command {
+
+    private static final Logger logger = LogsCenter.getLogger(SortCommand.class);
 
     public static final String COMMAND_WORD = "sort";
 
@@ -47,6 +51,9 @@ public class SortCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        assert PersonComparators.isValidAttribute(attribute) : "Attribute must be valid";
+
+        logger.info("Executing sort command for attribute: " + attribute + ", order: " + order);
 
         // Reconstruct comparator from attribute and order
         boolean isDescending = order.equals(ORDER_DESC);
@@ -55,6 +62,7 @@ public class SortCommand extends Command {
         assert comparator != null : "Comparator should not be null for valid attribute";
 
         model.updatePersonListComparator(comparator);
+        logger.fine("Successfully sorted person list by " + attribute + " in " + order + " order");
         return new CommandResult(String.format(MESSAGE_SUCCESS, attribute, order));
     }
 

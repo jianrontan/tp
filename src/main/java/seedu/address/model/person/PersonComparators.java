@@ -3,6 +3,9 @@ package seedu.address.model.person;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 
 /**
  * Utility class providing comparators for sorting Person objects by various attributes.
@@ -10,6 +13,8 @@ import java.util.Map;
  * following the Single Responsibility Principle.
  */
 public class PersonComparators {
+
+    private static final Logger logger = LogsCenter.getLogger(PersonComparators.class);
 
     /** Attribute name for sorting by person name. */
     public static final String ATTRIBUTE_NAME = "name";
@@ -95,12 +100,17 @@ public class PersonComparators {
      * @return The appropriate comparator, or null if attribute not found.
      */
     public static Comparator<Person> getComparator(String attribute, boolean isDescending) {
+        assert attribute != null : "Attribute cannot be null";
+        logger.fine("Getting comparator for attribute: " + attribute + ", descending: " + isDescending);
+
         AttributeComparator attrComparator = COMPARATORS.get(attribute);
         if (attrComparator == null) {
+            logger.warning("No comparator found for attribute: " + attribute);
             return null;
         }
 
         Comparator<Person> comparator = attrComparator.getComparator();
+        assert comparator != null : "Base comparator should not be null";
         return isDescending ? comparator.reversed() : comparator;
     }
 
@@ -121,6 +131,7 @@ public class PersonComparators {
      * @return True if the attribute is supported, false otherwise.
      */
     public static boolean isValidAttribute(String attribute) {
+        assert attribute != null : "Attribute cannot be null";
         return COMPARATORS.containsKey(attribute);
     }
 }

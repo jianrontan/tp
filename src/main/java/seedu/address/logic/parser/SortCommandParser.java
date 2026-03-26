@@ -22,7 +22,9 @@ import static seedu.address.model.person.PersonComparators.ORDER_DESC;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.PersonComparators;
@@ -32,6 +34,8 @@ import seedu.address.model.person.PersonComparators;
  * Uses a map-based approach for extensibility and maintainability.
  */
 public class SortCommandParser implements Parser<SortCommand> {
+
+    private static final Logger logger = LogsCenter.getLogger(SortCommandParser.class);
 
     /** Maps prefixes to their corresponding attribute names. */
     private static final Map<Prefix, String> PREFIX_TO_ATTRIBUTE = new HashMap<>();
@@ -52,6 +56,8 @@ public class SortCommandParser implements Parser<SortCommand> {
      * @throws ParseException if the user input does not conform to the expected format
      */
     public SortCommand parse(String args) throws ParseException {
+        logger.fine("Parsing sort command with arguments: " + args);
+
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_NAME, PREFIX_GENDER, PREFIX_DOB, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_LOCATION, PREFIX_ORDER);
@@ -69,11 +75,13 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         // Validate that exactly one attribute is specified
         if (attributeCount == 0) {
+            logger.finer("No attribute specified in sort command");
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         if (attributeCount > 1) {
+            logger.finer("Multiple attributes specified in sort command");
             throw new ParseException(
                     "Please specify only one attribute to sort by.\n"
                     + SortCommand.MESSAGE_USAGE);
@@ -82,16 +90,20 @@ public class SortCommandParser implements Parser<SortCommand> {
         // Determine sort order
         String order = argMultimap.getValue(PREFIX_ORDER).orElse(DEFAULT_ORDER).toLowerCase();
         if (!order.equals(ORDER_ASC) && !order.equals(ORDER_DESC)) {
+            logger.finer("Invalid order specified: " + order);
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         // Validate that the attribute is supported
+        assert attribute != null : "Attribute should not be null after validation";
         if (!PersonComparators.isValidAttribute(attribute)) {
+            logger.finer("Invalid attribute specified: " + attribute);
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
+        logger.fine("Sort command parsed successfully - attribute: " + attribute + ", order: " + order);
         return new SortCommand(attribute, order);
     }
 }
