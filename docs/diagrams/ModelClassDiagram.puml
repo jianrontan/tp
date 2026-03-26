@@ -14,6 +14,7 @@ Class UserPrefs
 
 Class UniquePersonList
 Class Person
+Class PersonComparators
 Class Gender
 Class DateOfBirth
 Class Address
@@ -40,6 +41,7 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
+PersonComparators ..> Person : <<uses>>
 Person *--> Name
 Person *--> Phone
 Person *--> Email
