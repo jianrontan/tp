@@ -63,6 +63,7 @@ public class StatusCommand extends Command {
         }
 
         Person editedPerson = new Person(
+                personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getGender(),
                 personToEdit.getDateOfBirth(),
@@ -71,6 +72,7 @@ public class StatusCommand extends Command {
                 personToEdit.getAddress(),
                 personToEdit.getLocation(),
                 personToEdit.getNote(),
+                personToEdit.getRate(),
                 status, // NEW STATUS
                 personToEdit.getTags());
 

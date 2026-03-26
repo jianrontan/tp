@@ -16,6 +16,7 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.WorkoutLogBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Status;
 import seedu.address.testutil.PersonBuilder;
@@ -25,7 +26,7 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class StatusCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new WorkoutLogBook());
 
     @Test
     public void execute_validIndexAndStatus_success() {
@@ -37,7 +38,7 @@ public class StatusCommandTest {
         String expectedMessage = String.format(StatusCommand.MESSAGE_STATUS_PERSON_SUCCESS,
                 Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new WorkoutLogBook());
         expectedModel.setPerson(personToEdit, editedPerson);
 
         assertCommandSuccess(statusCommand, model, expectedMessage, expectedModel);
@@ -61,7 +62,7 @@ public class StatusCommandTest {
         String expectedMessage = String.format(StatusCommand.MESSAGE_NOT_CHANGED,
                 currentStatus, Messages.format(personToEdit));
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new WorkoutLogBook());
 
         assertCommandSuccess(statusCommand, model, expectedMessage, expectedModel);
     }

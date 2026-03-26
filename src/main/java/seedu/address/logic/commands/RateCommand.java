@@ -55,7 +55,7 @@ public class RateCommand extends Command {
         Person editedPerson = new Person(personToEdit.getId(), personToEdit.getName(),
                 personToEdit.getGender(), personToEdit.getDateOfBirth(), personToEdit.getPhone(),
                 personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getLocation(),
-                personToEdit.getNote(), rate, personToEdit.getTags());
+                personToEdit.getNote(), rate, personToEdit.getStatus(), personToEdit.getTags());
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
