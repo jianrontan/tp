@@ -174,6 +174,11 @@ public class AddCommandTest {
         public void addLog(WorkoutLog log) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public WorkoutLog lastLog(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

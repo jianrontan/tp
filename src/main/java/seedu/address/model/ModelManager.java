@@ -167,4 +167,9 @@ public class ModelManager implements Model {
         workoutLogBook.addLog(log);
     }
 
+    @Override
+    public WorkoutLog lastLog(Person person) {
+        requireNonNull(person);
+        return workoutLogBook.lastLog(person);
+    }
 }

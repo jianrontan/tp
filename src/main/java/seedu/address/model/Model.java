@@ -100,4 +100,10 @@ public interface Model {
      * {@code log} must not already exist in the workout log book.
      */
     void addLog(WorkoutLog log);
+
+    /**
+     * Returns the most recent {@code WorkoutLog} for the specified
+     * {@code Person}.
+     */
+    WorkoutLog lastLog(Person person);
 }
