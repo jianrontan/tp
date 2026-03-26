@@ -80,10 +80,18 @@ public class NoteCommand extends Command {
             finalNote = note;
         }
 
-        Person editedPerson = new Person(personToEdit.getName(), personToEdit.getGender(),
-                personToEdit.getDateOfBirth(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), personToEdit.getLocation(), finalNote,
-            personToEdit.getRate(), personToEdit.getTags());
+        Person editedPerson = new Person(
+                personToEdit.getId(),
+                personToEdit.getName(),
+                personToEdit.getGender(),
+                personToEdit.getDateOfBirth(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                personToEdit.getAddress(),
+                personToEdit.getLocation(),
+                finalNote,
+                personToEdit.getRate(),
+                personToEdit.getTags());
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(generateSuccessMessage(editedPerson, personToEdit, finalNote));
