@@ -75,6 +75,7 @@ public class MeasureCommand extends Command {
                 personToEdit.getAddress(),
                 personToEdit.getLocation(),
                 personToEdit.getNote(),
+                personToEdit.getRate(),
                 measureDescriptor.getHeight().orElse(personToEdit.getHeight()),
                 measureDescriptor.getWeight().orElse(personToEdit.getWeight()),
                 measureDescriptor.getBodyFatPercentage().orElse(personToEdit.getBodyFatPercentage()),

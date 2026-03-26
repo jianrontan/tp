@@ -15,6 +15,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Weight;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -33,6 +34,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_LOCATION = "ActiveSG @ Fernvale Square";
     public static final String DEFAULT_NOTE = "";
+    public static final String DEFAULT_RATE = "";
     public static final String DEFAULT_HEIGHT = "";
     public static final String DEFAULT_WEIGHT = "";
     public static final String DEFAULT_BODY_FAT = "";
@@ -46,6 +48,7 @@ public class PersonBuilder {
     private Address address;
     private Location location;
     private Note note;
+    private Rate rate;
     private Height height;
     private Weight weight;
     private BodyFatPercentage bodyFatPercentage;
@@ -64,6 +67,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         location = new Location(DEFAULT_LOCATION);
         note = new Note(DEFAULT_NOTE);
+        rate = new Rate(DEFAULT_RATE);
         height = new Height(DEFAULT_HEIGHT);
         weight = new Weight(DEFAULT_WEIGHT);
         bodyFatPercentage = new BodyFatPercentage(DEFAULT_BODY_FAT);
@@ -86,6 +90,7 @@ public class PersonBuilder {
         height = personToCopy.getHeight();
         weight = personToCopy.getWeight();
         bodyFatPercentage = personToCopy.getBodyFatPercentage();
+        rate = personToCopy.getRate();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -195,11 +200,19 @@ public class PersonBuilder {
     }
 
     /**
-     * Builds and returns a {@code Person} with the current builder state.
+     * Sets the {@code Rate} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRate(String rate) {
+        this.rate = new Rate(rate);
+        return this;
+    }
+
+    /**
+     * Builds and returns a {@code Person} instance with the configured fields.
      */
     public Person build() {
         return new Person(id, name, gender, dob, phone, email, address, location,
-                note, height, weight, bodyFatPercentage, tags);
+                note, rate, height, weight, bodyFatPercentage, tags);
     }
 
 }

@@ -41,10 +41,12 @@ public class EditCommandTest {
 
         Person editedPerson = new PersonBuilder()
                 .withNote(model.getFilteredPersonList().get(0).getNote().value)
+                .withRate(model.getFilteredPersonList().get(0).getRate().value)
                 .withHeight(model.getFilteredPersonList().get(0).getHeight().value)
                 .withWeight(model.getFilteredPersonList().get(0).getWeight().value)
                 .withBodyFatPercentage(model.getFilteredPersonList().get(0).getBodyFatPercentage().value)
                 .build();
+
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 

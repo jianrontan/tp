@@ -13,6 +13,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE_APPEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEIGHT;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -55,6 +56,8 @@ public class CommandTestUtil {
     public static final String VALID_NOTE_AMY = "Likes to play sports.";
     public static final String VALID_NOTE_BOB = "Focuses on strength training.";
     public static final String VALID_NOTE_APPEND = "Likes to work out on weekends.";
+    public static final String VALID_RATE_AMY = "80.00";
+    public static final String VALID_RATE_BOB = "120.50";
     public static final String VALID_HEIGHT_AMY = "165.5";
     public static final String VALID_HEIGHT_BOB = "180.0";
     public static final String VALID_WEIGHT_AMY = "58.0";
@@ -79,6 +82,8 @@ public class CommandTestUtil {
     public static final String NOTE_DESC_AMY = " " + PREFIX_NOTE + VALID_NOTE_AMY;
     public static final String NOTE_DESC_BOB = " " + PREFIX_NOTE + VALID_NOTE_BOB;
     public static final String NOTE_APPEND_DESC = " " + PREFIX_NOTE_APPEND + VALID_NOTE_APPEND;
+    public static final String RATE_DESC_AMY = " " + PREFIX_RATE + VALID_RATE_AMY;
+    public static final String RATE_DESC_BOB = " " + PREFIX_RATE + VALID_RATE_BOB;
     public static final String HEIGHT_DESC_AMY = " " + PREFIX_HEIGHT + VALID_HEIGHT_AMY;
     public static final String HEIGHT_DESC_BOB = " " + PREFIX_HEIGHT + VALID_HEIGHT_BOB;
     public static final String WEIGHT_DESC_AMY = " " + PREFIX_WEIGHT + VALID_WEIGHT_AMY;

@@ -33,6 +33,7 @@ public class Person {
     private final Height height;
     private final Weight weight;
     private final BodyFatPercentage bodyFatPercentage;
+    private final Rate rate;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -47,11 +48,12 @@ public class Person {
             Address address,
             Location location,
             Note note,
+            Rate rate,
             Height height,
             Weight weight,
             BodyFatPercentage bodyFatPercentage,
             Set<Tag> tags) {
-        requireAllNonNull(id, name, gender, phone, email, address, location, note,
+        requireAllNonNull(id, name, gender, phone, email, address, location, note, rate,
                 height, weight, bodyFatPercentage, tags);
         this.id = id;
         this.name = name;
@@ -62,6 +64,7 @@ public class Person {
         this.address = address;
         this.location = location;
         this.note = note;
+        this.rate = rate;
         this.height = height;
         this.weight = weight;
         this.bodyFatPercentage = bodyFatPercentage;
@@ -107,14 +110,30 @@ public class Person {
         return note;
     }
 
+    /**
+     * Returns the rate of the person.
+     */
+    public Rate getRate() {
+        return rate;
+    }
+
+    /**
+     * Returns the height of the person
+     */
     public Height getHeight() {
         return height;
     }
 
+    /**
+     * Returns the weight of the person
+     */
     public Weight getWeight() {
         return weight;
     }
 
+    /**
+     * Returns the body fat percentage of the person
+     */
     public BodyFatPercentage getBodyFatPercentage() {
         return bodyFatPercentage;
     }
@@ -164,6 +183,7 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && location.equals(otherPerson.location)
                 && note.equals(otherPerson.note)
+                && rate.equals(otherPerson.rate)
                 && height.equals(otherPerson.height)
                 && weight.equals(otherPerson.weight)
                 && bodyFatPercentage.equals(otherPerson.bodyFatPercentage)
@@ -174,7 +194,7 @@ public class Person {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, gender, dob, phone, email, address, location,
-                note, height, weight, bodyFatPercentage, tags);
+                note, rate, height, weight, bodyFatPercentage, tags);
     }
 
     @Override
@@ -188,6 +208,7 @@ public class Person {
                 .add("address", address)
                 .add("location", location)
                 .add("note", note)
+                .add("rate", rate)
                 .add("height", height)
                 .add("weight", weight)
                 .add("bodyFatPercentage", bodyFatPercentage)

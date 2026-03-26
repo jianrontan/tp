@@ -36,6 +36,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Weight;
 import seedu.address.model.tag.Tag;
 
@@ -123,10 +124,11 @@ public class EditCommand extends Command {
         Weight oldWeight = personToEdit.getWeight(); // Weight is not editable through EditCommand
         // Body fat percentage is not editable through EditCommand
         BodyFatPercentage oldBodyFatPercentage = personToEdit.getBodyFatPercentage();
+        Rate oldRate = personToEdit.getRate(); // Rate is not editable through EditCommand
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(fixedId, updatedName, updatedGender, updatedDob, updatedPhone, updatedEmail,
-                updatedAddress, updatedLocation, oldNote,
+                updatedAddress, updatedLocation, oldNote, oldRate,
                 oldHeight, oldWeight, oldBodyFatPercentage,
                 updatedTags);
     }
@@ -165,7 +167,6 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Location location;
-        private Note note;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -188,7 +189,8 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, gender, dob, phone, email, address, location, tags);
+            return CollectionUtil.isAnyNonNull(name, gender, dob, phone, email, address, location,
+                    tags);
         }
 
         public void setName(Name name) {
@@ -248,8 +250,8 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
+         * Sets {@code tags} to this object's {@code tags}. A defensive copy of {@code tags} is used
+         * internally.
          */
         public void setTags(Set<Tag> tags) {
             this.tags = (tags != null) ? new HashSet<>(tags) : null;

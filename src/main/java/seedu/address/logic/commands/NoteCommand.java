@@ -90,6 +90,7 @@ public class NoteCommand extends Command {
                 personToEdit.getAddress(),
                 personToEdit.getLocation(),
                 finalNote,
+                personToEdit.getRate(),
                 personToEdit.getHeight(),
                 personToEdit.getWeight(),
                 personToEdit.getBodyFatPercentage(),
