@@ -28,6 +28,7 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
     private static final Boolean IS_COMMAND_BOOLEAN = true;
     private static final Boolean IS_NOT_COMMAND_BOOLEAN = false;
+    private static final String MESSAGE_DELETE_STRING = "Deleted Person:";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -192,15 +193,16 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Clears the detail panel if the currently viewed person no longer exists in the address book.
      */
-    private void clearDetailViewIfViewedPersonDeleted() {
+    private void clearDetailViewIfViewedPersonDeleted(CommandResult commandResult) {
         if (personDetailPanel.getCurrentPerson() == null) {
             return;
         }
-
-        boolean stillExists = logic.getAddressBook().getPersonList().stream()
-                .anyMatch(p -> p.isSamePerson(personDetailPanel.getCurrentPerson()));
-        if (!stillExists) {
-            personDetailPanel.clearPerson();
+        if (commandResult.getFeedbackToUser().contains(MESSAGE_DELETE_STRING)) {
+            boolean stillExists = logic.getAddressBook().getPersonList().stream()
+                    .anyMatch(p -> p.isSamePerson(personDetailPanel.getCurrentPerson()));
+            if (!stillExists) {
+                personDetailPanel.clearPerson();
+            }
         }
     }
 
@@ -225,9 +227,9 @@ public class MainWindow extends UiPart<Stage> {
             }
             if (commandResult.isShowPersonView()) {
                 personDetailPanel.displayPerson(commandResult.getPersonToView());
+            } else {
+                clearDetailViewIfViewedPersonDeleted(commandResult);
             }
-
-            clearDetailViewIfViewedPersonDeleted();
 
             return commandResult;
         } catch (CommandException | ParseException e) {
