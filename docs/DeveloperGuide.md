@@ -159,6 +159,31 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Sort feature
+
+#### Implementation
+
+The sort feature allows users to sort the client list by various attributes in ascending or descending order. It uses JavaFX's `SortedList` wrapper to maintain reactivity with the UI.
+
+The sort mechanism is facilitated by three main components:
+* `SortCommand` - Stores attribute name and order, reconstructs the `Comparator<Person>` during execution
+* `SortCommandParser` - Parses user input using a map-based approach to validate attributes and order
+* `PersonComparators` - Utility class that centralizes all comparison logic for `Person` attributes
+
+The `ModelManager` wraps the `FilteredList` with a `SortedList`, allowing sorting and filtering to work together. When `SortCommand.execute()` is called, it retrieves the appropriate comparator from `PersonComparators` and updates the model's comparator. The UI's `ListView` automatically updates through JavaFX's observable pattern.
+
+#### Design considerations:
+
+**Aspect: Where to store comparator logic**
+
+* **Alternative 1 (current choice):** Centralize in `PersonComparators` utility class.
+  * Pros: Follows Single Responsibility Principle, easy to extend.
+  * Cons: One additional class to maintain.
+
+* **Alternative 2:** Keep comparators in `SortCommandParser`.
+  * Pros: Fewer classes.
+  * Cons: Mixes parsing and business logic, harder to test.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation

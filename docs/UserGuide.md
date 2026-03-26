@@ -165,7 +165,7 @@ Format: `filter l/LOCATION_PHRASE [l/MORE_LOCATION_PHRASES]...`
 
 * At least one `l/` prefix must be provided.
 * The search is case-insensitive. e.g. specifying `l/Clementi` will match `Clementi ActiveSG Gym`.
-* Each `l/` prefix is treated as one location phrase. e.g. `filter l/Anytime Fitness Jurong` will use `Anytime Fitness Jurong` as a phrase to match. 
+* Each `l/` prefix is treated as one location phrase. e.g. `filter l/Anytime Fitness Jurong` will use `Anytime Fitness Jurong` as a phrase to match.
 * Multiple `l/` prefixes for multiple location phrases is supported and clients matching at least one phrase will be returned (i.e. `OR` search). e.g. `filter l/Anytime Fitness l/Jurong` will use `Anytime Fitness` and `Jurong` as separate phrases to match.
 * Extra spaces within a phrase are normalised. e.g. `filter l/Anytime   Fitness` will be treated as `filter l/Anytime Fitness`.
 * Blank prefixed values are considered invalid. e.g. `filter l/` is invalid or `filter l/ l/` is invalid.
@@ -174,6 +174,35 @@ Examples:
 * `filter l/Clementi` returns all clients whose locations contain the phrase `Clementi` such as `Clementi ActiveSG Gym` and `Anytime Fitness Clementi`.
 * `filter l/Anytime Fitness Jurong` returns all clients whose locations contain the phrase `Anytime Fitness Jurong` such as `Anytime Fitness Jurong East` but not `Anytime Fitness Clementi` or `Jurong Point ActiveSG Gym`.
 * `filter l/Anytime Fitness l/Jurong` returns all clients whose locations contain the phrase `Anytime Fitness` or `Jurong` such as `Anytime Fitness Jurong East`, `Anytime Fitness Clementi`, `Jurong Point ActiveSG Gym` but not `Clementi ActiveSG Gym`.
+
+### Sorting clients : `sort`
+
+Sorts the client list by a specified attribute in ascending or descending order.
+
+Format: `sort ATTRIBUTE/ [o/ORDER]`
+
+* Sorts the entire client list by the specified attribute.
+* Only one attribute can be specified at a time.
+* The order parameter is optional and defaults to ascending (`asc`) if not specified.
+* Sorting works with filtering - you can filter clients first, then sort the filtered results.
+* Supported attributes:
+  * `n/` - Sort by name
+  * `l/` - Sort by location
+  * `dob/` - Sort by date of birth
+  * `p/` - Sort by phone number
+  * `e/` - Sort by email address
+  * `a/` - Sort by address
+  * `g/` - Sort by gender
+* Order options:
+  * `o/asc` - Ascending order (A to Z, earliest to latest, 0 to 9)
+  * `o/desc` - Descending order (Z to A, latest to earliest, 9 to 0)
+
+Examples:
+* `sort n/` sorts all clients by name in ascending order (A to Z).
+* `sort n/ o/desc` sorts all clients by name in descending order (Z to A).
+* `sort dob/ o/asc` sorts all clients by date of birth in ascending order (oldest to youngest).
+* `sort l/` sorts all clients by gym location in ascending order.
+* `filter l/Clementi` followed by `sort n/` filters clients at Clementi locations, then sorts them by name.
 
 
 ### Deleting a client : `delete`
@@ -248,5 +277,6 @@ Action     | Format, Examples
 **Note**   | `note INDEX n/NOTE` or `note INDEX a/NOTE`<br> e.g., `note 1 n/Prefers morning sessions.`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Filter** | `filter l/LOCATION_PHRASE [l/MORE_LOCATION_PHRASES]...`<br> e.g., `filter l/Clementi l/ActiveSG`
+**Sort**   | `sort ATTRIBUTE/ [o/ORDER]`<br> e.g., `sort n/`, `sort dob/ o/desc`
 **List**   | `list`
 **Help**   | `help [COMMAND_WORD]`<br> e.g., `help`, `help add`
