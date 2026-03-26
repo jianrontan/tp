@@ -21,6 +21,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.WorkoutLogBook;
 import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.person.Height;
 import seedu.address.model.person.Person;
@@ -32,7 +33,7 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class MeasureCommandTest {
 
-    private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new WorkoutLogBook());
 
     /**
      * Executes measure on an unfiltered list with all measurement fields and verifies success.
@@ -54,7 +55,8 @@ public class MeasureCommandTest {
 
         String expectedMessage = String.format(MeasureCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -78,7 +80,8 @@ public class MeasureCommandTest {
 
         String expectedMessage = String.format(MeasureCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);

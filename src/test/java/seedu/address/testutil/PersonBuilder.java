@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.BodyFatPercentage;
+import seedu.address.model.person.ClientId;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
@@ -23,6 +24,7 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class PersonBuilder {
 
+    public static final String DEFAULT_ID = "f0962b9a-41d3-4627-897b-944a195b2173";
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_GENDER = "F";
     public static final String DEFAULT_DOB = "24/04/1976";
@@ -35,6 +37,7 @@ public class PersonBuilder {
     public static final String DEFAULT_WEIGHT = "";
     public static final String DEFAULT_BODY_FAT = "";
 
+    private ClientId id;
     private Name name;
     private Gender gender;
     private DateOfBirth dob;
@@ -52,6 +55,7 @@ public class PersonBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
+        id = new ClientId(DEFAULT_ID);
         name = new Name(DEFAULT_NAME);
         gender = new Gender(DEFAULT_GENDER);
         dob = new DateOfBirth(DEFAULT_DOB);
@@ -70,6 +74,7 @@ public class PersonBuilder {
      * Initializes the PersonBuilder with the data of {@code personToCopy}.
      */
     public PersonBuilder(Person personToCopy) {
+        id = personToCopy.getId();
         name = personToCopy.getName();
         gender = personToCopy.getGender();
         dob = personToCopy.getDateOfBirth();
@@ -82,6 +87,14 @@ public class PersonBuilder {
         weight = personToCopy.getWeight();
         bodyFatPercentage = personToCopy.getBodyFatPercentage();
         tags = new HashSet<>(personToCopy.getTags());
+    }
+
+    /**
+     * Sets the {@code ClientId} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withId(String id) {
+        this.id = new ClientId(id);
+        return this;
     }
 
     /**
@@ -185,7 +198,7 @@ public class PersonBuilder {
      * Builds and returns a {@code Person} with the current builder state.
      */
     public Person build() {
-        return new Person(name, gender, dob, phone, email, address, location,
+        return new Person(id, name, gender, dob, phone, email, address, location,
                 note, height, weight, bodyFatPercentage, tags);
     }
 

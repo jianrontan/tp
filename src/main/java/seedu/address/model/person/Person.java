@@ -16,6 +16,9 @@ import seedu.address.model.tag.Tag;
  */
 public class Person {
 
+    // Unique ID
+    private final ClientId id;
+
     // Identity fields
     private final Name name;
     private final Gender gender;
@@ -33,9 +36,10 @@ public class Person {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Constructs a {@code Person}.
      */
-    public Person(Name name,
+    public Person(ClientId id,
+            Name name,
             Gender gender,
             DateOfBirth dob,
             Phone phone,
@@ -47,8 +51,9 @@ public class Person {
             Weight weight,
             BodyFatPercentage bodyFatPercentage,
             Set<Tag> tags) {
-        requireAllNonNull(name, gender, phone, email, address, location, note,
+        requireAllNonNull(id, name, gender, phone, email, address, location, note,
                 height, weight, bodyFatPercentage, tags);
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.dob = dob;
@@ -61,6 +66,10 @@ public class Person {
         this.weight = weight;
         this.bodyFatPercentage = bodyFatPercentage;
         this.tags.addAll(tags);
+    }
+
+    public ClientId getId() {
+        return id;
     }
 
     public Name getName() {

@@ -11,12 +11,14 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.BodyFatPercentage;
+import seedu.address.model.person.ClientId;
 import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
@@ -35,6 +37,7 @@ import seedu.address.model.tag.Tag;
 public class AddCommandParser implements Parser<AddCommand> {
 
     public static final String EMPTY_NOTE = "";
+
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
@@ -71,8 +74,18 @@ public class AddCommandParser implements Parser<AddCommand> {
         Location location = ParserUtil.parseLocation(
                 argMultimap.getValue(PREFIX_LOCATION).orElse("No Location Specified"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        ClientId id = new ClientId(UUID.randomUUID().toString());
 
-        Person person = new Person(name, gender, dob, phone, email, address, location, new Note(EMPTY_NOTE),
+        Person person = new Person(
+                id,
+                name,
+                gender,
+                dob,
+                phone,
+                email,
+                address,
+                location,
+                new Note(EMPTY_NOTE),
                 new Height(Height.DEFAULT_HEIGHT_TEXT),
                 new Weight(Weight.DEFAULT_WEIGHT_TEXT),
                 new BodyFatPercentage(BodyFatPercentage.DEFAULT_BODY_FAT_TEXT),

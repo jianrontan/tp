@@ -65,6 +65,7 @@ public class MeasureCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = new Person(
+                personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getGender(),
                 personToEdit.getDateOfBirth(),
