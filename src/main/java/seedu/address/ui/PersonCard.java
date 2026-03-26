@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import static seedu.address.model.person.Status.StatusEnum.ACTIVE;
+import static seedu.address.model.person.Status.StatusEnum.INACTIVE;
+
 import java.util.Comparator;
 
 import javafx.fxml.FXML;
@@ -10,11 +13,13 @@ import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays a summary of a {@code Person} in the client list.
  */
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
+    private static final String PREFIX_PHONE_LABEL = "Phone number: ";
+    private static final String PREFIX_LOCATION_LABEL = "Gym Location: ";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX. As
@@ -30,45 +35,41 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label name;
-    @FXML
     private Label id;
+    @FXML
+    private Label name;
     @FXML
     private Label gender;
     @FXML
-    private Label dob;
-    @FXML
     private Label phone;
-    @FXML
-    private Label address;
     @FXML
     private Label gymLocation;
     @FXML
-    private Label note;
-    @FXML
-    private Label rate;
-    @FXML
-    private Label email;
+    private Label status;
     @FXML
     private FlowPane tags;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} with the given {@code Person} and index to display.
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
-        id.setText(displayedIndex + ". ");
+        id.setText(String.valueOf(displayedIndex));
         name.setText(person.getName().fullName);
         gender.setText(person.getGender().value.toString());
-        dob.setText(person.getDateOfBirth().toString());
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        gymLocation.setText(person.getLocation().value);
-        note.setText(person.getNote().value);
-        rate.setText(person.getRate().value);
-        email.setText(person.getEmail().value);
+        phone.setText(PREFIX_PHONE_LABEL + person.getPhone().value);
+        gymLocation.setText(PREFIX_LOCATION_LABEL + person.getLocation().value);
+        status.setText(person.getStatus().value.toString());
+        status.getStyleClass().removeAll("cell_status_active", "cell_status_inactive");
+        switch (person.getStatus().value) {
+        case ACTIVE -> status.getStyleClass().add("cell_status_active");
+        case INACTIVE -> status.getStyleClass().add("cell_status_inactive");
+        default -> throw new IllegalStateException(
+                "Unexpected status value: " + person.getStatus().value);
+        }
         person.getTags().stream().sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 }
+

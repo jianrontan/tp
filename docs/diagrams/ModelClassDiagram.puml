@@ -25,6 +25,7 @@ Class Email
 Class Name
 Class Phone
 Class Location
+Class Rate
 Class Tag
 
 Class I #FFFFFF
@@ -59,7 +60,9 @@ Person *--> "*" Tag
 Person *--> Gender
 Person *--> DateOfBirth
 Person *--> Location
-Person *--> "0..1" Note
+Person *--> Note
+Person *--> Rate
+Person *--> Status
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
