@@ -38,6 +38,8 @@ public class PersonDetailPanel extends UiPart<Region> {
     @FXML
     private Label gymLocation;
     @FXML
+    private Label rate;
+    @FXML
     private Label address;
     @FXML
     private Label note;
@@ -64,11 +66,11 @@ public class PersonDetailPanel extends UiPart<Region> {
         email.setText(person.getEmail().value);
         gymLocation.setText(person.getLocation().value);
         address.setText(person.getAddress().value);
-        note.setText(person.getNote().value);
+        rate.setText(person.getRate().value.isEmpty() ? "N/A" : person.getRate().value);
+        note.setText(person.getNote().value.isEmpty() ? "N/A" : person.getNote().value);
 
         tags.getChildren().clear();
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
+        person.getTags().stream().sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
         placeholderView.setVisible(false);

@@ -58,8 +58,8 @@
             <Label fx:id="dob" styleClass="detail-value-label" />
           </VBox>
           <VBox spacing="3" GridPane.columnIndex="1">
-            <Label styleClass="detail-field-label" text="Phone" />
-            <Label fx:id="phone" styleClass="detail-value-label" />
+            <Label styleClass="detail-field-label" text="Location" />
+            <Label fx:id="gymLocation" styleClass="detail-value-label" wrapText="true" />
           </VBox>
         </GridPane>
 
@@ -70,20 +70,30 @@
             <ColumnConstraints percentWidth="50" />
           </columnConstraints>
           <VBox spacing="3" GridPane.columnIndex="0">
+            <Label styleClass="detail-field-label" text="Phone" />
+            <Label fx:id="phone" styleClass="detail-value-label" />
+          </VBox>
+          <VBox spacing="3" GridPane.columnIndex="1">
             <Label styleClass="detail-field-label" text="Email" />
             <Label fx:id="email" styleClass="detail-value-label" />
           </VBox>
-          <VBox spacing="3" GridPane.columnIndex="1">
-            <Label styleClass="detail-field-label" text="Location" />
-            <Label fx:id="gymLocation" styleClass="detail-value-label" wrapText="true" />
-          </VBox>
         </GridPane>
 
-        <!-- Address -->
-        <VBox spacing="3">
-          <Label styleClass="detail-field-label" text="Address" />
-          <Label fx:id="address" styleClass="detail-value-label" wrapText="true" />
-        </VBox>
+        <!-- Address and Rate in line -->
+        <GridPane hgap="20">
+          <columnConstraints>
+            <ColumnConstraints percentWidth="50" />
+            <ColumnConstraints percentWidth="50" />
+          </columnConstraints>
+          <VBox spacing="3" GridPane.columnIndex="0">
+            <Label styleClass="detail-field-label" text="Rate" />
+            <Label fx:id="rate" styleClass="detail-value-label" />
+          </VBox>
+          <VBox spacing="3" GridPane.columnIndex="1">
+            <Label styleClass="detail-field-label" text="Address" />
+            <Label fx:id="address" styleClass="detail-value-label" wrapText="true" />
+          </VBox>
+        </GridPane>
 
         <!-- Note -->
         <VBox spacing="3">

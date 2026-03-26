@@ -32,6 +32,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
+    private Label id;
+    @FXML
     private Label name;
     @FXML
     private Label gender;
@@ -48,12 +50,12 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
+        id.setText(String.valueOf(displayedIndex));
         name.setText(person.getName().fullName);
         gender.setText(person.getGender().value.toString());
         phone.setText(PHONE_LABEL_PREFIX + person.getPhone().value);
         gymLocation.setText(LOCATION_LABEL_PREFIX + person.getLocation().value);
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
+        person.getTags().stream().sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 }
