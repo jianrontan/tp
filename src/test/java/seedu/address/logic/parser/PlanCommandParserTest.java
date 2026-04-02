@@ -132,6 +132,54 @@ public class PlanCommandParserTest {
     }
 
     /**
+     * Parses hyphen-separated multi-word category names.
+     */
+    @Test
+    public void parse_hyphenInValue_success() {
+        PlanCommand expectedCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan("FULL BODY"));
+
+        assertParseSuccess(parser,
+                INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "FULL-BODY",
+                expectedCommand);
+    }
+
+    /**
+     * Parses multi-word category names with repeated underscores.
+     */
+    @Test
+    public void parse_multipleUnderscoresInValue_success() {
+        PlanCommand expectedCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan("FULL BODY"));
+
+        assertParseSuccess(parser,
+                INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "FULL__BODY",
+                expectedCommand);
+    }
+
+    /**
+     * Parses multi-word category names with mixed repeated separators.
+     */
+    @Test
+    public void parse_mixedRepeatedSeparatorsInValue_success() {
+        PlanCommand expectedCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan("FULL BODY"));
+
+        assertParseSuccess(parser,
+                INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "FULL__---___BODY",
+                expectedCommand);
+    }
+
+    /**
+     * Parses single-word category names with surrounding whitespace.
+     */
+    @Test
+    public void parse_surroundingWhitespaceInSingleWordValue_success() {
+        PlanCommand expectedCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan("PUSH"));
+
+        assertParseSuccess(parser,
+                INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "   PUSH   ",
+                expectedCommand);
+    }
+
+    /**
      * Fails when duplicate wp/ prefixes are provided.
      */
     @Test
@@ -149,6 +197,11 @@ public class PlanCommandParserTest {
 
         // valid value followed by invalid value still reports duplicate prefix first
         assertParseFailure(parser, validExpectedCommandString + " " + PREFIX_PLAN + "Bench Press",
+                getErrorMessageForDuplicatePrefixes(PREFIX_PLAN));
+
+        // blank value followed by valid value still reports duplicate prefix first
+        assertParseFailure(parser,
+                INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "   " + PLAN_DESC_AMY,
                 getErrorMessageForDuplicatePrefixes(PREFIX_PLAN));
     }
 }
