@@ -214,7 +214,6 @@ class JsonAdaptedPerson {
         if (!Height.isValidHeight(height)) {
             throw new IllegalValueException(Height.MESSAGE_CONSTRAINTS);
         }
-        // Height constructor also normalizes accepted trailing-dot inputs (e.g. "170.") to 1 d.p.
         final Height modelHeight = new Height(height);
 
         if (weight == null) {
@@ -223,7 +222,6 @@ class JsonAdaptedPerson {
         if (!Weight.isValidWeight(weight)) {
             throw new IllegalValueException(Weight.MESSAGE_CONSTRAINTS);
         }
-        // Weight constructor also normalizes accepted trailing-dot inputs (e.g. "72.") to 1 d.p.
         final Weight modelWeight = new Weight(weight);
 
         if (bodyFatPercentage == null) {
@@ -233,7 +231,6 @@ class JsonAdaptedPerson {
         if (!BodyFatPercentage.isValidBodyFatPercentage(bodyFatPercentage)) {
             throw new IllegalValueException(BodyFatPercentage.MESSAGE_CONSTRAINTS);
         }
-        // Body fat constructor also normalizes accepted trailing-dot inputs (e.g. "18.") to 1 d.p.
         final BodyFatPercentage modelBodyFatPercentage = new BodyFatPercentage(bodyFatPercentage);
 
         if (rate == null) {

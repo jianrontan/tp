@@ -196,20 +196,13 @@ Sets / clears body measurements of an existing client in PowerRoster.
 Format: `measure INDEX [h/HEIGHT_CM] [w/WEIGHT_KG] [bf/BODY_FAT_PERCENTAGE]`
 
 * Sets/clears one or more body measurements of the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, ...
-* At least one of `h/`, `w/`, or `bf/` must be provided and the order of these prefixes matter.
+* At least one of `h/`, `w/`, or `bf/` must be provided.
 * `measure INDEX` without any of `h/`, `w/`, or `bf/` is invalid (e.g., `measure 1`).
 * `HEIGHT_CM` must be either blank or a number in cm between `50.0` and `300.0`, with up to 1 decimal place.
 * `WEIGHT_KG` must be either blank or a number in kg between `20.0` and `500.0`, with up to 1 decimal place.
 * `BODY_FAT_PERCENTAGE` must be either blank or a number between `1.0` and `75.0`, with up to 1 decimal place.
 * Trailing-dot values such as `170.` are accepted and normalized to 1 decimal place when stored and displayed in the UI.
 * Entering `h/`, `w/`, or `bf/` with no value clears that specific measurement.
-* Feedback is shown per specified field in fixed order (`h/`, then `w/`, then `bf/`).
-* For each specified field, the command reports one of: added/updated, cleared, or already cleared.
-* Example outcomes include:
-  * `Height added/updated to 175.5 cm for client: Alex Yeoh`
-  * `Weight cleared for client: Alex Yeoh`
-  * `Body Fat is already cleared for client: Alex Yeoh`
-* If multiple specified measurement values are invalid in one command (e.g., `measure 1 h/a w/a`), PowerRoster shows all related measurement validation errors together.
 * Measurements can only be changed using `measure` (not `edit`).
 
 Examples:
@@ -217,7 +210,6 @@ Examples:
 * `measure 2 w/72.0 bf/14.8` sets the 2nd client's weight and body fat percentage.
 * `measure 3 h/ w/ bf/` clears all three measurements for the 3rd client.
 * `measure 4 w/` clears the 4th client's weight.
-* `measure 5 h/ w/120` may produce mixed outcomes such as `Height is already cleared ...` and `Weight added/updated ...`.
 
 ### Changing a client's status : `status`
 
