@@ -50,7 +50,8 @@ public class MeasureCommandTest {
                 new Height(VALID_HEIGHT_AMY), new Weight(VALID_WEIGHT_AMY),
                 new BodyFatPercentage(VALID_BODY_FAT_AMY));
 
-        String expectedMessage = String.format(MeasureCommand.MESSAGE_SET_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(MeasureCommand.MESSAGE_SET_SUCCESS,
+                editedPerson.getName(), "h/165.5, w/58.0, bf/22.5");
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -74,7 +75,8 @@ public class MeasureCommandTest {
         MeasureCommand measureCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height(VALID_HEIGHT_AMY), null, null);
 
-        String expectedMessage = String.format(MeasureCommand.MESSAGE_SET_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(MeasureCommand.MESSAGE_SET_SUCCESS,
+                editedPerson.getName(), "h/165.5");
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -98,11 +100,38 @@ public class MeasureCommandTest {
         MeasureCommand measureCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height(""), new Weight(""), new BodyFatPercentage(""));
 
-        String expectedMessage = String.format(MeasureCommand.MESSAGE_CLEAR_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(MeasureCommand.MESSAGE_CLEAR_SUCCESS, editedPerson.getName());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
         expectedModel.setPerson(firstPerson, editedPerson);
+
+        assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
+    }
+
+    /**
+     * Executes measure with blank values on already-cleared fields and verifies success message.
+     */
+    @Test
+    public void execute_clearMeasurementsAlreadyCleared_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personWithClearedMeasurements = new PersonBuilder(firstPerson)
+                .withHeight("")
+                .withWeight("")
+                .withBodyFatPercentage("")
+                .build();
+        model.setPerson(firstPerson, personWithClearedMeasurements);
+
+        MeasureCommand measureCommand = new MeasureCommand(INDEX_FIRST_PERSON,
+                new Height(""), new Weight(""), new BodyFatPercentage(""));
+
+        String expectedMessage = String.format(MeasureCommand.MESSAGE_MEASUREMENTS_ALREADY_CLEARED,
+                personWithClearedMeasurements.getName());
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
+        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        expectedModel.setPerson(firstPerson, personWithClearedMeasurements);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
     }

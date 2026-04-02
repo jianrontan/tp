@@ -203,6 +203,9 @@ Format: `measure INDEX [h/HEIGHT_CM] [w/WEIGHT_KG] [bf/BODY_FAT_PERCENTAGE]`
 * `BODY_FAT_PERCENTAGE` must be either blank or a number between `1.0` and `75.0`, with up to 1 decimal place.
 * Trailing-dot values such as `170.` are accepted and normalized to 1 decimal place when stored and displayed in the UI.
 * Entering `h/`, `w/`, or `bf/` with no value clears that specific measurement.
+* On successful set/update, the feedback message reflects the client name and the measurement prefixes you specified (e.g., `Measurements added/updated to h/175.5, w/72.0 for client: Alex Yeoh`).
+* If all specified measurement values are blank, the command returns a clear-success message.
+* If all specified measurement values are blank and were already empty before the command, the command informs you that the specified measurements are already cleared.
 * Measurements can only be changed using `measure` (not `edit`).
 
 Examples:

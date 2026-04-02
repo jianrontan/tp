@@ -8,6 +8,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
@@ -19,15 +20,15 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Weight;
 
 /**
- * Updates body measurements for a person identified by index.
+ * Updates body measurements for a client identified by index.
  */
 public class MeasureCommand extends Command {
 
     public static final String COMMAND_WORD = "measure";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Updates body measurements for the person identified by the index number used in the displayed"
-            + " person list.\n"
+            + ": Updates body measurements for the client identified by the index number used in the displayed"
+            + " client list.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_HEIGHT + "HEIGHT_CM] "
             + "[" + PREFIX_WEIGHT + "WEIGHT_KG] "
@@ -38,8 +39,10 @@ public class MeasureCommand extends Command {
             + PREFIX_WEIGHT + "72.0 "
             + PREFIX_BODY_FAT + "14.8";
 
-    public static final String MESSAGE_SET_SUCCESS = "Measurements added/updated for person: %1$s";
-    public static final String MESSAGE_CLEAR_SUCCESS = "Measurements cleared for person: %1$s";
+    public static final String MESSAGE_SET_SUCCESS = "Measurements added/updated to %2$s for client: %1$s";
+    public static final String MESSAGE_CLEAR_SUCCESS = "Measurements cleared for client: %1$s";
+    public static final String MESSAGE_MEASUREMENTS_ALREADY_CLEARED =
+            "Specified measurements are already cleared for client: %1$s";
 
     private final Index index;
     private final Height height;
@@ -94,11 +97,41 @@ public class MeasureCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        boolean allMeasurementsCleared = updatedHeight.value.isEmpty()
-                && updatedWeight.value.isEmpty()
-                && updatedBodyFatPercentage.value.isEmpty();
-        String message = allMeasurementsCleared ? MESSAGE_CLEAR_SUCCESS : MESSAGE_SET_SUCCESS;
-        return new CommandResult(String.format(message, Messages.format(editedPerson)));
+        boolean allSpecifiedMeasurementsClear = (height == null || height.value.isEmpty())
+                && (weight == null || weight.value.isEmpty())
+                && (bodyFatPercentage == null || bodyFatPercentage.value.isEmpty());
+        boolean allSpecifiedMeasurementsAlreadyCleared = (height == null || personToEdit.getHeight().value.isEmpty())
+                && (weight == null || personToEdit.getWeight().value.isEmpty())
+                && (bodyFatPercentage == null || personToEdit.getBodyFatPercentage().value.isEmpty());
+
+        String message;
+        if (allSpecifiedMeasurementsClear && allSpecifiedMeasurementsAlreadyCleared) {
+            message = MESSAGE_MEASUREMENTS_ALREADY_CLEARED;
+        } else if (allSpecifiedMeasurementsClear) {
+            message = MESSAGE_CLEAR_SUCCESS;
+        } else {
+            message = MESSAGE_SET_SUCCESS;
+        }
+
+        String measurementSummary = formatSpecifiedMeasurements();
+        return new CommandResult(String.format(message, editedPerson.getName(), measurementSummary));
+    }
+
+    /**
+     * Returns a deterministic summary of specified measurement prefixes in command input order.
+     */
+    private String formatSpecifiedMeasurements() {
+        StringJoiner joiner = new StringJoiner(", ");
+        if (height != null) {
+            joiner.add(PREFIX_HEIGHT + height.value);
+        }
+        if (weight != null) {
+            joiner.add(PREFIX_WEIGHT + weight.value);
+        }
+        if (bodyFatPercentage != null) {
+            joiner.add(PREFIX_BODY_FAT + bodyFatPercentage.value);
+        }
+        return joiner.toString();
     }
 
     @Override
