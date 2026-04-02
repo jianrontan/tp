@@ -96,9 +96,15 @@ public class SortCommandTest {
             String v2 = p2.getLocation().value;
             boolean u1 = v1.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
             boolean u2 = v2.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
-            if (u1 && u2) return 0;
-            if (u1) return 1;
-            if (u2) return -1;
+            if (u1 && u2) {
+                return 0;
+            }
+            if (u1) {
+                return 1;
+            }
+            if (u2) {
+                return -1;
+            }
             return v1.compareToIgnoreCase(v2);
         };
         SortCommand command = new SortCommand("location", "asc");
@@ -113,7 +119,7 @@ public class SortCommandTest {
         AddressBook ab = new AddressBook();
         ab.addPerson(noLocation);
         ab.addPerson(BENSON); // "Clementi ActiveSG Gym"
-        ab.addPerson(CARL);   // "Anytime Fitness Tampines East"
+        ab.addPerson(CARL); // "Anytime Fitness Tampines East"
         Model testModel = new ModelManager(ab, new UserPrefs(), new WorkoutLogBook());
 
         SortCommand command = new SortCommand("location", "asc");
@@ -129,7 +135,7 @@ public class SortCommandTest {
         AddressBook ab = new AddressBook();
         ab.addPerson(noLocation);
         ab.addPerson(BENSON); // "Clementi ActiveSG Gym"
-        ab.addPerson(CARL);   // "Anytime Fitness Tampines East"
+        ab.addPerson(CARL); // "Anytime Fitness Tampines East"
         Model testModel = new ModelManager(ab, new UserPrefs(), new WorkoutLogBook());
 
         SortCommand command = new SortCommand("location", "desc");
@@ -200,12 +206,13 @@ public class SortCommandTest {
     @Test
     public void execute_sortByGenderAscending_success() {
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "gender", "asc");
-        Comparator<Person> genderComparator = Comparator.comparing(p -> p.getGender().value);
+        Comparator<Person> genderComparator = Comparator.comparing(p -> p.getGender().value.name());
         SortCommand command = new SortCommand("gender", "asc");
         expectedModel.updatePersonListComparator(genderComparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        // Just verify the command executed successfully and list has items
-        assertTrue(model.getFilteredPersonList().size() > 0);
+        // F (female) before M (male) alphabetically: ALICE, ELLE, FIONA, BENSON, CARL, DANIEL, GEORGE
+        assertEquals(Arrays.asList(ALICE, ELLE, FIONA, BENSON, CARL, DANIEL, GEORGE),
+                model.getFilteredPersonList());
     }
 
     @Test

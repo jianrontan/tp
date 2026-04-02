@@ -64,16 +64,22 @@ public class PersonComparators {
             String v2 = p2.getLocation().value;
             boolean u1 = v1.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
             boolean u2 = v2.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
-            if (u1 && u2) return 0;
-            if (u1) return 1;
-            if (u2) return -1;
+            if (u1 && u2) {
+                return 0;
+            }
+            if (u1) {
+                return 1;
+            }
+            if (u2) {
+                return -1;
+            }
             return v1.compareToIgnoreCase(v2);
         });
         COMPARATORS.put(ATTRIBUTE_DOB, Comparator.comparing(p -> p.getDateOfBirth().value));
         COMPARATORS.put(ATTRIBUTE_PHONE, Comparator.comparing(p -> p.getPhone().value));
         COMPARATORS.put(ATTRIBUTE_EMAIL, Comparator.comparing(p -> p.getEmail().value.toLowerCase()));
         COMPARATORS.put(ATTRIBUTE_ADDRESS, Comparator.comparing(p -> p.getAddress().value.toLowerCase()));
-        COMPARATORS.put(ATTRIBUTE_GENDER, Comparator.comparing(p -> p.getGender().value));
+        COMPARATORS.put(ATTRIBUTE_GENDER, Comparator.comparing(p -> p.getGender().value.name()));
         COMPARATORS.put(ATTRIBUTE_STATUS, Comparator.comparing(p -> p.getStatus().value.name()));
         COMPARATORS.put(ATTRIBUTE_PLAN, Comparator.comparing(p -> p.getPlan().value.name()));
         COMPARATORS.put(ATTRIBUTE_RATE, Comparator.comparingDouble((Person p) ->
