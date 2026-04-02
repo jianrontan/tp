@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicateLogException;
@@ -91,6 +92,18 @@ public class WorkoutLogBook {
             }
         }
         return latest;
+    }
+
+    /**
+     * Deletes all {@code WorkoutLog} objects for the specified
+     * {@code Person}.
+     *
+     * @param person Person whose logs to delete
+     */
+    public void clearLogs(Person person) {
+        logs = logs.stream()
+                .filter(log -> !(log.getTrainee().equals(person.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override

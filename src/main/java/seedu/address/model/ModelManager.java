@@ -182,4 +182,10 @@ public class ModelManager implements Model {
         requireNonNull(person);
         return workoutLogBook.lastLog(person);
     }
+
+    @Override
+    public void clearLogs(Person person) {
+        requireNonNull(person);
+        workoutLogBook.clearLogs(person);
+    }
 }
