@@ -19,7 +19,7 @@ public class LastCommand extends Command {
     public static final String COMMAND_WORD = "last";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds the previous training session of the person identified by the index number "
+            + ": Displays the most recent training session of the client (if any)..."
             + "used in the displayed person list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -28,7 +28,7 @@ public class LastCommand extends Command {
             + "Date: %s\n"
             + "Location: %s";
 
-    public static final String MESSAGE_NO_LOGS_FOUND_FAILURE = "No Logs found for: %s";
+    public static final String MESSAGE_NO_LOGS_FOUND_FAILURE = "No workouts have been logged for: %s";
 
     private final Index targetIndex;
 
