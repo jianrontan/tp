@@ -19,7 +19,7 @@ public enum PlanCategoryEnum {
      */
     public static PlanCategoryEnum fromString(String rawCategory) {
         String normalized = rawCategory.trim()
-                .replaceAll("[\\s-]+", "_")
+                .replaceAll("[\\s_-]+", "_")
                 .toUpperCase();
         if ("UNASSIGNED".equals(normalized)) {
             return UNASSIGNED;

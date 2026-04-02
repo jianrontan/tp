@@ -164,6 +164,7 @@ Format: `plan INDEX wp/PLAN_CATEGORY`
 * Assigns/clears the workout programme of the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, ...
 * The `wp/` prefix is required.
 * `PLAN_CATEGORY` must be one of: `PUSH`, `PULL`, `LEGS`, `CORE`, `CARDIO`, `MOBILITY`, `FULL BODY`, `CONDITIONING` (case-insensitive).
+* The system is flexible with separators for multi-word categories. You can use spaces, hyphens or underscores and they are treated as the same category.
 * Entering `wp/` with no value clears the client's assigned workout programme.
 * Duplicate `wp/` prefixes are not allowed.
 * Workout programmes can only be changed using `plan` (not `edit`).

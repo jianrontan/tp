@@ -20,8 +20,8 @@ public class PlanCommand extends Command {
     public static final String COMMAND_WORD = "plan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Assigns or replaces the workout plan of the specified person by index number used "
-            + "in the displayed person list.\n"
+            + ": Assigns or replaces the workout plan of the specified client by index number used "
+            + "in the displayed client list.\n"
             + "Use 'wp/' with a value to set the plan, or 'wp/' with no value to clear it.\n"
             + "Parameters: INDEX (must be a positive integer) wp/[CATEGORY]\n"
             + "Examples:\n"
@@ -29,8 +29,9 @@ public class PlanCommand extends Command {
             + "  " + COMMAND_WORD + " 2 wp/LEGS\n"
             + "  " + COMMAND_WORD + " 3 wp/";
 
-    public static final String MESSAGE_SUCCESS = "Updated workout plan for person: %1$s";
-    public static final String MESSAGE_CLEAR_SUCCESS = "Workout plan cleared for person: %1$s";
+    public static final String MESSAGE_SUCCESS = "Updated workout plan to %2$s for client: %1$s";
+    public static final String MESSAGE_CLEAR_SUCCESS = "Workout plan cleared for client: %1$s";
+    public static final String MESSAGE_ALREADY_CLEARED = "Workout plan is already unassigned for client: %1$s";
 
     private final Index index;
     private final Plan plan;
@@ -79,8 +80,14 @@ public class PlanCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
 
-        String message = plan.isUnassigned() ? MESSAGE_CLEAR_SUCCESS : MESSAGE_SUCCESS;
-        return new CommandResult(String.format(message, Messages.format(editedPerson)));
+        String message;
+        if (plan.isUnassigned()) {
+            message = personToEdit.getPlan().isUnassigned() ? MESSAGE_ALREADY_CLEARED : MESSAGE_CLEAR_SUCCESS;
+            return new CommandResult(String.format(message, editedPerson.getName()));
+        } else {
+            message = MESSAGE_SUCCESS;
+            return new CommandResult(String.format(message, editedPerson.getName(), editedPerson.getPlan()));
+        }
     }
 
     @Override
@@ -108,4 +115,3 @@ public class PlanCommand extends Command {
                 .toString();
     }
 }
-

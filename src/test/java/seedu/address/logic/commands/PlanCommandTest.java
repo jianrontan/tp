@@ -38,7 +38,8 @@ public class PlanCommandTest {
 
         PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_AMY));
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS,
+                editedPerson.getName(), editedPerson.getPlan());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -56,7 +57,8 @@ public class PlanCommandTest {
 
         PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_AMY));
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS,
+                editedPerson.getName(), editedPerson.getPlan());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -69,15 +71,38 @@ public class PlanCommandTest {
     @Test
     public void execute_clearPlan_success() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(firstPerson).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
+        Person personWithAssignedPlan = new PersonBuilder(firstPerson).withPlan(VALID_PLAN_AMY).build();
+        model.setPerson(firstPerson, personWithAssignedPlan);
+
+        Person editedPerson = new PersonBuilder(personWithAssignedPlan).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
 
         PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, Plan.getDefaultPlan());
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_CLEAR_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_CLEAR_SUCCESS, editedPerson.getName());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
+        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         expectedModel.setPerson(firstPerson, editedPerson);
+
+        assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_clearPlanAlreadyCleared_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personWithClearedPlan = new PersonBuilder(firstPerson).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
+        model.setPerson(firstPerson, personWithClearedPlan);
+
+        PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, Plan.getDefaultPlan());
+
+        String expectedMessage = String.format(PlanCommand.MESSAGE_ALREADY_CLEARED,
+                personWithClearedPlan.getName());
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
+        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        expectedModel.setPerson(firstPerson, personWithClearedPlan);
 
         assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
     }
@@ -131,4 +156,3 @@ public class PlanCommandTest {
                 .equals(new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_BOB))));
     }
 }
-
