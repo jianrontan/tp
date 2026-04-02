@@ -288,6 +288,7 @@ Format: `sort ATTRIBUTE/ [o/ORDER]`
   * `o/asc` - Ascending order (A to Z, earliest to latest, 0 to 9)
   * `o/desc` - Descending order (Z to A, latest to earliest, 9 to 0)
 * The attribute prefix and the order prefix must be separated by a space. For example, `sort n/ o/desc` is valid, but `sort n/o/desc` is not and will result in an error.
+* Clients with no location set ("No Location Specified") are always sorted to the **end** of the list in ascending order, and to the **top** of the list in descending order, so they do not interleave with real location names.
 
 Examples:
 * `sort n/` sorts all clients by name in ascending order (A to Z).

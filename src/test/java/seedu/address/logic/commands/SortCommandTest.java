@@ -19,11 +19,14 @@ import java.util.Comparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.WorkoutLogBook;
+import seedu.address.model.person.Location;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code SortCommand}.
@@ -88,11 +91,52 @@ public class SortCommandTest {
     @Test
     public void execute_sortByLocationAscending_success() {
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "location", "asc");
-        Comparator<Person> locationComparator = Comparator.comparing(p -> p.getLocation().value.toLowerCase());
+        Comparator<Person> locationComparator = (p1, p2) -> {
+            String v1 = p1.getLocation().value;
+            String v2 = p2.getLocation().value;
+            boolean u1 = v1.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
+            boolean u2 = v2.equalsIgnoreCase(Location.UNSPECIFIED_LOCATION);
+            if (u1 && u2) return 0;
+            if (u1) return 1;
+            if (u2) return -1;
+            return v1.compareToIgnoreCase(v2);
+        };
         SortCommand command = new SortCommand("location", "asc");
         expectedModel.updatePersonListComparator(locationComparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(7, model.getFilteredPersonList().size());
+    }
+
+    @Test
+    public void execute_sortByLocationAscending_unspecifiedLocationLast() {
+        Person noLocation = new PersonBuilder(ALICE).withLocation(Location.UNSPECIFIED_LOCATION).build();
+        AddressBook ab = new AddressBook();
+        ab.addPerson(noLocation);
+        ab.addPerson(BENSON); // "Clementi ActiveSG Gym"
+        ab.addPerson(CARL);   // "Anytime Fitness Tampines East"
+        Model testModel = new ModelManager(ab, new UserPrefs(), new WorkoutLogBook());
+
+        SortCommand command = new SortCommand("location", "asc");
+        command.execute(testModel);
+
+        // unspecified should be last; real locations sorted alphabetically before it
+        assertEquals(noLocation, testModel.getFilteredPersonList().get(2));
+    }
+
+    @Test
+    public void execute_sortByLocationDescending_unspecifiedLocationFirst() {
+        Person noLocation = new PersonBuilder(ALICE).withLocation(Location.UNSPECIFIED_LOCATION).build();
+        AddressBook ab = new AddressBook();
+        ab.addPerson(noLocation);
+        ab.addPerson(BENSON); // "Clementi ActiveSG Gym"
+        ab.addPerson(CARL);   // "Anytime Fitness Tampines East"
+        Model testModel = new ModelManager(ab, new UserPrefs(), new WorkoutLogBook());
+
+        SortCommand command = new SortCommand("location", "desc");
+        command.execute(testModel);
+
+        // unspecified should be first when descending
+        assertEquals(noLocation, testModel.getFilteredPersonList().get(0));
     }
 
     @Test
