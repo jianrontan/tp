@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -59,6 +60,7 @@ public class PersonDetailPanel extends UiPart<Region> {
      */
     public PersonDetailPanel() {
         super(FXML);
+        configureValueLabelsForHorizontalScroll();
     }
 
     /**
@@ -78,7 +80,8 @@ public class PersonDetailPanel extends UiPart<Region> {
         plan.setText(person.getPlan().isUnassigned() ? "N/A" : person.getPlan().toString());
         height.setText(person.getHeight().value.isEmpty() ? "N/A" : person.getHeight().value);
         weight.setText(person.getWeight().value.isEmpty() ? "N/A" : person.getWeight().value);
-        bodyFat.setText(person.getBodyFatPercentage().value.isEmpty() ? "N/A" : person.getBodyFatPercentage().value);
+        bodyFat.setText(person.getBodyFatPercentage().value.isEmpty() ? "N/A"
+                : person.getBodyFatPercentage().value);
         note.setText(person.getNote().value.isEmpty() ? "N/A" : person.getNote().value);
 
         tags.getChildren().clear();
@@ -107,5 +110,15 @@ public class PersonDetailPanel extends UiPart<Region> {
      */
     public Person getCurrentPerson() {
         return currentPerson;
+    }
+
+    private void configureValueLabelsForHorizontalScroll() {
+        Label[] valueLabels = {name, gender, dob, phone, email, gymLocation, rate, plan, height,
+            weight, bodyFat, address, note};
+
+        for (Label valueLabel : valueLabels) {
+            valueLabel.setMinWidth(Region.USE_PREF_SIZE);
+            valueLabel.setTextOverrun(OverrunStyle.CLIP);
+        }
     }
 }
