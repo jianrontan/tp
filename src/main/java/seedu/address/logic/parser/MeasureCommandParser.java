@@ -5,6 +5,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BODY_FAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_HEIGHT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEIGHT;
 
+import java.util.StringJoiner;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.MeasureCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -39,27 +41,32 @@ public class MeasureCommandParser implements Parser<MeasureCommand> {
         Height height = null;
         Weight weight = null;
         BodyFatPercentage bodyFatPercentage = null;
+        StringJoiner validationErrors = new StringJoiner("\n");
 
         if (argMultimap.getValue(PREFIX_HEIGHT).isPresent()) {
             try {
                 height = ParserUtil.parseHeight(argMultimap.getValue(PREFIX_HEIGHT).get());
             } catch (ParseException pe) {
-                throw new ParseException(pe.getMessage(), pe);
+                validationErrors.add(pe.getMessage());
             }
         }
         if (argMultimap.getValue(PREFIX_WEIGHT).isPresent()) {
             try {
                 weight = ParserUtil.parseWeight(argMultimap.getValue(PREFIX_WEIGHT).get());
             } catch (ParseException pe) {
-                throw new ParseException(pe.getMessage(), pe);
+                validationErrors.add(pe.getMessage());
             }
         }
         if (argMultimap.getValue(PREFIX_BODY_FAT).isPresent()) {
             try {
                 bodyFatPercentage = ParserUtil.parseBodyFatPercentage(argMultimap.getValue(PREFIX_BODY_FAT).get());
             } catch (ParseException pe) {
-                throw new ParseException(pe.getMessage(), pe);
+                validationErrors.add(pe.getMessage());
             }
+        }
+
+        if (validationErrors.length() > 0) {
+            throw new ParseException(validationErrors.toString());
         }
 
         return new MeasureCommand(index, height, weight, bodyFatPercentage);

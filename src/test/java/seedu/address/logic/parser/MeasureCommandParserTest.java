@@ -71,6 +71,16 @@ public class MeasureCommandParserTest {
     }
 
     /**
+     * Parses input with multiple invalid measurement values and verifies aggregated failure.
+     */
+    @Test
+    public void parse_multipleInvalidMeasurements_failure() {
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_HEIGHT + "a " + PREFIX_WEIGHT + "a";
+        String expectedMessage = Height.MESSAGE_CONSTRAINTS + "\n" + Weight.MESSAGE_CONSTRAINTS;
+        assertParseFailure(parser, userInput, expectedMessage);
+    }
+
+    /**
      * Parses input with duplicate measurement prefixes and verifies failure.
      */
     @Test
@@ -82,6 +92,28 @@ public class MeasureCommandParserTest {
     }
 
     /**
+     * Parses input with duplicate weight prefixes and verifies failure.
+     */
+    @Test
+    public void parse_duplicateWeightPrefix_failure() {
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + WEIGHT_DESC_AMY + " "
+                + PREFIX_WEIGHT + "70.0";
+        assertParseFailure(parser, userInput,
+                getErrorMessageForDuplicatePrefixes(PREFIX_WEIGHT));
+    }
+
+    /**
+     * Parses input with duplicate body fat prefixes and verifies failure.
+     */
+    @Test
+    public void parse_duplicateBodyFatPrefix_failure() {
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + BODY_FAT_DESC_AMY + " "
+                + PREFIX_BODY_FAT + "20.0";
+        assertParseFailure(parser, userInput,
+                getErrorMessageForDuplicatePrefixes(PREFIX_BODY_FAT));
+    }
+
+    /**
      * Parses input with a single valid measurement prefix and verifies success.
      */
     @Test
@@ -90,6 +122,44 @@ public class MeasureCommandParserTest {
         String userInput = targetIndex.getOneBased() + HEIGHT_DESC_AMY;
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height("165.5"), null, null);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+    /**
+     * Parses input with a trailing-dot weight value and verifies normalization.
+     */
+    @Test
+    public void parse_validTrailingDotPrefix_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_WEIGHT + "72.";
+        MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
+                null, new Weight("72.0"), null);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    /**
+     * Parses input with a trailing-dot height value and verifies normalization.
+     */
+    @Test
+    public void parse_validTrailingDotHeight_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_HEIGHT + "170.";
+        MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
+                new Height("170.0"), null, null);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    /**
+     * Parses input with a trailing-dot body fat value and verifies normalization.
+     */
+    @Test
+    public void parse_validTrailingDotBodyFat_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_BODY_FAT + "18.";
+        MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
+                null, null, new BodyFatPercentage("18.0"));
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -116,6 +186,49 @@ public class MeasureCommandParserTest {
         String userInput = targetIndex.getOneBased() + HEIGHT_DESC_AMY + WEIGHT_DESC_AMY + BODY_FAT_DESC_AMY;
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height("165.5"), new Weight("58.0"), new BodyFatPercentage("22.5"));
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    /**
+     * Parses input with zero index and verifies failure.
+     */
+    @Test
+    public void parse_zeroIndex_failure() {
+        String userInput = "0 " + HEIGHT_DESC_AMY;
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MeasureCommand.MESSAGE_USAGE));
+    }
+
+    /**
+     * Parses input with negative index and verifies failure.
+     */
+    @Test
+    public void parse_negativeIndex_failure() {
+        String userInput = "-1 " + HEIGHT_DESC_AMY;
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MeasureCommand.MESSAGE_USAGE));
+    }
+
+    /**
+     * Parses input with non-numeric index and verifies failure.
+     */
+    @Test
+    public void parse_nonNumericIndex_failure() {
+        String userInput = "a " + HEIGHT_DESC_AMY;
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MeasureCommand.MESSAGE_USAGE));
+    }
+
+    /**
+     * Parses input with a mix of clear and set semantics and verifies success.
+     */
+    @Test
+    public void parse_clearAndSetMeasurements_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_HEIGHT + " " + PREFIX_WEIGHT + "70.0";
+        MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
+                new Height(""), new Weight("70.0"), null);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

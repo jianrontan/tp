@@ -200,9 +200,11 @@ Format: `measure INDEX [h/HEIGHT_CM] [w/WEIGHT_KG] [bf/BODY_FAT_PERCENTAGE]`
 
 * Sets/clears one or more body measurements of the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, ...
 * At least one of `h/`, `w/`, or `bf/` must be provided.
+* `measure INDEX` without any of `h/`, `w/`, or `bf/` is invalid (e.g., `measure 1`).
 * `HEIGHT_CM` must be either blank or a number in cm between `50.0` and `300.0`, with up to 1 decimal place.
 * `WEIGHT_KG` must be either blank or a number in kg between `20.0` and `500.0`, with up to 1 decimal place.
 * `BODY_FAT_PERCENTAGE` must be either blank or a number between `1.0` and `75.0`, with up to 1 decimal place.
+* Trailing-dot values such as `170.` are accepted and normalized to 1 decimal place when stored and displayed in the UI.
 * Entering `h/`, `w/`, or `bf/` with no value clears that specific measurement.
 * Measurements can only be changed using `measure` (not `edit`).
 

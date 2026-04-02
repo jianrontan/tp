@@ -274,7 +274,9 @@ The measurement mechanism is implemented through the following components:
 * `MeasureCommand` - Replaces and/or clears measurements for a specified client.
 * `MeasureCommandParser` - Parses user input to create a `MeasureCommand`.
 
-The three value classes enforce numeric range and format constraints (up to 1 decimal place), while still allowing blank values for explicit clear operations.
+The three value classes enforce numeric range and format constraints (up to 1 decimal place), while still allowing blank values for explicit clear operations. Inputs with trailing dots (e.g., `170.`) are accepted and normalized to 1 decimal place in storage.
+
+In the UI detail panel, measurement values are displayed to 1 decimal place to match measurement precision.
 
 #### Key Design Decisions
 
@@ -283,8 +285,9 @@ The three value classes enforce numeric range and format constraints (up to 1 de
 * Omitted measurement prefixes preserve existing values.
 
 **Clear semantics:**
-* Providing a prefix with no value clears that specific measurement field.
-* `MeasureCommand` returns a clear-success message when all provided measurement fields are blank.
+* Providing a prefix with no value (`h/`, `w/`, or `bf/`) triggers a clear attempt for that specific field.
+* Each targeted field reports either `cleared` or `already cleared` based on whether it previously had a value.
+* Mixed outcomes are supported in one command (e.g., one field cleared while another field is updated).
 
 **Immutability:**
 * Following the existing model pattern, updating measurements creates a new `Person` instance with only the measurement fields changed while preserving all other fields.

@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -36,8 +37,15 @@ public class WeightTest {
         assertTrue(Weight.isValidWeight("")); // default placeholder
         assertTrue(Weight.isValidWeight("20.0")); // lower bound
         assertTrue(Weight.isValidWeight("72")); // whole number
+        assertTrue(Weight.isValidWeight("72.")); // trailing dot
         assertTrue(Weight.isValidWeight("72.5")); // one decimal place
         assertTrue(Weight.isValidWeight("500.0")); // upper bound
+    }
+
+    @Test
+    public void constructor_validInput_normalisesToOneDecimalPlace() {
+        assertEquals("72.0", new Weight("72").value);
+        assertEquals("72.0", new Weight("72.").value);
     }
 
     @Test

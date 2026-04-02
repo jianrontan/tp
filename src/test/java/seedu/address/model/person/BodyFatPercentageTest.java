@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -36,8 +37,15 @@ public class BodyFatPercentageTest {
         assertTrue(BodyFatPercentage.isValidBodyFatPercentage("")); // default placeholder
         assertTrue(BodyFatPercentage.isValidBodyFatPercentage("1.0")); // lower bound
         assertTrue(BodyFatPercentage.isValidBodyFatPercentage("18")); // whole number
+        assertTrue(BodyFatPercentage.isValidBodyFatPercentage("18.")); // trailing dot
         assertTrue(BodyFatPercentage.isValidBodyFatPercentage("18.5")); // one decimal place
         assertTrue(BodyFatPercentage.isValidBodyFatPercentage("75.0")); // upper bound
+    }
+
+    @Test
+    public void constructor_validInput_normalisesToOneDecimalPlace() {
+        assertEquals("18.0", new BodyFatPercentage("18").value);
+        assertEquals("18.0", new BodyFatPercentage("18.").value);
     }
 
     @Test
