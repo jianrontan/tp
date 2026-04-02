@@ -269,10 +269,9 @@ Sorts the client list by a specified attribute in ascending or descending order.
 
 Format: `sort ATTRIBUTE/ [o/ORDER]`
 
-* Sorts the entire client list by the specified attribute.
+* Sorts the **currently displayed** client list by the specified attribute. If a filter is active, only the filtered results are sorted; if no filter is active, the entire client list is sorted.
 * Only one attribute can be specified at a time.
 * The order parameter is optional and defaults to ascending (`asc`) if not specified.
-* Sorting works with filtering - you can filter clients first, then sort the filtered results.
 * Supported attributes:
   * `n/` - Sort by name
   * `l/` - Sort by location
@@ -291,14 +290,14 @@ Format: `sort ATTRIBUTE/ [o/ORDER]`
 * Clients with no location set ("No Location Specified") are always sorted to the **end** of the list in ascending order, and to the **top** of the list in descending order, so they do not interleave with real location names.
 
 Examples:
-* `sort n/` sorts all clients by name in ascending order (A to Z).
-* `sort n/ o/desc` sorts all clients by name in descending order (Z to A).
-* `sort dob/ o/asc` sorts all clients by date of birth in ascending order (oldest to youngest).
-* `sort l/` sorts all clients by gym location in ascending order.
-* `sort s/` sorts all clients by status, active clients first.
-* `sort r/ o/desc` sorts all clients by session rate, highest rate first.
-* `sort wp/` sorts all clients by workout plan alphabetically.
-* `filter l/Clementi` followed by `sort n/` filters clients at Clementi locations, then sorts them by name.
+* `sort n/` sorts the displayed client list by name in ascending order (A to Z).
+* `sort n/ o/desc` sorts the displayed client list by name in descending order (Z to A).
+* `sort dob/ o/asc` sorts the displayed client list by date of birth in ascending order (oldest to youngest).
+* `sort l/` sorts the displayed client list by gym location in ascending order.
+* `sort s/` sorts the displayed client list by status, active clients first.
+* `sort r/ o/desc` sorts the displayed client list by session rate, highest rate first.
+* `sort wp/` sorts the displayed client list by workout plan alphabetically.
+* `filter l/Clementi` followed by `sort n/` filters clients at Clementi locations, then sorts only those filtered results by name.
 
 
 ### Deleting a client : `delete`
