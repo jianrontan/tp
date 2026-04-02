@@ -128,6 +128,13 @@ public class SortCommandParserTest {
     }
 
     @Test
+    public void parse_attributePrefixWithTrailingGarbage_throwsParseException() {
+        // a/b/c/ — b/ and c/ are not recognised prefixes, so a/ receives value "b/c/", which is invalid
+        assertParseFailure(parser, " " + PREFIX_ADDRESS + "b/c/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_caseInsensitiveOrder_success() {
         SortCommand expectedCommand = new SortCommand("name", "asc");
 
