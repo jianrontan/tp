@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
@@ -60,7 +59,6 @@ public class RateCommand extends Command {
                 personToEdit.getBodyFatPercentage(), personToEdit.getTags());
 
         model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         // Change this when we want to change the message to "-" to indicate cleared rate instead of
         // empty string
