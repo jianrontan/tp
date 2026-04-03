@@ -25,9 +25,9 @@ public class LogCommand extends Command {
     public static final String COMMAND_WORD = "log";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Logs a workout for the person identified by the index number used in the displayed person list\n"
+            + ": Logs a workout for the person identified by the index number used in the displayed client list\n"
             + "Parameters: "
-            + "INDEX (must be a positive integer)"
+            + "INDEX (must be a positive integer) "
             + "[" + PREFIX_TIME + "TIME] "
             + "[" + PREFIX_LOCATION + "LOCATION]";
 
