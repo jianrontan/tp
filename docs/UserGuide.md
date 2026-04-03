@@ -91,7 +91,7 @@ Adds a client to PowerRoster.
 
 Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/ADDRESS [l/LOCATION] [t/TAG]…​​`
 
-* `GENDER` must be either 'M' or 'F' (case-insensitive)
+* `GENDER` must be either `M` or `F` (case-insensitive)
 * `DATE_OF_BIRTH` must follow the format 'DD/MM/YYYY'
 * `DATE_OF_BIRTH` must be a valid date, not in the future, and not more than 100 years in the past.
 * If `l/LOCATION` is omitted, the client is treated as having no specified location and the UI displays `N/A`.
@@ -416,7 +416,7 @@ Action     | Format, Examples
 **Add**    | `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/ADDRESS [l/LOCATION] [t/TAG]…​` <br> e.g., `add n/James Ho g/M dob/09/12/1977 p/92224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/beginner`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Log**    | `log INDEX [time/TIME] [l/LOCATION]` <br> e.g.,`log 2 l/Sengkang ActiveSG Gym`
+**Log**    | `log INDEX [time/TIME] [l/LOCATION]` <br> e.g., `log 2 l/Sengkang ActiveSG Gym`
 **Last**   | `last INDEX` <br> e.g., `last 5`
 **Edit**   | `edit INDEX [n/NAME] [g/GENDER] [dob/DATE_OF_BIRTH] [p/PHONE] [e/EMAIL] [a/ADDRESS] [l/LOCATION] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Note**   | `note INDEX n/NOTE` or `note INDEX a/NOTE`<br> e.g., `note 1 n/Prefers morning sessions.`
