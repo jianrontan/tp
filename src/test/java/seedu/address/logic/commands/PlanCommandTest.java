@@ -31,6 +31,9 @@ public class PlanCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new WorkoutLogBook());
 
+    /**
+     * Executes {@code plan} on an unfiltered list and updates the target client's plan.
+     */
     @Test
     public void execute_addPlanUnfilteredList_success() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
@@ -38,7 +41,8 @@ public class PlanCommandTest {
 
         PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_AMY));
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS,
+                editedPerson.getName(), editedPerson.getPlan());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -47,6 +51,9 @@ public class PlanCommandTest {
         assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
     }
 
+    /**
+     * Executes {@code plan} on a filtered list and updates the shown client at the given index.
+     */
     @Test
     public void execute_addPlanFilteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
@@ -56,7 +63,8 @@ public class PlanCommandTest {
 
         PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_AMY));
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS,
+                editedPerson.getName(), editedPerson.getPlan());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -66,14 +74,19 @@ public class PlanCommandTest {
         assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
     }
 
+    /**
+     * Executes {@code plan} with the FULL BODY category and verifies the command succeeds.
+     */
     @Test
-    public void execute_clearPlan_success() {
+    public void execute_addFullBodyPlanUnfilteredList_success() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(firstPerson).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
+        Plan fullBodyPlan = new Plan("FULL BODY");
+        Person editedPerson = new PersonBuilder(firstPerson).withPlan("FULL BODY").build();
 
-        PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, Plan.getDefaultPlan());
+        PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, fullBodyPlan);
 
-        String expectedMessage = String.format(PlanCommand.MESSAGE_CLEAR_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(PlanCommand.MESSAGE_SUCCESS,
+                editedPerson.getName(), editedPerson.getPlan());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new WorkoutLogBook());
@@ -82,6 +95,54 @@ public class PlanCommandTest {
         assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
     }
 
+    /**
+     * Clears an assigned workout plan and reports clear success.
+     */
+    @Test
+    public void execute_clearPlan_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personWithAssignedPlan = new PersonBuilder(firstPerson).withPlan(VALID_PLAN_AMY).build();
+        model.setPerson(firstPerson, personWithAssignedPlan);
+
+        Person editedPerson = new PersonBuilder(personWithAssignedPlan).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
+
+        PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, Plan.getDefaultPlan());
+
+        String expectedMessage = String.format(PlanCommand.MESSAGE_CLEAR_SUCCESS, editedPerson.getName());
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
+        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        expectedModel.setPerson(firstPerson, editedPerson);
+
+        assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
+    }
+
+    /**
+     * Clears an already unassigned workout plan and reports already-cleared feedback.
+     */
+    @Test
+    public void execute_clearPlanAlreadyCleared_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personWithClearedPlan = new PersonBuilder(firstPerson).withPlan(Plan.DEFAULT_PLAN_TEXT).build();
+        model.setPerson(firstPerson, personWithClearedPlan);
+
+        PlanCommand planCommand = new PlanCommand(INDEX_FIRST_PERSON, Plan.getDefaultPlan());
+
+        String expectedMessage = String.format(PlanCommand.MESSAGE_ALREADY_CLEARED,
+                personWithClearedPlan.getName());
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new UserPrefs(), new WorkoutLogBook());
+        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        expectedModel.setPerson(firstPerson, personWithClearedPlan);
+
+        assertCommandSuccess(planCommand, model, expectedMessage, expectedModel);
+    }
+
+    /**
+     * Rejects an out-of-bounds index when operating on an unfiltered list.
+     */
     @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
@@ -90,6 +151,9 @@ public class PlanCommandTest {
         assertCommandFailure(planCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
+    /**
+     * Rejects an out-of-bounds index when operating on a filtered list.
+     */
     @Test
     public void execute_invalidPersonIndexFilteredList_failure() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
@@ -103,6 +167,9 @@ public class PlanCommandTest {
         assertCommandFailure(planCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
+    /**
+     * Verifies {@link PlanCommand#equals(Object)} for matching and non-matching cases.
+     */
     @Test
     public void equals() {
         final PlanCommand standardCommand =
@@ -131,4 +198,3 @@ public class PlanCommandTest {
                 .equals(new PlanCommand(INDEX_FIRST_PERSON, new Plan(VALID_PLAN_BOB))));
     }
 }
-

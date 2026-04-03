@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -13,15 +15,15 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Plan;
 
 /**
- * Assigns or updates a workout plan for a person identified by index.
+ * Assigns or updates a workout plan for a client identified by index.
  */
 public class PlanCommand extends Command {
 
     public static final String COMMAND_WORD = "plan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Assigns or replaces the workout plan of the specified person by index number used "
-            + "in the displayed person list.\n"
+            + ": Assigns or replaces the workout plan of the specified client by index number used "
+            + "in the displayed client list.\n"
             + "Use 'wp/' with a value to set the plan, or 'wp/' with no value to clear it.\n"
             + "Parameters: INDEX (must be a positive integer) wp/[CATEGORY]\n"
             + "Examples:\n"
@@ -29,18 +31,21 @@ public class PlanCommand extends Command {
             + "  " + COMMAND_WORD + " 2 wp/LEGS\n"
             + "  " + COMMAND_WORD + " 3 wp/";
 
-    public static final String MESSAGE_SUCCESS = "Updated workout plan for person: %1$s";
-    public static final String MESSAGE_CLEAR_SUCCESS = "Workout plan cleared for person: %1$s";
+    public static final String MESSAGE_SUCCESS = "Updated workout plan to %2$s for client: %1$s";
+    public static final String MESSAGE_CLEAR_SUCCESS = "Workout plan unassigned for client: %1$s";
+    public static final String MESSAGE_ALREADY_CLEARED = "Workout plan is already unassigned for client: %1$s";
+
+    private static final Logger logger = LogsCenter.getLogger(PlanCommand.class);
 
     private final Index index;
     private final Plan plan;
 
     /**
-     * Creates a PlanCommand to assign/update the specified {@code plan} of the person at the
+     * Creates a PlanCommand to assign/update the specified {@code plan} of the client at the
      * specified {@code index}.
      *
-     * @param index of the person in the last person list to edit the workout plan
-     * @param plan of the person to be updated to
+     * @param index of the client in the last displayed list to edit the workout plan
+     * @param plan workout plan to update the client to
      */
     public PlanCommand(Index index, Plan plan) {
         requireNonNull(index);
@@ -52,14 +57,28 @@ public class PlanCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        logger.info("Executing plan command for index: " + index.getOneBased());
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
+            logger.warning("Plan command failed due to invalid index: " + index.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = new Person(
+        Person editedPerson = createEditedPerson(personToEdit);
+
+        assert editedPerson.getPlan().equals(plan) : "Edited client plan should match requested plan";
+
+        model.setPerson(personToEdit, editedPerson);
+        String message = buildResultMessage(personToEdit, editedPerson);
+        logger.fine("Plan command completed for client " + editedPerson.getName() + ": " + message);
+        return new CommandResult(message);
+    }
+
+    private Person createEditedPerson(Person personToEdit) {
+        return new Person(
                 personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getGender(),
@@ -76,11 +95,15 @@ public class PlanCommand extends Command {
                 personToEdit.getWeight(),
                 personToEdit.getBodyFatPercentage(),
                 personToEdit.getTags());
+    }
 
-        model.setPerson(personToEdit, editedPerson);
+    private String buildResultMessage(Person personToEdit, Person editedPerson) {
+        if (plan.isUnassigned()) {
+            String message = personToEdit.getPlan().isUnassigned() ? MESSAGE_ALREADY_CLEARED : MESSAGE_CLEAR_SUCCESS;
+            return String.format(message, editedPerson.getName());
+        }
 
-        String message = plan.isUnassigned() ? MESSAGE_CLEAR_SUCCESS : MESSAGE_SUCCESS;
-        return new CommandResult(String.format(message, Messages.format(editedPerson)));
+        return String.format(MESSAGE_SUCCESS, editedPerson.getName(), editedPerson.getPlan());
     }
 
     @Override
@@ -108,4 +131,3 @@ public class PlanCommand extends Command {
                 .toString();
     }
 }
-

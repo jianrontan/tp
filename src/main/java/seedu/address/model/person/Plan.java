@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Plan {
     public static final String MESSAGE_CONSTRAINTS =
-            "Plan should be exactly one category: PUSH, PULL, LEGS, CORE, CARDIO, MOBILITY, FULL_BODY, "
+            "Plan should be exactly one category: PUSH, PULL, LEGS, CORE, CARDIO, MOBILITY, FULL BODY, "
                     + "or CONDITIONING.";
     public static final String DEFAULT_PLAN_TEXT = "Unassigned";
 
@@ -72,7 +72,9 @@ public class Plan {
 
     @Override
     public String toString() {
-        return value == PlanCategoryEnum.UNASSIGNED ? DEFAULT_PLAN_TEXT : value.toString();
+        return value == PlanCategoryEnum.UNASSIGNED
+                ? DEFAULT_PLAN_TEXT
+                : value.toString().replace('_', ' ');
     }
 
     @Override

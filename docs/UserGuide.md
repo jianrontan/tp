@@ -157,21 +157,22 @@ Examples:
 
 ### Assigning a client's workout programme : `plan`
 
-Assigns / clears the workout programme of an existing client in PowerRoster.
+Assigns / unassigns the workout programme of an existing client in PowerRoster.
 
 Format: `plan INDEX wp/PLAN_CATEGORY`
 
-* Assigns/clears the workout programme of the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, ...
+* Assigns/unassigns the workout programme of the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, ...
 * The `wp/` prefix is required.
 * `PLAN_CATEGORY` must be one of: `PUSH`, `PULL`, `LEGS`, `CORE`, `CARDIO`, `MOBILITY`, `FULL BODY`, `CONDITIONING` (case-insensitive).
-* Entering `wp/` with no value clears the client's assigned workout programme.
+* For multi-word categories, spaces, hyphens, and underscores are all accepted as separators.
+* Entering `wp/` with no value unassigns the client's assigned workout programme.
 * Duplicate `wp/` prefixes are not allowed.
 * Workout programmes can only be changed using `plan` (not `edit`).
 
 Examples:
 * `plan 1 wp/PUSH` assigns the 1st client to the `PUSH` programme.
 * `plan 2 wp/full body` assigns the 2nd client to the `FULL BODY` programme.
-* `plan 3 wp/` clears the 3rd client's workout programme.
+* `plan 3 wp/` unassigns the 3rd client's workout programme.
 
 ### Setting a client's session rate : `rate`
 
