@@ -93,6 +93,7 @@ Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/
 
 * `NAME` must start with an alphanumeric character, and may contain alphanumeric characters, spaces, apostrophes (`'`), hyphens (`-`), and periods (`.`).
 * Leading/trailing spaces in `NAME` are ignored, and repeated internal spaces are normalized to a single space.
+* `NAME` are case-sensitive for duplicate detection
 * `GENDER` must be either `M` or `F` (case-insensitive)
 * `DATE_OF_BIRTH` must follow the format 'DD/MM/YYYY'
 * `DATE_OF_BIRTH` must be a valid date, not in the future, and not more than 100 years in the past.
