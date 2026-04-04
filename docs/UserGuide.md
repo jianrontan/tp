@@ -133,6 +133,8 @@ Format: `edit INDEX [n/NAME] [g/GENDER] [dob/DATE_OF_BIRTH] [p/PHONE] [e/EMAIL] 
 * Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Feedback (e.g. `added/updated` or `unchanged`) is shown per specified field.
+* If multiple provided field values are invalid in one command, all related validation errors are shown together.
 * When editing tags, the existing tags of the client will be removed i.e adding of tags is not cumulative.
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
 
