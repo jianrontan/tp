@@ -68,13 +68,18 @@ public class LogCommand extends Command {
 
         logger.info("Executing log command for client at index " + targetIndex.getOneBased());
 
+        assert time != null : "Time parameters should have been parsed and checked at this point";
+        assert location != null : "Location parameters should have been parsed and checked at this point";
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        // Check for valid index
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             logger.warning("Log command failed due to invalid index: " + targetIndex.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        // Create Workout Log
         Person personToLog = lastShownList.get(targetIndex.getZeroBased());
         ClientId traineeId = new ClientId(personToLog.getId().toString());
         Location workoutLocation;
@@ -86,6 +91,7 @@ public class LogCommand extends Command {
         }
         WorkoutLog newLog = new WorkoutLog(traineeId, time, workoutLocation);
 
+        // Check for duplicate log
         if (model.hasLog(newLog)) {
             logger.warning("Log command failed due to duplicate logs present");
             throw new CommandException(MESSAGE_DUPLICATE_LOG);
@@ -93,6 +99,7 @@ public class LogCommand extends Command {
 
         model.addLog(newLog);
         logger.fine("Successfully logged workout for client at index " + targetIndex.getOneBased());
+
         return new CommandResult(String.format(MESSAGE_LOG_WORKOUT_SUCCESS,
                 personToLog.getName(),
                 time.toString(),

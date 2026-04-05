@@ -50,11 +50,13 @@ public class LastCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        // Check for valid index
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             logger.warning("Last command failed due to invalid index: " + targetIndex.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        // Retrieve recent log
         Person personToSearch = lastShownList.get(targetIndex.getZeroBased());
         WorkoutLog latest = model.lastLog(personToSearch);
         if (latest == null) {
@@ -67,7 +69,7 @@ public class LastCommand extends Command {
                 : latest.getLocation().toString();
 
         logger.fine("Successfully returned most recent workout for client at index: " + targetIndex.getOneBased());
-        
+
         return new CommandResult(String.format(MESSAGE_RETRIEVE_LOG_SUCCESS,
                 personToSearch.getName(),
                 latest.getTime(),
