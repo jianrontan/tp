@@ -5,7 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -37,6 +39,8 @@ public class LogCommand extends Command {
 
     public static final String MESSAGE_DUPLICATE_LOG = "This workout log already exists.";
 
+    private static final Logger logger = LogsCenter.getLogger(LogCommand.class);
+
     private final Index targetIndex;
     private final WorkoutTime time;
     private final Location location;
@@ -61,27 +65,41 @@ public class LogCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        logger.info("Executing log command for client at index " + targetIndex.getOneBased());
+
+        assert time != null : "Time should always be initialised";
+        assert location != null : "Location should always be initialised, use empty string for unspecified location";
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        // Check for valid index
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            logger.warning("Log command failed due to invalid index: " + targetIndex.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        // Create Workout Log
         Person personToLog = lastShownList.get(targetIndex.getZeroBased());
         ClientId traineeId = new ClientId(personToLog.getId().toString());
         Location workoutLocation;
         if (location.toString().isEmpty()) {
+            logger.info("Empty location detected, client's preset location will be used");
             workoutLocation = new Location(personToLog.getLocation().toString());
         } else {
             workoutLocation = location;
         }
         WorkoutLog newLog = new WorkoutLog(traineeId, time, workoutLocation);
 
+        // Check for duplicate log
         if (model.hasLog(newLog)) {
+            logger.warning("Log command failed due to duplicate logs present");
             throw new CommandException(MESSAGE_DUPLICATE_LOG);
         }
 
         model.addLog(newLog);
+        logger.fine("Successfully logged workout for client at index " + targetIndex.getOneBased());
+
         return new CommandResult(String.format(MESSAGE_LOG_WORKOUT_SUCCESS,
                 personToLog.getName(),
                 time.toString(),

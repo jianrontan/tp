@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -32,6 +34,7 @@ public class LastCommand extends Command {
 
     private static final String UNSET_LOCATION_DISPLAY = "N/A";
 
+    private static final Logger logger = LogsCenter.getLogger(LastCommand.class);
 
     private final Index targetIndex;
 
@@ -42,21 +45,30 @@ public class LastCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        logger.info("Executing last command for client at index " + targetIndex.getOneBased());
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        // Check for valid index
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            logger.warning("Last command failed due to invalid index: " + targetIndex.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        // Retrieve recent log
         Person personToSearch = lastShownList.get(targetIndex.getZeroBased());
         WorkoutLog latest = model.lastLog(personToSearch);
         if (latest == null) {
+            logger.info("No logs found for specified client");
             return new CommandResult(String.format(MESSAGE_NO_LOGS_FOUND_FAILURE, personToSearch.getName()));
         }
 
         String locationToDisplay = latest.getLocation().value.isEmpty()
                 ? UNSET_LOCATION_DISPLAY
                 : latest.getLocation().toString();
+
+        logger.fine("Last command executed successfully for client at index: " + targetIndex.getOneBased());
 
         return new CommandResult(String.format(MESSAGE_RETRIEVE_LOG_SUCCESS,
                 personToSearch.getName(),
