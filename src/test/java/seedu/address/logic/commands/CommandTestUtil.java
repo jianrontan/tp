@@ -16,6 +16,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEIGHT;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -68,6 +69,9 @@ public class CommandTestUtil {
     public static final String VALID_BODY_FAT_AMY = "22.5";
     public static final String VALID_BODY_FAT_BOB = "15.0";
 
+    public static final String VALID_WORKOUT_TIME_1 = "01/04/2026 10:00";
+    public static final String VALID_WORKOUT_TIME_2 = "31/01/2026 23:30";
+
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
     public static final String GENDER_DESC_AMY = " " + PREFIX_GENDER + VALID_GENDER_AMY;
@@ -98,6 +102,9 @@ public class CommandTestUtil {
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
+    public static final String WORKOUT_TIME_DESC_1 = " " + PREFIX_TIME + VALID_WORKOUT_TIME_1;
+    public static final String WORKOUT_TIME_DESC_2 = " " + PREFIX_TIME + VALID_WORKOUT_TIME_2;
+
     // '&' not allowed in names
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&";
     // only 'm' and 'f' allowed in gender
@@ -110,8 +117,6 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo";
     // empty string not allowed for addresses
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS;
-    // empty string not allowed for locations
-    public static final String INVALID_LOCATION_DESC = " " + PREFIX_LOCATION + ":";
     // height out of valid range
     public static final String INVALID_HEIGHT_DESC = " " + PREFIX_HEIGHT + "49.9";
     // weight out of valid range
