@@ -335,7 +335,7 @@ Examples:
 * `sort s/` sorts the displayed client list by status, active clients first.
 * `sort r/ o/desc` sorts the displayed client list by session rate, highest rate first.
 * `sort wp/` sorts the displayed client list by workout plan alphabetically.
-* `filter l/ActiveSG` followed by `sort n/` filters clients at Clementi locations, then sorts only those filtered results by name.
+* `filter l/ActiveSG` followed by `sort n/` filters clients at ActiveSG locations, then sorts only those filtered results by name.
 
 ![Sort command result showing reordered client list](images/sortResult.png)
 
@@ -368,9 +368,8 @@ Format: `log INDEX [time/TIME] [l/LOCATION]`
 * If `TIME` is not declared, the current time will be used.
 * `LOCATION` can take on any value.
 * If `LOCATION` is not specified, the client's preset location will be used.
-* If `LOCATION` is not specified and the client does not have a preset location, `N/A` will be used.
-* Repeated use of the same prefix (e.g., `time/01/01/2026 10:00 time/02/01/2026 10:00` or `l/Gym A l/Gym B`) is not allowed.
 * A duplicate workout log for the same client at the same date and time is not allowed.
+* Repeated use of the same prefix (e.g., `time/01/01/2026 10:00 time/02/01/2026 10:00` or `l/Gym A l/Gym B`) is not allowed.
 
 Examples:
 * `log 1` Logs a workout for the first client in the displayed list using the current time and their specified location.
@@ -416,6 +415,10 @@ PowerRoster data are saved automatically as a JSON file `[JAR file location]/dat
 If your changes to the data file makes its format invalid, PowerRoster will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the PowerRoster to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
+
+### Archiving data files `[coming soon]`
+
+_Details coming soon ..._
 
 ### Viewing all workout logs `[coming soon]`
 * Users will be able to view the entire workout log history of a specified client.
