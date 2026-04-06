@@ -64,11 +64,9 @@ public class Height {
             return true;
         }
 
-        if (!(other instanceof Height)) {
+        if (!(other instanceof Height otherHeight)) {
             return false;
         }
-
-        Height otherHeight = (Height) other;
         return value.equals(otherHeight.value);
     }
 

@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -61,8 +62,7 @@ public class PlanCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            logger.warning("Plan command failed due to invalid index: " + index.getOneBased());
+        if (isTargetIndexInvalid(lastShownList)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
@@ -73,8 +73,12 @@ public class PlanCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         String message = buildResultMessage(personToEdit, editedPerson);
-        logger.fine("Plan command completed for client " + editedPerson.getName() + ": " + message);
         return new CommandResult(message);
+    }
+
+    private boolean isTargetIndexInvalid(List<Person> lastShownList) {
+        int zeroBasedIndex = index.getZeroBased();
+        return zeroBasedIndex < 0 || zeroBasedIndex >= lastShownList.size();
     }
 
     private Person createEditedPerson(Person personToEdit) {
@@ -118,6 +122,11 @@ public class PlanCommand extends Command {
 
         PlanCommand otherCommand = (PlanCommand) other;
         return index.equals(otherCommand.index) && plan.equals(otherCommand.plan);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, plan);
     }
 
     /**

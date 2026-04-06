@@ -66,11 +66,9 @@ public class BodyFatPercentage {
             return true;
         }
 
-        if (!(other instanceof BodyFatPercentage)) {
+        if (!(other instanceof BodyFatPercentage otherBodyFatPercentage)) {
             return false;
         }
-
-        BodyFatPercentage otherBodyFatPercentage = (BodyFatPercentage) other;
         return value.equals(otherBodyFatPercentage.value);
     }
 

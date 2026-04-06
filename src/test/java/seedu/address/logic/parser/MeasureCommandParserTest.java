@@ -14,7 +14,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.MeasureCommand;
 import seedu.address.model.person.BodyFatPercentage;
 import seedu.address.model.person.Height;
@@ -118,8 +117,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_validSinglePrefix_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + HEIGHT_DESC_AMY;
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + HEIGHT_DESC_AMY;
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height("165.5"), null, null);
 
@@ -130,8 +128,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_validTrailingDotPrefix_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_WEIGHT + "72.";
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_WEIGHT + "72.";
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 null, new Weight("72.0"), null);
 
@@ -143,8 +140,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_validTrailingDotHeight_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_HEIGHT + "170.";
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_HEIGHT + "170.";
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height("170.0"), null, null);
 
@@ -156,8 +152,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_validTrailingDotBodyFat_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_BODY_FAT + "18.";
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_BODY_FAT + "18.";
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 null, null, new BodyFatPercentage("18.0"));
 
@@ -169,8 +164,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_clearMeasurement_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_HEIGHT;
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_HEIGHT;
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height(""), null, null);
 
@@ -182,8 +176,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_validMultiplePrefixes_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + HEIGHT_DESC_AMY + WEIGHT_DESC_AMY + BODY_FAT_DESC_AMY;
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + HEIGHT_DESC_AMY + WEIGHT_DESC_AMY + BODY_FAT_DESC_AMY;
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height("165.5"), new Weight("58.0"), new BodyFatPercentage("22.5"));
 
@@ -225,8 +218,7 @@ public class MeasureCommandParserTest {
      */
     @Test
     public void parse_clearAndSetMeasurements_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_HEIGHT + " " + PREFIX_WEIGHT + "70.0";
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_HEIGHT + " " + PREFIX_WEIGHT + "70.0";
         MeasureCommand expectedCommand = new MeasureCommand(INDEX_FIRST_PERSON,
                 new Height(""), new Weight("70.0"), null);
 

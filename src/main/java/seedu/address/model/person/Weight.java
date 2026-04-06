@@ -64,11 +64,9 @@ public class Weight {
             return true;
         }
 
-        if (!(other instanceof Weight)) {
+        if (!(other instanceof Weight otherWeight)) {
             return false;
         }
-
-        Weight otherWeight = (Weight) other;
         return value.equals(otherWeight.value);
     }
 

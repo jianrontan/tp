@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.getErrorMessageForDuplicatePrefixes;
 import static seedu.address.logic.commands.CommandTestUtil.PLAN_DESC_AMY;
@@ -18,7 +19,7 @@ import seedu.address.model.person.Plan;
 
 public class PlanCommandParserTest {
 
-    private PlanCommandParser parser = new PlanCommandParser();
+    private final PlanCommandParser parser = new PlanCommandParser();
 
     /**
      * Parses valid wp/ inputs, including mixed-case values and normalized internal whitespace.
@@ -203,5 +204,13 @@ public class PlanCommandParserTest {
         assertParseFailure(parser,
                 INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_PLAN + "   " + PLAN_DESC_AMY,
                 getErrorMessageForDuplicatePrefixes(PREFIX_PLAN));
+    }
+
+    /**
+     * Fails fast when parser input is null.
+     */
+    @Test
+    public void parse_nullArgs_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> parser.parse(null));
     }
 }

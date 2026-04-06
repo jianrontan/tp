@@ -8,8 +8,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_WEIGHT;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -51,6 +54,11 @@ public class MeasureCommand extends Command {
     public static final String MESSAGE_BODY_FAT_ALREADY_CLEARED =
             "Body Fat is already cleared for client: %1$s";
 
+    private static final String MESSAGE_NO_MEASUREMENTS_PROVIDED =
+            "At least one measurement must be provided.";
+
+    private static final Logger logger = LogsCenter.getLogger(MeasureCommand.class);
+
     private final Index index;
     private final Height height;
     private final Weight weight;
@@ -61,6 +69,9 @@ public class MeasureCommand extends Command {
      */
     public MeasureCommand(Index index, Height height, Weight weight, BodyFatPercentage bodyFatPercentage) {
         requireNonNull(index);
+        if (!hasAnyMeasurementProvided(height, weight, bodyFatPercentage)) {
+            throw new IllegalArgumentException(MESSAGE_NO_MEASUREMENTS_PROVIDED);
+        }
 
         this.index = index;
         this.height = height;
@@ -71,19 +82,31 @@ public class MeasureCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        logger.info("Executing measure command for index: " + index.getOneBased());
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        if (isTargetIndexInvalid(lastShownList)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        assert hasAnyMeasurementProvided(height, weight, bodyFatPercentage)
+                : "Invariant broken: MeasureCommand must carry at least one measurement.";
+
         Person personToEdit = lastShownList.get(index.getZeroBased());
+        Person editedPerson = createEditedPerson(personToEdit);
+        model.setPerson(personToEdit, editedPerson);
+
+        String message = formatOutcomeMessages(personToEdit, editedPerson.getName().toString());
+        return new CommandResult(message);
+    }
+
+    private Person createEditedPerson(Person personToEdit) {
         Height updatedHeight = height != null ? height : personToEdit.getHeight();
         Weight updatedWeight = weight != null ? weight : personToEdit.getWeight();
         BodyFatPercentage updatedBodyFatPercentage = bodyFatPercentage != null
                 ? bodyFatPercentage : personToEdit.getBodyFatPercentage();
 
-        Person editedPerson = new Person(
+        return new Person(
                 personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getGender(),
@@ -100,11 +123,16 @@ public class MeasureCommand extends Command {
                 updatedWeight,
                 updatedBodyFatPercentage,
                 personToEdit.getTags());
+    }
 
-        model.setPerson(personToEdit, editedPerson);
+    private boolean isTargetIndexInvalid(List<Person> lastShownList) {
+        int zeroBasedIndex = index.getZeroBased();
+        return zeroBasedIndex < 0 || zeroBasedIndex >= lastShownList.size();
+    }
 
-        String message = formatOutcomeMessages(personToEdit, editedPerson.getName().toString());
-        return new CommandResult(message);
+    private static boolean hasAnyMeasurementProvided(Height height, Weight weight,
+                                                     BodyFatPercentage bodyFatPercentage) {
+        return height != null || weight != null || bodyFatPercentage != null;
     }
 
     /** Returns field-specific outcomes in deterministic order (h/, w/, bf/). */
@@ -123,6 +151,7 @@ public class MeasureCommand extends Command {
     }
 
     private String formatHeightOutcome(String clientName, String oldValue) {
+        assert height != null : "Invariant broken: formatHeightOutcome should only be called when height is present.";
         if (height.value.isEmpty()) {
             String message = oldValue.isEmpty() ? MESSAGE_HEIGHT_ALREADY_CLEARED : MESSAGE_HEIGHT_CLEAR_SUCCESS;
             return String.format(message, clientName);
@@ -131,6 +160,7 @@ public class MeasureCommand extends Command {
     }
 
     private String formatWeightOutcome(String clientName, String oldValue) {
+        assert weight != null : "Invariant broken: formatWeightOutcome should only be called when weight is present.";
         if (weight.value.isEmpty()) {
             String message = oldValue.isEmpty() ? MESSAGE_WEIGHT_ALREADY_CLEARED : MESSAGE_WEIGHT_CLEAR_SUCCESS;
             return String.format(message, clientName);
@@ -139,6 +169,8 @@ public class MeasureCommand extends Command {
     }
 
     private String formatBodyFatOutcome(String clientName, String oldValue) {
+        assert bodyFatPercentage != null
+                : "Invariant broken: formatBodyFatOutcome should only be called when body fat is present.";
         if (bodyFatPercentage.value.isEmpty()) {
             String message = oldValue.isEmpty() ? MESSAGE_BODY_FAT_ALREADY_CLEARED : MESSAGE_BODY_FAT_CLEAR_SUCCESS;
             return String.format(message, clientName);
@@ -152,14 +184,30 @@ public class MeasureCommand extends Command {
             return true;
         }
 
-        if (!(other instanceof MeasureCommand)) {
+        if (!(other instanceof MeasureCommand otherCommand)) {
             return false;
         }
-
-        MeasureCommand otherCommand = (MeasureCommand) other;
         return index.equals(otherCommand.index)
                 && Objects.equals(height, otherCommand.height)
                 && Objects.equals(weight, otherCommand.weight)
                 && Objects.equals(bodyFatPercentage, otherCommand.bodyFatPercentage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, height, weight, bodyFatPercentage);
+    }
+
+    /**
+     * Returns a debug-friendly string representation of this command.
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("index", index)
+                .add("height", height)
+                .add("weight", weight)
+                .add("bodyFatPercentage", bodyFatPercentage)
+                .toString();
     }
 }

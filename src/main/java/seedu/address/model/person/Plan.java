@@ -12,6 +12,8 @@ public class Plan {
             "Plan should be exactly one category: PUSH, PULL, LEGS, CORE, CARDIO, MOBILITY, FULL BODY, "
                     + "or CONDITIONING.";
     public static final String DEFAULT_PLAN_TEXT = "Unassigned";
+    private static final String MULTI_WHITESPACE_REGEX = "\\s+";
+    private static final String SINGLE_WHITESPACE = " ";
 
     public final PlanCategoryEnum value;
 
@@ -22,11 +24,7 @@ public class Plan {
         requireNonNull(plan);
         String normalizedPlan = normalizeWhitespace(plan);
         checkArgument(isValidPlan(normalizedPlan), MESSAGE_CONSTRAINTS);
-        if (DEFAULT_PLAN_TEXT.equalsIgnoreCase(normalizedPlan)) {
-            value = PlanCategoryEnum.UNASSIGNED;
-        } else {
-            value = PlanCategoryEnum.fromString(normalizedPlan);
-        }
+        value = parsePlanValue(normalizedPlan);
     }
 
     /**
@@ -46,16 +44,13 @@ public class Plan {
             return false;
         }
 
-        if (DEFAULT_PLAN_TEXT.equalsIgnoreCase(test)) {
+        String normalizedPlan = normalizeWhitespace(test);
+
+        if (DEFAULT_PLAN_TEXT.equalsIgnoreCase(normalizedPlan)) {
             return true;
         }
 
-        try {
-            PlanCategoryEnum.fromString(test);
-            return true;
-        } catch (IllegalArgumentException ex) {
-            return false;
-        }
+        return PlanCategoryEnum.isKnownCategory(normalizedPlan);
     }
 
     /**
@@ -67,7 +62,14 @@ public class Plan {
 
 
     private static String normalizeWhitespace(String text) {
-        return text.trim().replaceAll("\\s+", " ");
+        return text.trim().replaceAll(MULTI_WHITESPACE_REGEX, SINGLE_WHITESPACE);
+    }
+
+    private static PlanCategoryEnum parsePlanValue(String normalizedPlan) {
+        if (DEFAULT_PLAN_TEXT.equalsIgnoreCase(normalizedPlan)) {
+            return PlanCategoryEnum.UNASSIGNED;
+        }
+        return PlanCategoryEnum.fromString(normalizedPlan);
     }
 
     @Override

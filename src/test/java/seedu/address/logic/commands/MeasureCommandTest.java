@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_BODY_FAT_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_HEIGHT_AMY;
@@ -34,12 +35,20 @@ public class MeasureCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new WorkoutLogBook());
 
+    private Person getFirstFilteredPerson(Model targetModel) {
+        return targetModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+    }
+
+    private Model copyModel(Model sourceModel) {
+        return new ModelManager(new AddressBook(sourceModel.getAddressBook()), new UserPrefs(), new WorkoutLogBook());
+    }
+
     /**
      * Executes measure on an unfiltered list with all measurement fields and verifies success.
      */
     @Test
     public void execute_updateMeasurementsUnfilteredList_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withHeight(VALID_HEIGHT_AMY)
                 .withWeight(VALID_WEIGHT_AMY)
@@ -57,8 +66,7 @@ public class MeasureCommandTest {
                 + "\n" + String.format(MeasureCommand.MESSAGE_BODY_FAT_SET_SUCCESS,
                 editedPerson.getName(), "22.5");
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -71,7 +79,7 @@ public class MeasureCommandTest {
     public void execute_updateMeasurementsFilteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withHeight(VALID_HEIGHT_AMY)
                 .build();
@@ -82,8 +90,7 @@ public class MeasureCommandTest {
         String expectedMessage = String.format(MeasureCommand.MESSAGE_HEIGHT_SET_SUCCESS,
                 editedPerson.getName(), "165.5");
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
         expectedModel.setPerson(firstPerson, editedPerson);
 
@@ -95,7 +102,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_clearMeasurements_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withHeight("")
                 .withWeight("")
@@ -109,8 +116,7 @@ public class MeasureCommandTest {
                 + "\n" + String.format(MeasureCommand.MESSAGE_WEIGHT_CLEAR_SUCCESS, editedPerson.getName())
                 + "\n" + String.format(MeasureCommand.MESSAGE_BODY_FAT_CLEAR_SUCCESS, editedPerson.getName());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -121,7 +127,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_clearMeasurementsAlreadyCleared_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person personWithClearedMeasurements = new PersonBuilder(firstPerson)
                 .withHeight("")
                 .withWeight("")
@@ -139,9 +145,8 @@ public class MeasureCommandTest {
                 + "\n" + String.format(MeasureCommand.MESSAGE_BODY_FAT_ALREADY_CLEARED,
                 personWithClearedMeasurements.getName());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
-        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Model expectedModel = copyModel(model);
+        firstPerson = getFirstFilteredPerson(expectedModel);
         expectedModel.setPerson(firstPerson, personWithClearedMeasurements);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -152,7 +157,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_updateAndClearMeasurements_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withHeight("180.0")
                 .withWeight("")
@@ -165,8 +170,7 @@ public class MeasureCommandTest {
                 editedPerson.getName(), "180.0")
                 + "\n" + String.format(MeasureCommand.MESSAGE_WEIGHT_CLEAR_SUCCESS, editedPerson.getName());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -177,7 +181,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_updateAndAlreadyClearedMeasurements_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person personWithClearedHeight = new PersonBuilder(firstPerson)
                 .withHeight("")
                 .build();
@@ -196,9 +200,8 @@ public class MeasureCommandTest {
                 + "\n" + String.format(MeasureCommand.MESSAGE_WEIGHT_SET_SUCCESS,
                 editedPerson.getName(), "120.0");
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
-        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Model expectedModel = copyModel(model);
+        firstPerson = getFirstFilteredPerson(expectedModel);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -209,7 +212,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_updateBodyFatOnly_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withBodyFatPercentage(VALID_BODY_FAT_AMY)
                 .build();
@@ -220,8 +223,7 @@ public class MeasureCommandTest {
         String expectedMessage = String.format(MeasureCommand.MESSAGE_BODY_FAT_SET_SUCCESS,
                 editedPerson.getName(), "22.5");
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -232,7 +234,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_clearBodyFatAlreadyCleared_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person personWithClearedBodyFat = new PersonBuilder(firstPerson)
                 .withBodyFatPercentage("")
                 .build();
@@ -244,9 +246,8 @@ public class MeasureCommandTest {
         String expectedMessage = String.format(MeasureCommand.MESSAGE_BODY_FAT_ALREADY_CLEARED,
                 personWithClearedBodyFat.getName());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
-        firstPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Model expectedModel = copyModel(model);
+        firstPerson = getFirstFilteredPerson(expectedModel);
         expectedModel.setPerson(firstPerson, personWithClearedBodyFat);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -257,7 +258,7 @@ public class MeasureCommandTest {
      */
     @Test
     public void execute_clearWeightOnly_success() {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person firstPerson = getFirstFilteredPerson(model);
         Person editedPerson = new PersonBuilder(firstPerson)
                 .withWeight("")
                 .build();
@@ -268,8 +269,7 @@ public class MeasureCommandTest {
         String expectedMessage = String.format(MeasureCommand.MESSAGE_WEIGHT_CLEAR_SUCCESS,
                 editedPerson.getName());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new UserPrefs(), new WorkoutLogBook());
+        Model expectedModel = copyModel(model);
         expectedModel.setPerson(firstPerson, editedPerson);
 
         assertCommandSuccess(measureCommand, model, expectedMessage, expectedModel);
@@ -336,6 +336,14 @@ public class MeasureCommandTest {
                 new BodyFatPercentage(VALID_BODY_FAT_AMY));
         // Different measurement payload indicates commands are not equal.
         assertFalse(standardCommand.equals(differentMeasurementCommand));
+    }
+
+    /**
+     * Verifies constructor enforces that at least one measurement is provided.
+     */
+    @Test
+    public void constructor_noMeasurementsProvided_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new MeasureCommand(INDEX_FIRST_PERSON, null, null, null));
     }
 
 }

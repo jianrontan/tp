@@ -83,6 +83,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON =
             "This client already exists in PowerRoster.";
+    private static final String EMPTY_TAGS_DISPLAY = "[]";
+    private static final String LOCATION_NOT_AVAILABLE_DISPLAY = "N/A";
 
     private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
 
@@ -107,14 +109,31 @@ public class EditCommand extends Command {
         logger.info("Executing edit command for index: " + index.getOneBased());
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            logger.warning("Edit command failed due to invalid index: " + index.getOneBased());
+        if (isTargetIndexInvalid(lastShownList)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+        assertInvariantFieldsUnchanged(personToEdit, editedPerson);
 
+        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        model.setPerson(personToEdit, editedPerson);
+        String outcomeMessage = formatOutcomeMessages(personToEdit, editedPerson, editPersonDescriptor);
+        return new CommandResult(outcomeMessage);
+    }
+
+    private boolean isTargetIndexInvalid(List<Person> lastShownList) {
+        int zeroBasedIndex = index.getZeroBased();
+        return zeroBasedIndex < 0 || zeroBasedIndex >= lastShownList.size();
+    }
+
+    private static void assertInvariantFieldsUnchanged(Person personToEdit, Person editedPerson) {
+        requireNonNull(personToEdit);
+        requireNonNull(editedPerson);
         assert editedPerson != null : "Edited client should not be null";
         assert editedPerson.getId().equals(personToEdit.getId()) : "Client ID must remain unchanged";
         assert editedPerson.getNote().equals(personToEdit.getNote()) : "Note should remain unchanged by edit";
@@ -125,17 +144,6 @@ public class EditCommand extends Command {
         assert editedPerson.getWeight().equals(personToEdit.getWeight()) : "Weight should remain unchanged by edit";
         assert editedPerson.getBodyFatPercentage().equals(personToEdit.getBodyFatPercentage())
                 : "Body fat percentage should remain unchanged by edit";
-
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
-            logger.warning("Edit command failed because edited client duplicates an existing client: "
-                    + editedPerson.getName());
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        }
-
-        model.setPerson(personToEdit, editedPerson);
-        String outcomeMessage = formatOutcomeMessages(personToEdit, editedPerson, editPersonDescriptor);
-        logger.fine("Edit command completed for client: " + editedPerson.getName());
-        return new CommandResult(outcomeMessage);
     }
 
     /** Returns field-specific outcomes in deterministic order based on specified edit prefixes. */
@@ -144,58 +152,53 @@ public class EditCommand extends Command {
         String clientName = afterEdit.getName().toString();
         StringJoiner joiner = new StringJoiner("\n");
 
-        if (descriptor.getName().isPresent()) {
-            joiner.add(beforeEdit.getName().equals(afterEdit.getName())
-                    ? String.format(MESSAGE_NAME_UNCHANGED, clientName)
-                    : String.format(MESSAGE_NAME_SET_SUCCESS, clientName, afterEdit.getName()));
-        }
-        if (descriptor.getGender().isPresent()) {
-            joiner.add(beforeEdit.getGender().equals(afterEdit.getGender())
-                    ? String.format(MESSAGE_GENDER_UNCHANGED, clientName)
-                    : String.format(MESSAGE_GENDER_SET_SUCCESS, clientName, afterEdit.getGender()));
-        }
-        if (descriptor.getDateOfBirth().isPresent()) {
-            joiner.add(beforeEdit.getDateOfBirth().equals(afterEdit.getDateOfBirth())
-                    ? String.format(MESSAGE_DOB_UNCHANGED, clientName)
-                    : String.format(MESSAGE_DOB_SET_SUCCESS, clientName, afterEdit.getDateOfBirth()));
-        }
-        if (descriptor.getPhone().isPresent()) {
-            joiner.add(beforeEdit.getPhone().equals(afterEdit.getPhone())
-                    ? String.format(MESSAGE_PHONE_UNCHANGED, clientName)
-                    : String.format(MESSAGE_PHONE_SET_SUCCESS, clientName, afterEdit.getPhone()));
-        }
-        if (descriptor.getEmail().isPresent()) {
-            joiner.add(beforeEdit.getEmail().equals(afterEdit.getEmail())
-                    ? String.format(MESSAGE_EMAIL_UNCHANGED, clientName)
-                    : String.format(MESSAGE_EMAIL_SET_SUCCESS, clientName, afterEdit.getEmail()));
-        }
-        if (descriptor.getAddress().isPresent()) {
-            joiner.add(beforeEdit.getAddress().equals(afterEdit.getAddress())
-                    ? String.format(MESSAGE_ADDRESS_UNCHANGED, clientName)
-                    : String.format(MESSAGE_ADDRESS_SET_SUCCESS, clientName, afterEdit.getAddress()));
-        }
-        if (descriptor.getLocation().isPresent()) {
-            joiner.add(beforeEdit.getLocation().equals(afterEdit.getLocation())
-                    ? String.format(MESSAGE_LOCATION_UNCHANGED, clientName)
-                    : String.format(MESSAGE_LOCATION_SET_SUCCESS, clientName, displayLocation(afterEdit)));
-        }
-        if (descriptor.getTags().isPresent()) {
-            joiner.add(beforeEdit.getTags().equals(afterEdit.getTags())
-                    ? String.format(MESSAGE_TAGS_UNCHANGED, clientName)
-                    : String.format(MESSAGE_TAGS_SET_SUCCESS, clientName, formatTags(afterEdit.getTags())));
-        }
+        appendOutcome(joiner, descriptor.getName().isPresent(), beforeEdit.getName().equals(afterEdit.getName()),
+                String.format(MESSAGE_NAME_UNCHANGED, clientName),
+                String.format(MESSAGE_NAME_SET_SUCCESS, clientName, afterEdit.getName()));
+        appendOutcome(joiner, descriptor.getGender().isPresent(), beforeEdit.getGender().equals(afterEdit.getGender()),
+                String.format(MESSAGE_GENDER_UNCHANGED, clientName),
+                String.format(MESSAGE_GENDER_SET_SUCCESS, clientName, afterEdit.getGender()));
+        appendOutcome(joiner, descriptor.getDateOfBirth().isPresent(),
+                beforeEdit.getDateOfBirth().equals(afterEdit.getDateOfBirth()),
+                String.format(MESSAGE_DOB_UNCHANGED, clientName),
+                String.format(MESSAGE_DOB_SET_SUCCESS, clientName, afterEdit.getDateOfBirth()));
+        appendOutcome(joiner, descriptor.getPhone().isPresent(), beforeEdit.getPhone().equals(afterEdit.getPhone()),
+                String.format(MESSAGE_PHONE_UNCHANGED, clientName),
+                String.format(MESSAGE_PHONE_SET_SUCCESS, clientName, afterEdit.getPhone()));
+        appendOutcome(joiner, descriptor.getEmail().isPresent(), beforeEdit.getEmail().equals(afterEdit.getEmail()),
+                String.format(MESSAGE_EMAIL_UNCHANGED, clientName),
+                String.format(MESSAGE_EMAIL_SET_SUCCESS, clientName, afterEdit.getEmail()));
+        appendOutcome(joiner, descriptor.getAddress().isPresent(),
+                beforeEdit.getAddress().equals(afterEdit.getAddress()),
+                String.format(MESSAGE_ADDRESS_UNCHANGED, clientName),
+                String.format(MESSAGE_ADDRESS_SET_SUCCESS, clientName, afterEdit.getAddress()));
+        appendOutcome(joiner, descriptor.getLocation().isPresent(),
+                beforeEdit.getLocation().equals(afterEdit.getLocation()),
+                String.format(MESSAGE_LOCATION_UNCHANGED, clientName),
+                String.format(MESSAGE_LOCATION_SET_SUCCESS, clientName, displayLocation(afterEdit)));
+        appendOutcome(joiner, descriptor.getTags().isPresent(), beforeEdit.getTags().equals(afterEdit.getTags()),
+                String.format(MESSAGE_TAGS_UNCHANGED, clientName),
+                String.format(MESSAGE_TAGS_SET_SUCCESS, clientName, formatTags(afterEdit.getTags())));
 
         String outcome = joiner.toString();
         return outcome.isEmpty() ? String.format(MESSAGE_NO_CHANGES, clientName) : outcome;
     }
 
+    private static void appendOutcome(StringJoiner joiner, boolean isSpecified, boolean isUnchanged,
+            String unchangedMessage, String changedMessage) {
+        if (!isSpecified) {
+            return;
+        }
+        joiner.add(isUnchanged ? unchangedMessage : changedMessage);
+    }
+
     private static String displayLocation(Person person) {
-        return person.getLocation().value.isEmpty() ? "N/A" : person.getLocation().value;
+        return person.getLocation().value.isEmpty() ? LOCATION_NOT_AVAILABLE_DISPLAY : person.getLocation().value;
     }
 
     private static String formatTags(Set<Tag> tags) {
         if (tags.isEmpty()) {
-            return "[]";
+            return EMPTY_TAGS_DISPLAY;
         }
         return tags.stream()
                 .map(tag -> tag.tagName)
@@ -209,7 +212,8 @@ public class EditCommand extends Command {
      */
     private static Person createEditedPerson(Person personToEdit,
             EditPersonDescriptor editPersonDescriptor) {
-        assert personToEdit != null;
+        requireNonNull(personToEdit);
+        requireNonNull(editPersonDescriptor);
 
         ClientId fixedId = personToEdit.getId();
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -245,13 +249,16 @@ public class EditCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof EditCommand otherEditCommand)) {
             return false;
         }
-
-        EditCommand otherEditCommand = (EditCommand) other;
         return index.equals(otherEditCommand.index)
                 && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, editPersonDescriptor);
     }
 
     @Override
@@ -378,11 +385,9 @@ public class EditCommand extends Command {
             }
 
             // instanceof handles nulls
-            if (!(other instanceof EditPersonDescriptor)) {
+            if (!(other instanceof EditPersonDescriptor otherEditPersonDescriptor)) {
                 return false;
             }
-
-            EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(gender, otherEditPersonDescriptor.gender)
                     && Objects.equals(dob, otherEditPersonDescriptor.dob)
@@ -391,6 +396,11 @@ public class EditCommand extends Command {
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(location, otherEditPersonDescriptor.location)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, gender, dob, phone, email, address, location, tags);
         }
 
         @Override
