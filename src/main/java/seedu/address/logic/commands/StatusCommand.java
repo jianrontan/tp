@@ -63,23 +63,7 @@ public class StatusCommand extends Command {
                     String.format(MESSAGE_NOT_CHANGED, status, Messages.format(personToEdit)));
         }
 
-        Person editedPerson = new Person(
-                personToEdit.getId(),
-                personToEdit.getName(),
-                personToEdit.getGender(),
-                personToEdit.getDateOfBirth(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getAddress(),
-                personToEdit.getLocation(),
-                personToEdit.getNote(),
-                personToEdit.getPlan(),
-                personToEdit.getRate(),
-                status, // NEW STATUS
-                personToEdit.getHeight(),
-                personToEdit.getWeight(),
-                personToEdit.getBodyFatPercentage(),
-                personToEdit.getTags());
+        Person editedPerson = personToEdit.withStatus(status);
 
         model.setPerson(personToEdit, editedPerson);
         return new CommandResult(String.format(MESSAGE_STATUS_PERSON_SUCCESS, Messages.format(editedPerson)));

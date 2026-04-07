@@ -167,6 +167,51 @@ public class Person {
     }
 
     /**
+     * Returns a copy of this person with the given status.
+     */
+    public Person withStatus(Status newStatus) {
+        requireAllNonNull(newStatus);
+        return new Person(id, name, gender, dob, phone, email, address, location,
+                note, plan, rate, newStatus, height, weight, bodyFatPercentage, getTags());
+    }
+
+    /**
+     * Returns a copy of this person with the given note.
+     */
+    public Person withNote(Note newNote) {
+        requireAllNonNull(newNote);
+        return new Person(id, name, gender, dob, phone, email, address, location,
+                newNote, plan, rate, status, height, weight, bodyFatPercentage, getTags());
+    }
+
+    /**
+     * Returns a copy of this person with the given rate.
+     */
+    public Person withRate(Rate newRate) {
+        requireAllNonNull(newRate);
+        return new Person(id, name, gender, dob, phone, email, address, location,
+                note, plan, newRate, status, height, weight, bodyFatPercentage, getTags());
+    }
+
+    /**
+     * Returns a copy of this person with the given plan.
+     */
+    public Person withPlan(Plan newPlan) {
+        requireAllNonNull(newPlan);
+        return new Person(id, name, gender, dob, phone, email, address, location,
+                note, newPlan, rate, status, height, weight, bodyFatPercentage, getTags());
+    }
+
+    /**
+     * Returns a copy of this person with the given measurements.
+     */
+    public Person withMeasurements(Height newHeight, Weight newWeight, BodyFatPercentage newBodyFatPercentage) {
+        requireAllNonNull(newHeight, newWeight, newBodyFatPercentage);
+        return new Person(id, name, gender, dob, phone, email, address, location,
+                note, plan, rate, status, newHeight, newWeight, newBodyFatPercentage, getTags());
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */

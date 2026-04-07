@@ -70,12 +70,7 @@ public class RateCommand extends Command {
     }
 
     private Person createPersonWithUpdatedRate(Person personToEdit) {
-        return new Person(personToEdit.getId(), personToEdit.getName(), personToEdit.getGender(),
-                personToEdit.getDateOfBirth(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), personToEdit.getLocation(), personToEdit.getNote(),
-                personToEdit.getPlan(), rate, personToEdit.getStatus(), personToEdit.getHeight(),
-                personToEdit.getWeight(), personToEdit.getBodyFatPercentage(),
-                personToEdit.getTags());
+        return personToEdit.withRate(rate);
     }
 
     private String determineSuccessMessage(Person personToEdit) {
