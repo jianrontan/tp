@@ -212,6 +212,10 @@ Several commands share a common implementation pattern:
 
 This design keeps command behavior predictable and avoids hidden side effects between fields.
 
+The sequence diagram below illustrates interactions when the user executes `status 1 s/inactive`:
+
+<puml src="diagrams/StatusSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `status 1 s/inactive` Command" />
+
 The commands differ mainly in their field-level semantics:
 
 * `note`: supports replace (`n/`) and append (`a/`) modes. Exactly one mode must be provided.
@@ -234,6 +238,10 @@ When `help` is executed without arguments, `HelpCommand` iterates `CommandRegist
 If an unknown command word is provided, `HelpCommand` returns an informational message indicating the command is unrecognised and suggests running `help` without arguments.
 
 **Extensibility:** Adding help support for a new command requires only one change — registering the new command in `CommandRegistry`. No other class needs updating.
+
+The sequence diagram below illustrates interactions when the user executes `help` (bare, no arguments). When a specific command word is provided (e.g. `help add`), the flow is identical except `CommandResult` is created with `showHelp=false` and no window is opened.
+
+<puml src="diagrams/HelpSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `help` Command" />
 
 ### Workout log feature (`log` and `last`)
 
@@ -818,6 +826,21 @@ testers are expected to do more *exploratory* testing.
 
    1. After the previous test case, test case: `status 1 s/inactive`<br>
       Expected: Message indicates no change because status is already inactive.
+
+   1. Test case: `status 1 s/active`<br>
+      Expected: Status is updated to active.
+
+   1. Test case: `status 1 s/pending`<br>
+      Expected: Error message indicating that the status value must be `active` or `inactive`.
+
+   1. Test case: `status 1 s/active s/inactive`<br>
+      Expected: Error message indicating that only one status value can be specified.
+
+   1. Test case: `status 0 s/inactive`<br>
+      Expected: Error message indicating that the index is invalid.
+
+   1. Test case: `status 9999 s/inactive` (assuming fewer than 9999 clients exist)<br>
+      Expected: Error message indicating that the index is out of range.
 
 1. Rate
 
