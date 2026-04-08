@@ -329,6 +329,11 @@ public class SortCommandTest {
     }
 
     @Test
+    public void hashCode_equalCommands_sameHash() {
+        assertEquals(new SortCommand("name", "asc").hashCode(), new SortCommand("name", "asc").hashCode());
+    }
+
+    @Test
     public void toStringMethod() {
         SortCommand sortCommand = new SortCommand("name", "asc");
         String expected = SortCommand.class.getCanonicalName()
