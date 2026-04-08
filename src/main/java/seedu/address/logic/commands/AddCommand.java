@@ -10,6 +10,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.Objects;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -24,27 +26,17 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a client to PowerRoster.\n"
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_GENDER + "GENDER "
-            + PREFIX_DOB + "DOB "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_LOCATION + "LOCATION]"
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Tan "
-            + PREFIX_GENDER + "M "
-            + PREFIX_DOB + "24/12/1999 "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnt@example.com "
-            + PREFIX_ADDRESS + "123 Sengkang East, #01-01 "
-            + PREFIX_LOCATION + "ActiveSG @ Fernvale Square "
-            + PREFIX_TAG + "beginner";
+            + "Parameters: " + PREFIX_NAME + "NAME " + PREFIX_GENDER + "GENDER " + PREFIX_DOB
+            + "DOB " + PREFIX_PHONE + "PHONE " + PREFIX_EMAIL + "EMAIL " + PREFIX_ADDRESS
+            + "ADDRESS " + "[" + PREFIX_LOCATION + "LOCATION]" + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Tan " + PREFIX_GENDER + "M "
+            + PREFIX_DOB + "24/12/1999 " + PREFIX_PHONE + "98765432 " + PREFIX_EMAIL
+            + "johnt@example.com " + PREFIX_ADDRESS + "123 Sengkang East, #01-01 " + PREFIX_LOCATION
+            + "ActiveSG @ Fernvale Square " + PREFIX_TAG + "beginner";
 
     public static final String MESSAGE_SUCCESS = "New client added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This client already exists in PowerRoster";
+    public static final String MESSAGE_DUPLICATE_PERSON =
+            "This client already exists in PowerRoster";
 
     private final Person toAdd;
 
@@ -84,9 +76,12 @@ public class AddCommand extends Command {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(toAdd);
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("toAdd", toAdd)
-                .toString();
+        return new ToStringBuilder(this).add("toAdd", toAdd).toString();
     }
 }

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import seedu.address.model.person.Person;
@@ -11,8 +12,7 @@ import seedu.address.model.workout.WorkoutLog;
 import seedu.address.model.workout.exceptions.DuplicateLogException;
 
 /**
- * Wraps all data at the Workout Log Book level
- * Duplicates are not allowed
+ * Wraps all data at the Workout Log Book level Duplicates are not allowed
  */
 public class WorkoutLogBook {
 
@@ -65,21 +65,17 @@ public class WorkoutLogBook {
     }
 
     /**
-     * Finds and returns all {@code WorkoutLog} objects belonging to the
-     * specified person.
+     * Finds and returns all {@code WorkoutLog} objects belonging to the specified person.
      *
      * @param person Person whose logs to search for
      * @return List of {@code WorkoutLog} that belongs to that person
      */
     public List<WorkoutLog> fetchLogs(Person person) {
-        return logs.stream()
-                .filter(log -> log.getTrainee().equals(person.getId()))
-                .toList();
+        return logs.stream().filter(log -> log.getTrainee().equals(person.getId())).toList();
     }
 
     /**
-     * Returns the most recent {@code WorkoutLog} for the specified
-     * {@code Person}.
+     * Returns the most recent {@code WorkoutLog} for the specified {@code Person}.
      *
      * @param person Person whose logs to search for
      * @return Most recent {@code WorkoutLog} object, null if no logs found
@@ -99,14 +95,12 @@ public class WorkoutLogBook {
     }
 
     /**
-     * Deletes all {@code WorkoutLog} objects for the specified
-     * {@code Person}.
+     * Deletes all {@code WorkoutLog} objects for the specified {@code Person}.
      *
      * @param person Person whose logs to delete
      */
     public void clearLogs(Person person) {
-        logs = logs.stream()
-                .filter(log -> !(log.getTrainee().equals(person.getId())))
+        logs = logs.stream().filter(log -> !(log.getTrainee().equals(person.getId())))
                 .collect(Collectors.toList());
     }
 
@@ -122,6 +116,11 @@ public class WorkoutLogBook {
 
         WorkoutLogBook otherLogBook = (WorkoutLogBook) other;
         return this.logs.equals(otherLogBook.logs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logs);
     }
 
 }

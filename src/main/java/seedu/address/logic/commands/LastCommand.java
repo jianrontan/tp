@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -20,17 +21,17 @@ public class LastCommand extends Command {
 
     public static final String COMMAND_WORD = "last";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Displays the most recent training session of the client "
-            + "identified by the index number used in the displayed client list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE =
+            COMMAND_WORD + ": Displays the most recent training session of the client "
+                    + "identified by the index number used in the displayed client list.\n"
+                    + "Parameters: INDEX (must be a positive integer)\n" + "Example: "
+                    + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_RETRIEVE_LOG_SUCCESS = "Previous Session for: %s\n"
-            + "Date: %s\n"
-            + "Location: %s";
+    public static final String MESSAGE_RETRIEVE_LOG_SUCCESS =
+            "Previous Session for: %s\n" + "Date: %s\n" + "Location: %s";
 
-    public static final String MESSAGE_NO_LOGS_FOUND_FAILURE = "No workouts have been logged for: %s";
+    public static final String MESSAGE_NO_LOGS_FOUND_FAILURE =
+            "No workouts have been logged for: %s";
 
     private static final String UNSET_LOCATION_DISPLAY = "N/A";
 
@@ -55,7 +56,8 @@ public class LastCommand extends Command {
             return handleNoLogFound(personToSearch);
         }
 
-        logger.fine("Last command executed successfully for client at index: " + targetIndex.getOneBased());
+        logger.fine("Last command executed successfully for client at index: "
+                + targetIndex.getOneBased());
 
         return new CommandResult(formatSuccessMessage(personToSearch, latest));
     }
@@ -65,7 +67,8 @@ public class LastCommand extends Command {
 
         // Check for valid index
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            logger.warning("Last command failed due to invalid index: " + targetIndex.getOneBased());
+            logger.warning(
+                    "Last command failed due to invalid index: " + targetIndex.getOneBased());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
@@ -79,9 +82,7 @@ public class LastCommand extends Command {
     }
 
     private String formatSuccessMessage(Person person, WorkoutLog log) {
-        return String.format(MESSAGE_RETRIEVE_LOG_SUCCESS,
-                person.getName(),
-                log.getTime(),
+        return String.format(MESSAGE_RETRIEVE_LOG_SUCCESS, person.getName(), log.getTime(),
                 resolveLocation(log));
     }
 
@@ -103,5 +104,10 @@ public class LastCommand extends Command {
 
         LastCommand otherLastCommand = (LastCommand) other;
         return targetIndex.equals(otherLastCommand.targetIndex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(targetIndex);
     }
 }

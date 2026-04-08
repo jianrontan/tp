@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -23,8 +24,8 @@ public class ViewCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Displays the full details of the person identified by the index number"
             + " used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + "Parameters: INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD
+            + " 1";
 
     public static final String MESSAGE_VIEW_PERSON_SUCCESS = "Viewing: %1$s";
 
@@ -54,8 +55,8 @@ public class ViewCommand extends Command {
 
         Person personToView = lastShownList.get(targetIndex.getZeroBased());
         return new CommandResult(
-                String.format(MESSAGE_VIEW_PERSON_SUCCESS, personToView.getName().fullName),
-                false, false, personToView);
+                String.format(MESSAGE_VIEW_PERSON_SUCCESS, personToView.getName().fullName), false,
+                false, personToView);
     }
 
     @Override
@@ -73,9 +74,12 @@ public class ViewCommand extends Command {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(targetIndex);
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
-                .toString();
+        return new ToStringBuilder(this).add("targetIndex", targetIndex).toString();
     }
 }

@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -28,14 +29,11 @@ public class LogCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Logs a workout for the person identified by the index number used in the displayed client list\n"
-            + "Parameters: "
-            + "INDEX (must be a positive integer) "
-            + "[" + PREFIX_TIME + "TIME] "
+            + "Parameters: " + "INDEX (must be a positive integer) " + "[" + PREFIX_TIME + "TIME] "
             + "[" + PREFIX_LOCATION + "LOCATION]";
 
-    public static final String MESSAGE_LOG_WORKOUT_SUCCESS = "Workout Logged for: %s\n"
-            + "Date: %s\n"
-            + "Location: %s";
+    public static final String MESSAGE_LOG_WORKOUT_SUCCESS =
+            "Workout Logged for: %s\n" + "Date: %s\n" + "Location: %s";
 
     public static final String MESSAGE_DUPLICATE_LOG = "This workout log already exists.";
 
@@ -116,9 +114,7 @@ public class LogCommand extends Command {
     }
 
     private String formatSuccessMessage(Person person, WorkoutLog log) {
-        return String.format(MESSAGE_LOG_WORKOUT_SUCCESS,
-                person.getName(),
-                log.getTime(),
+        return String.format(MESSAGE_LOG_WORKOUT_SUCCESS, person.getName(), log.getTime(),
                 log.getLocation());
     }
 
@@ -134,17 +130,18 @@ public class LogCommand extends Command {
         }
 
         LogCommand otherLogCommand = (LogCommand) other;
-        return targetIndex.equals(otherLogCommand.targetIndex)
-                && time.equals(otherLogCommand.time)
+        return targetIndex.equals(otherLogCommand.targetIndex) && time.equals(otherLogCommand.time)
                 && location.equals(otherLogCommand.location);
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(targetIndex, time, location);
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
-                .add("time", time)
-                .add("location", location)
-                .toString();
+        return new ToStringBuilder(this).add("targetIndex", targetIndex).add("time", time)
+                .add("location", location).toString();
     }
 }

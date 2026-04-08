@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -24,11 +25,11 @@ public class FilterCommand extends Command {
             + "or filters clients with no specified location when the phrase is blank.\n"
             + "Use one or more l/ prefixes.\n"
             + "If multiple l/ prefixes are provided, each must have a non-blank value.\n"
-            + "Parameters: " + PREFIX_LOCATION + "LOCATION_PHRASE [" + PREFIX_LOCATION + "MORE_LOCATION_PHRASES]...\n"
-            + "Examples:\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_LOCATION + "Anytime Fitness Buona\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_LOCATION + "Anytime Fitness " + PREFIX_LOCATION + "Clementi\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_LOCATION;
+            + "Parameters: " + PREFIX_LOCATION + "LOCATION_PHRASE [" + PREFIX_LOCATION
+            + "MORE_LOCATION_PHRASES]...\n" + "Examples:\n" + "  " + COMMAND_WORD + " "
+            + PREFIX_LOCATION + "Anytime Fitness Buona\n" + "  " + COMMAND_WORD + " "
+            + PREFIX_LOCATION + "Anytime Fitness " + PREFIX_LOCATION + "Clementi\n" + "  "
+            + COMMAND_WORD + " " + PREFIX_LOCATION;
 
     private static final Logger logger = LogsCenter.getLogger(FilterCommand.class);
 
@@ -72,9 +73,12 @@ public class FilterCommand extends Command {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(predicate);
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("predicate", predicate)
-                .toString();
+        return new ToStringBuilder(this).add("predicate", predicate).toString();
     }
 }

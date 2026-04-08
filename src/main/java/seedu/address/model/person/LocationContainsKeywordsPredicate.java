@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -20,12 +21,12 @@ public class LocationContainsKeywordsPredicate implements Predicate<Person> {
         String location = person.getLocation().value;
         String locationLower = location.toLowerCase();
 
-        // String match does not use StringUtil.containsWordIgnoreCase to allow for partial location matches.
+        // String match does not use StringUtil.containsWordIgnoreCase to allow for partial location
+        // matches.
         // An empty keyword is the explicit signal to filter persons with empty locations only.
-        return keywords.stream()
-                .map(String::toLowerCase)
-                .anyMatch(keyword -> keyword.isEmpty() ? location.isEmpty() : !location.isEmpty()
-                        && locationLower.contains(keyword));
+        return keywords.stream().map(String::toLowerCase)
+                .anyMatch(keyword -> keyword.isEmpty() ? location.isEmpty()
+                        : !location.isEmpty() && locationLower.contains(keyword));
     }
 
     @Override
@@ -42,6 +43,11 @@ public class LocationContainsKeywordsPredicate implements Predicate<Person> {
         LocationContainsKeywordsPredicate otherLocationContainsKeywordsPredicate =
                 (LocationContainsKeywordsPredicate) other;
         return keywords.equals(otherLocationContainsKeywordsPredicate.keywords);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keywords);
     }
 
     @Override

@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -36,7 +37,8 @@ public class NoteCommand extends Command {
     public static final String MESSAGE_NOCHANGE_SUCCESS =
             "No changes made to note for client: %1$s";
     public static final String MESSAGE_DELETE_SUCCESS = "Note deleted from client: %1$s";
-    public static final String MESSAGE_NOTE_ALREADY_CLEARED = "Note is already cleared for client: %1$s";
+    public static final String MESSAGE_NOTE_ALREADY_CLEARED =
+            "Note is already cleared for client: %1$s";
     public static final String MESSAGE_ARGUMENTS = "Index: %1$d, Note: %2$s";
 
     private static final Logger logger = LogsCenter.getLogger(NoteCommand.class);
@@ -100,15 +102,16 @@ public class NoteCommand extends Command {
     }
 
     /**
-     * Generates a command execution success message based on the mode and note content.
-     * - Append mode: shows "Note appended"
-     * - Replace/Delete mode: shows "Note added" if content is non-empty, "Note deleted" if empty
+     * Generates a command execution success message based on the mode and note content. - Append
+     * mode: shows "Note appended" - Replace/Delete mode: shows "Note added" if content is
+     * non-empty, "Note deleted" if empty
      *
      * @param editedPerson the person that was edited (only note field changed)
      * @param personToEdit the original person before editing
      * @param finalNote the final note after addition/appending
      */
-    private String generateSuccessMessage(Person editedPerson, Person personToEdit, Note finalNote) {
+    private String generateSuccessMessage(Person editedPerson, Person personToEdit,
+            Note finalNote) {
         if (isAppend && editedPerson.getNote().value.equals(personToEdit.getNote().value)) {
             return String.format(MESSAGE_NOCHANGE_SUCCESS, Messages.format(editedPerson));
         }
@@ -142,11 +145,13 @@ public class NoteCommand extends Command {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(index, note, isAppend);
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("index", index)
-                .add("note", note)
-                .add("isAppend", isAppend)
-                .toString();
+        return new ToStringBuilder(this).add("index", index).add("note", note)
+                .add("isAppend", isAppend).toString();
     }
 }
