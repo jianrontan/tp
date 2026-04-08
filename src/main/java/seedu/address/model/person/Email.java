@@ -13,8 +13,8 @@ public class Email {
     public static final String MESSAGE_CONSTRAINTS =
             "Email format must be in `local-part@domain` (e.g., `alex@example.com`). \n"
                     + "- Local-part uses letters, digits, or " + SPECIAL_CHARACTERS
-                    + " (not at start/end/not in consecutively);\n"
-                    + "- Domain labels are alphanumeric, may contain hyphens.\n"
+                    + " (not at start/end/not consecutively).\n"
+                    + "- Domain labels are alphanumeric, may contain hyphens (not at start/end/not consecutively).\n"
                     + "- Last part of domain (after the last dot) must be at least 2 characters.";
     // alphanumeric and special characters
     private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+"; // alphanumeric characters except underscore

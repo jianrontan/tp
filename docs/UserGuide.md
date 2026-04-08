@@ -28,10 +28,13 @@ PowerRoster is a **desktop app built to help Freelance Personal Fitness Trainers
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
-
    * `list` : Lists all clients.
+   * `add n/John Tan g/M dob/24/12/1999 p/98765432 e/johnt@example.com a/123 Sengkang East, #01-01 l/ActiveSG @ Fernvale Square t/beginner` : Adds a client named `John Tan` to PowerRoster.
+   * `plan 1 wp/PUSH` : Assigns the 1st client a workout programme.
 
    * `add n/John Tan g/M dob/24/12/1999 p/98765432 e/johnt@example.com a/123 Sengkang East, #01-01 l/ActiveSG @ Fernvale Square t/beginner` : Adds a client named `John Tan` to PowerRoster.
+
+   * `plan 1 wp/PUSH` : Assigns the 1st client a workout programme.
 
    * `delete 3` : Deletes the 3rd client shown in the current list.
 
@@ -94,10 +97,16 @@ Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/
 * Names with forward slashes (e.g., "s/o" for "son of") are not supported due to the "/" being used as a command delimiter. You can replace the slashes with spaces (e.g., "Muthu s/o Rajan" can be entered as "Muthu s o Rajan".)
 * Other names with non-alphanumeric characters like José Muñoz or 小明 should be replaced with suitable alphanumeric characters.
 * `NAME` is case-sensitive for duplicate detection
-* `EMAIL_ADDRESS` must be in `local-part@domain` format (e.g., `alex@example.com`):
-  * Local-part supports letters/digits and `+_.-` (not at the start/end, and not consecutively)
-  * Each domain label starts and ends with an alphanumeric character and may contain single hyphens in between (no consecutive hyphens)
-  * The part after the final dot (e.g., `com` in `example.com`) must be at least 2 characters
+* `EMAIL_ADDRESS` must follow the rules below (format: `local-part@domain`, e.g. `alex@example.com`):
+  * Local-part (before `@`)
+    * Uses letters, digits, and `+`, `_`, `.`, `-`
+    * Must start and end with a letter or digit
+    * Special characters cannot appear consecutively
+  * Domain (after `@`)
+    * Made of labels separated by dots (`.`)
+    * Each label must start and end with a letter or digit
+    * Hyphens are allowed inside a label, but not consecutively
+    * The final label (e.g. `com`) must be at least 2 characters
 * `GENDER` must be either `M` or `F` (case-insensitive)
 * `DATE_OF_BIRTH` must follow the format 'DD/MM/YYYY'
 * `DATE_OF_BIRTH` must be a valid date, not in the future, and not more than 100 years in the past.
@@ -155,8 +164,8 @@ Format: `edit INDEX [n/NAME] [g/GENDER] [dob/DATE_OF_BIRTH] [p/PHONE] [e/EMAIL] 
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Dylan Lim t/` Edits the name of the 2nd client to be `Dylan Lim` and clears all existing tags.
+* `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
+* `edit 2 n/Dylan Lim t/` Edits the name of the 2nd client to be `Dylan Lim` and clears all existing tags.
 
 ### Adding notes to a client: `note`
 
@@ -313,20 +322,19 @@ Format: `sort ATTRIBUTE/ [o/ORDER]`
 * Once set, the sort order persists after `list`, `find`, and `filter` commands until replaced by another `sort` command.
 * Supported attributes:
   * `n/` - Sort by name
-  * `l/` - Sort by location
+  * `l/` - Sort by location (unassigned locations sort last in asc, first in desc)
   * `dob/` - Sort by date of birth
   * `p/` - Sort by phone number
   * `e/` - Sort by email address
   * `a/` - Sort by address
   * `g/` - Sort by gender
   * `s/` - Sort by status (active before inactive)
-  * `wp/` - Sort by workout plan (alphabetical)
-  * `r/` - Sort by session rate (clients with no rate set sort first)
+  * `wp/` - Sort by workout plan
+  * `r/` - Sort by session rate (clients with no rates sort first in asc, last in desc)
 * Order options:
   * `o/asc` - Ascending order (A to Z, earliest to latest, 0 to 9)
   * `o/desc` - Descending order (Z to A, latest to earliest, 9 to 0)
 * The attribute prefix and the order prefix must be separated by a space. For example, `sort n/ o/desc` is valid, but `sort n/o/desc` is not and will result in an error.
-* Clients with no location set are always sorted to the **end** of the list in ascending order, and to the **top** of the list in descending order, so they do not interleave with real location names.
 
 Examples:
 * `sort n/` sorts the displayed client list by name in ascending order (A to Z).
@@ -357,6 +365,7 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 ### Logging a workout session: `log`
+
 Logs a workout for the specified client.
 
 Format: `log INDEX [time/TIME] [l/LOCATION]`
@@ -378,6 +387,7 @@ Examples:
 * `log 2 l/Sengkang ActiveSG Gym` Logs a workout for the second client in the displayed list using the current time with the location set to "Sengkang ActiveSG Gym"
 
 ### Retrieving the most recent session: `last`
+
 Retrieves the details of the most recent workout for the specified client.
 
 Format: `last INDEX`
@@ -417,24 +427,17 @@ If your changes to the data file makes its format invalid, PowerRoster will disc
 Furthermore, certain edits can cause the PowerRoster to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
-### Archiving data files `[coming soon]`
+### Viewing workout session history `[coming soon]`
+* Users will be able to view a client’s workout session history (not just the latest session), shown in reverse chronological order for easier progress tracking.
 
-_Details coming soon ..._
+### Editing and deleting workout logs `[coming soon]`
+* Users will be able to edit and delete existing workout logs to keep records accurate and up to date.
 
-### Viewing all workout logs `[coming soon]`
-* Users will be able to view the entire workout log history of a specified client.
+### Recording richer workout log and plan details `[coming soon]`
+* Workout logs and assigned workout plans will support richer structured details (e.g., exercise type, set count, repetition count) to improve traceability while keeping input rules clear.
 
-_Details coming soon ..._
-
-### Editing and Deleting workout logs `[coming soon]`
-* Users will be able to edit and delete workout logs.
-
-_Details coming soon ..._
-
-### More information to be recorded in workout logs `[coming soon]`
-* Workout Logs will hold more information regarding the specific workout. (E.g. Exercises, Sets, Reps etc...)
-
-_Details coming soon ..._
+### Supporting currency for session rates `[coming soon]`
+* Session rates will support explicit currency codes, with consistent display in command feedback and the UI.
 
 --------------------------------------------------------------------------------------------------------------------
 
