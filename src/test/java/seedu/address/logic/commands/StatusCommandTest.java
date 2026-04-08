@@ -110,6 +110,13 @@ public class StatusCommandTest {
     }
 
     @Test
+    public void hashCode_equalCommands_sameHash() {
+        StatusCommand a = new StatusCommand(INDEX_FIRST_PERSON, new Status("active"));
+        StatusCommand b = new StatusCommand(INDEX_FIRST_PERSON, new Status("active"));
+        assertEquals(a.hashCode(), b.hashCode());
+    }
+
+    @Test
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
         Status status = new Status("active");
