@@ -337,8 +337,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 To keep this section focused on non-trivial interactions, only unique interaction patterns are documented in full detail. Simpler commands with identical interaction patterns (e.g., straightforward index lookup + field update) are covered by representative use cases and noted as variations.
 
-**Use case: UC01 - Add a client**
-**Preconditions:** Trainer has launched PowerRoster.
+**Use case: UC01 - Add a client**  
+**Preconditions:** Trainer has launched PowerRoster.  
 **Guarantees:** A new client is added to the *roster* if all required fields are valid.
 
 **MSS**
@@ -367,8 +367,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC02 - Edit a client**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC02 - Edit a client**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** The selected fields of the client profile are updated if inputs are valid.
 
 **MSS**
@@ -391,9 +391,13 @@ To keep this section focused on non-trivial interactions, only unique interactio
     * 3a1. PowerRoster informs the Trainer of the invalid fields and corresponding accepted values.
 
       Use case ends.
+* 3b. PowerRoster detects that the edited client now matches an existing client.
+    * 3b1. PowerRoster informs the Trainer that a duplicate client already exists.
 
-**Use case: UC03 - Delete a client**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+      Use case ends.
+
+**Use case: UC03 - Delete a client**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** The client and all associated data are removed if deletion is successful.
 
 **MSS**
@@ -412,9 +416,9 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC04 - View Help and Command Guide**
-**Actor:** New user
-**Preconditions:** User has launched PowerRoster.
+**Use case: UC04 - View Help and Command Guide**  
+**Actor:** New user  
+**Preconditions:** User has launched PowerRoster.  
 **Guarantees:** The requested command usage information is displayed.
 
 **MSS**
@@ -436,8 +440,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC05 - Search and filter clients**
-**Preconditions:** Trainer has launched PowerRoster.
+**Use case: UC05 - Search and filter clients**  
+**Preconditions:** Trainer has launched PowerRoster.  
 **Guarantees:** Clients matching the query criteria are displayed.
 
 **MSS**
@@ -458,8 +462,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC06 - View a client's full profile**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC06 - View a client's full profile**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** Full details of the selected client are displayed.
 
 **MSS**
@@ -477,8 +481,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC07 - Update specialised client fields (note/status/rate/measure/plan)**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC07 - Update specialised client fields (note/status/rate/measure/plan)**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** One or more specialized client fields are updated according to command-specific rules.
 
 **MSS**
@@ -508,8 +512,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC08 - Log a workout session**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC08 - Log a workout session**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** A new workout session log is recorded for the selected client.
 
 **MSS**
@@ -536,8 +540,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC09 - View most recent workout session**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC09 - View most recent workout session**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** The most recent workout session details for the selected client are displayed, when available.
 
 **MSS**
@@ -559,8 +563,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC10 - Sort clients**
-**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.
+**Use case: UC10 - Sort clients**  
+**Preconditions:** Trainer has launched PowerRoster. At least one client exists in the *roster*.  
 **Guarantees:** The client list is sorted according to the specified sorting criteria.
 
 **MSS**
@@ -586,8 +590,8 @@ To keep this section focused on non-trivial interactions, only unique interactio
 
       Use case ends.
 
-**Use case: UC11 - Clear all clients and workout logs**
-**Preconditions:** Trainer has launched PowerRoster.
+**Use case: UC11 - Clear all clients and workout logs**  
+**Preconditions:** Trainer has launched PowerRoster.  
 **Guarantees:** All clients and workout logs are removed from storage and in-memory state.
 
 **MSS**
@@ -615,7 +619,7 @@ To keep this section focused on non-trivial interactions, only unique interactio
 * **Centralised application:** A single application consolidating all client-related information into one place, eliminating the need for the Trainer to switch between multiple applications (e.g. notes apps, spreadsheets, messaging apps) to retrieve or add client data.  
 * **Roster:** The complete list of all clients stored in PowerRoster.  
 * **Client Profile:** A record within PowerRoster storing all information associated with a specific client (e.g. contact details, gym location, workout history, dietary needs).  
-* **Workout Session Log:** A recorded entry of a completed training session for a client, including details such as date, duration and exercises performed.
+* **Workout Session Log:** A recorded entry of a completed training session for a client, including details such as date, time and location of the workout.
 * **Workout Programme:** A structured plan of exercises assigned to a client to follow over a period of time (e.g. Push, Pull and Legs).
 * **Active Client**: A client currently receiving training sessions from the Trainer.
 * **Session Rate:** The fee charged by the Trainer per training session for a specific client.
@@ -878,7 +882,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `last 0`<br>
       Expected: Invalid-index error is shown.
 
-   1. Test case: `last 2` (for a client with no workout logs)<br>
+   1. Test case: `last 3` (for a client with no workout logs)<br>
       Expected: Message indicates no previous session exists for that client.
 
 ### Clearing all entries
