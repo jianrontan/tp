@@ -15,7 +15,7 @@ public class Name {
      * A trailing period is allowed (e.g., "Dr.").
      */
     public static final String VALIDATION_REGEX = "[\\p{Alnum}](?:[\\p{Alnum}' .-]*[\\p{Alnum}.])?";
-    private static final String SPECIAL_CHARACTERS = "'-.";
+    private static final String SPECIAL_CHARACTERS = ".'-";
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain alphanumeric characters, spaces and " + SPECIAL_CHARACTERS
                     + " while not being blank.";

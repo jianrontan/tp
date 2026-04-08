@@ -261,11 +261,6 @@ Workout logging is the most domain-specific behavior in PowerRoster because it l
 
 This flow captures the key decision points (`index` validity, fallback defaults, duplicate detection, and retrieval behavior) while omitting low-level parser and collection details.
 
-### Future enhancements
-
-Potential future enhancements include undo/redo support, archival workflows for old client records/workout logs and expansion of workout logs and plans to include more information (e.g., type of exercise, number of sets and reps, etc.).
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -954,8 +949,10 @@ Team size: 5
 
 1. **Make client-name validation more inclusive for legal name patterns:** The current name validation rejects some commonly used legal-name fragments (e.g., `s/o`, `d/o`) because of slash handling in command parsing. Although we have stated this in the user guide and provided the workaround for users, we plan to look into adjusting name parsing/validation so these patterns can be entered safely while preserving command-prefix parsing reliability.
 
-2. **Extend workout log viewing from only latest-session to session-history view:** Currently, trainers can only retrieve the most recent session for a client. We plan to add a history-view flow that shows multiple past workout entries in reverse chronological order so trainers can review progression across sessions, not just retrieve the most recent session.
+2. **Add edit and delete functionality for workout logs:** Currently, once a workout log is created, it cannot be edited or deleted except via editing the JSON file. We plan to add commands that allow trainers to edit the details of an existing workout log (e.g., correct a mistaken date or location) or delete a log entry if it was created in error, to ensure that the workout history remains accurate and up-to-date.
 
-3. **Expand workout log and workout plan detail granularity:** Current workout logs and assigned plans are intentionally compact. We plan to support richer structured details (e.g., exercise type, set count, repetition count) to improve training traceability and give the trainer access to more information for planning, tracking, etc. while keeping input constraints clear.
+3. **Extend workout log viewing from only latest-session to session-history view:** Currently, trainers can only retrieve the most recent session for a client. We plan to add a history-view flow that shows multiple past workout entries in reverse chronological order so trainers can review progression across sessions, not just retrieve the most recent session.
 
-4. **Add explicit currency support for client session rates:** The current rate field stores numeric values without an explicit currency label and it is up to the user to be aware of the currency type of the values they are storing. We plan to allow trainers to specify a currency code for rate values and display it consistently in command feedback and UI.
+4. **Expand workout log and workout plan detail granularity:** Current workout logs and assigned plans are intentionally compact. We plan to support richer structured details (e.g., exercise type, set count, repetition count) to improve training traceability and give the trainer access to more information for planning, tracking, etc. while keeping input constraints clear.
+
+5. **Add explicit currency support for client session rates:** The current rate field stores numeric values without an explicit currency label and it is up to the user to be aware of the currency type of the values they are storing. We plan to allow trainers to specify a currency code for rate values and display it consistently in command feedback and UI.
