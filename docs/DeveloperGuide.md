@@ -315,12 +315,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | trainer       | store a *session rate* for each client           | recall their pricing quickly when preparing invoices                           |
 | `* *`    | trainer       | group clients together under a shared label      | track clients that are part of batch or group training sessions and contact them easily |
 | `* *`    | trainer       | sort my client list by different attributes (e.g. name, location, date of birth) | organise my view depending on the task that I seek to do                       |
-| `* *`    | trainer       | export or back up my client data                 | do not lose critical client information if something goes wrong                |
 
 #### Yet to be implemented (near-future and beyond)
 
 | Priority | As a …​       | I want to …​                                      | So that I can…​                                                                 |
 |----------|---------------|--------------------------------------------------|---------------------------------------------------------------------------------|
+| `* *`    | trainer       | export or back up my client data                 | do not lose critical client information if something goes wrong                |
 | `* *`    | trainer       | record a client’s diet                           | identify which diet a client is currently adopting without clarifying each time |
 | `* *`    | trainer       | record a client's dietary restrictions           | account for nutritional needs when designing their fitness programme           |
 | `* *`    | trainer       | set specific fitness goals for each client       | measure whether they are on track to meet their objectives                     |
@@ -602,7 +602,7 @@ To keep this section focused on non-trivial interactions, only unique interactio
 1. Should work on any *mainstream OS* as long as it has Java `17` or above installed.
 2. Should be able to hold up to 1000 clients without noticeable sluggishness for core operations (e.g., list/find/filter/sort), even though the typical trainer stores 10-25 clients.
 3. All functions provided in PowerRoster should be able to be carried out via the Command Line Interface (CLI) only.  
-4. All client data should be stored in a single file and automatically saved after every successful command that alters the data stored to allow for easy backups and transfer to other devices if needed.
+4. All client data should be stored in files and automatically saved after every successful command that alters the data stored to allow for easy backups and transfer to other devices if needed.
 5. A user with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 6. Should provide a helpful error message every time an invalid command is entered.
 7. Should ensure basic data validation for all user-entered fields to prevent logically invalid values (e.g., negative session rate).
