@@ -178,9 +178,9 @@ public class SortCommandTest {
         SortCommand command = new SortCommand("phone", "asc");
         expectedModel.updatePersonListComparator(phoneComparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        // DANIEL (87652533), ELLE (9482224), FIONA (9482427), GEORGE (9482442),
+        // ELLE (9482224), FIONA (9482427), GEORGE (9482442), DANIEL (87652533),
         // ALICE (94351253), CARL (95352563), BENSON (98765432)
-        assertEquals(Arrays.asList(DANIEL, ELLE, FIONA, GEORGE, ALICE, CARL, BENSON),
+        assertEquals(Arrays.asList(ELLE, FIONA, GEORGE, DANIEL, ALICE, CARL, BENSON),
                 model.getFilteredPersonList());
     }
 
