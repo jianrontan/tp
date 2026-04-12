@@ -390,7 +390,7 @@ public class AddCommandParserTest {
                 + LOCATION_DESC_BOB
                 + TAG_DESC_HUSBAND
                 + TAG_DESC_FRIEND,
-                DateOfBirth.MESSAGE_CONSTRAINTS);
+                DateOfBirth.MESSAGE_INVALID_DATE);
 
         // invalid phone
         assertParseFailure(parser,
