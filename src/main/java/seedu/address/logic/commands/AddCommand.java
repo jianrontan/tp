@@ -28,7 +28,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a client to PowerRoster.\n"
             + "Parameters: " + PREFIX_NAME + "NAME " + PREFIX_GENDER + "GENDER " + PREFIX_DOB
             + "DOB " + PREFIX_PHONE + "PHONE " + PREFIX_EMAIL + "EMAIL " + PREFIX_ADDRESS
-            + "ADDRESS " + "[" + PREFIX_LOCATION + "LOCATION]" + "[" + PREFIX_TAG + "TAG]...\n"
+            + "ADDRESS " + "[" + PREFIX_LOCATION + "LOCATION] " + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Tan " + PREFIX_GENDER + "M "
             + PREFIX_DOB + "24/12/1999 " + PREFIX_PHONE + "98765432 " + PREFIX_EMAIL
             + "johnt@example.com " + PREFIX_ADDRESS + "123 Sengkang East, #01-01 " + PREFIX_LOCATION
