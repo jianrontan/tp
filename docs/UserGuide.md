@@ -66,6 +66,9 @@ PowerRoster is a **desktop app built to help Freelance Personal Fitness Trainers
 * Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `exit 123`, it will be interpreted as `exit`.
 
+* Each command recognises only its **own set of prefixes**. When providing values for a command, ensure that the command's own prefixes are not used as part of the value text.
+  e.g. in `add n/John t/taylor ...`, `t/` is a prefix for the `add` command, so it cannot be used as part of the client's name. If you want to include `t/` in the name, you can replace the slash with something else (e.g. `add n/John t taylor`).
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
@@ -95,7 +98,8 @@ Adds a client to PowerRoster.
 Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/ADDRESS [l/LOCATION] [t/TAG]…​​`
 
 * Names with forward slashes (e.g., "s/o" for "son of") are not supported due to the "/" being used as a command delimiter. You can replace the slashes with spaces (e.g., "Muthu s/o Rajan" can be entered as "Muthu s o Rajan".)
-* Other names with non-alphanumeric characters like José Muñoz or 小明 should be replaced with suitable alphanumeric characters.
+* `NAME` can contain alphanumeric characters, spaces, apostrophes (`'`), periods (`.`), and hyphens (`-`).
+* Other names with characters not supported like José Muñoz or 小明 should be replaced with suitable characters.
 * `NAME` is case-sensitive for duplicate detection
 * `EMAIL_ADDRESS` must follow the rules below (format: `local-part@domain`, e.g. `alex@example.com`):
   * Local-part (before `@`)
@@ -110,8 +114,11 @@ Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/
 * `GENDER` must be either `M` or `F` (case-insensitive)
 * `DATE_OF_BIRTH` must follow the format 'DD/MM/YYYY'
 * `DATE_OF_BIRTH` must be a valid date, not in the future, and not more than 100 years in the past.
+* `PHONE_NUMBER` must contain at least 3 digits and numbers only, with an optional leading `+` for international format (e.g., `+6591234567`).
 * `LOCATION` can contain any value.
 * If `LOCATION` is omitted, the client is treated as having no specified location and the UI displays `N/A`.
+* `TAG` can contain only alphanumeric characters, spaces, and hyphens.
+* `TAG` cannot start with a hyphen. Leading/trailing spaces will be automatically removed.
 * Repeated use of the same non-tag prefix is not allowed (e.g., `n/Alex n/Jordan`). Repeating `t/` is allowed for multiple tags.
 
 <box type="tip" seamless>
@@ -160,6 +167,9 @@ Format: `edit INDEX [n/NAME] [g/GENDER] [dob/DATE_OF_BIRTH] [p/PHONE] [e/EMAIL] 
 * Feedback (e.g. `added/updated` or `unchanged`) is shown per specified field.
 * If multiple provided field values are invalid in one command, all related validation errors are shown together.
 * Repeated use of the same non-tag prefix is not allowed (e.g., `p/91234567 p/98765432`). Repeating `t/` is allowed for multiple tags.
+* If provided, `PHONE_NUMBER` follows the same format rules as in `add`.
+* If provided, `NAME` follows the same format rules as in `add`.
+* Each provided `TAG` follows the same format rules as in `add` (letters/numbers, spaces, and hyphens only; cannot start with a hyphen; leading/trailing spaces are automatically removed).
 * You can clear a client's location by typing `l/` without specifying a value after it.
 * When editing tags, the existing tags of the client will be removed i.e adding of tags is not cumulative.
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
@@ -420,7 +430,7 @@ PowerRoster data are saved in the hard disk automatically after any command that
 
 ### Editing the data file
 
-PowerRoster data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+PowerRoster data are saved automatically as JSON files at `[JAR file location]/data/addressbook.json` and `[JAR file location]/data/workoutlogbook.json`. Advanced users are welcome to update data directly by editing these data files.
 
 <box type="warning" seamless>
 
