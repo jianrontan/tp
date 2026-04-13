@@ -52,6 +52,8 @@ public class PersonDetailPanel extends UiPart<Region> {
     @FXML
     private Label bodyFat;
     @FXML
+    private Label status;
+    @FXML
     private Label address;
     @FXML
     private Label note;
@@ -95,7 +97,7 @@ public class PersonDetailPanel extends UiPart<Region> {
 
     private void configureValueLabelsForHorizontalScroll() {
         Label[] valueLabels = {name, gender, dob, phone, email, gymLocation, rate, plan, height,
-            weight, bodyFat, address, note};
+            weight, bodyFat, status, address, note};
 
         for (Label valueLabel : valueLabels) {
             valueLabel.setMinWidth(Region.USE_PREF_SIZE);
@@ -116,6 +118,7 @@ public class PersonDetailPanel extends UiPart<Region> {
         height.setText(defaultIfBlank(person.getHeight().value));
         weight.setText(defaultIfBlank(person.getWeight().value));
         bodyFat.setText(defaultIfBlank(person.getBodyFatPercentage().value));
+        status.setText(person.getStatus().toString());
         note.setText(defaultIfBlank(person.getNote().value));
     }
 

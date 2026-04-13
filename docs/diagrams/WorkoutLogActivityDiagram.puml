@@ -34,8 +34,10 @@ if (INDEX valid in filtered list?) then (yes)
 else (no)
   :Return invalid-index error\nor format error;
 endif
+stop
 
-:Trainer may execute last INDEX;
+start
+:Trainer executes last INDEX;
 if (INDEX valid?) then (yes)
   if (Client has prior logs?) then (yes)
     :Show most recent session details;

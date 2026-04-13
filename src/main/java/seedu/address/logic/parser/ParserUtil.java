@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -99,8 +102,13 @@ public class ParserUtil {
     public static DateOfBirth parseDateOfBirth(String dob) throws ParseException {
         requireNonNull(dob);
         String trimmedDob = dob.trim();
-        if (!DateOfBirth.isValidDob(trimmedDob)) {
-            throw new ParseException(DateOfBirth.MESSAGE_CONSTRAINTS);
+        try {
+            LocalDate testDate = LocalDate.parse(trimmedDob, DateOfBirth.FORMATTER);
+            if (!DateOfBirth.isValidTimeframe(testDate)) {
+                throw new ParseException(DateOfBirth.MESSAGE_INVALID_TIMEFRAME);
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(DateOfBirth.MESSAGE_INVALID_DATE);
         }
         return new DateOfBirth(trimmedDob);
     }
@@ -262,8 +270,13 @@ public class ParserUtil {
     public static WorkoutTime parseTime(String time) throws ParseException {
         requireNonNull(time);
         String trimmedTime = time.trim();
-        if (!WorkoutTime.isValidTime(trimmedTime)) {
-            throw new ParseException(WorkoutTime.MESSAGE_CONSTRAINTS);
+        try {
+            LocalDateTime testDateTime = LocalDateTime.parse(trimmedTime, WorkoutTime.FORMATTER);
+            if (!WorkoutTime.isValidTimeframe(testDateTime)) {
+                throw new ParseException(WorkoutTime.MESSAGE_INVALID_TIMEFRAME);
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(WorkoutTime.MESSAGE_INVALID_DATETIME);
         }
         return new WorkoutTime(trimmedTime);
     }

@@ -353,6 +353,8 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
+        String invalidNoDotEmailDesc = " " + PREFIX_EMAIL + "test@nodomain";
+
         // invalid name
         assertParseFailure(parser,
                 INVALID_NAME_DESC
@@ -390,7 +392,7 @@ public class AddCommandParserTest {
                 + LOCATION_DESC_BOB
                 + TAG_DESC_HUSBAND
                 + TAG_DESC_FRIEND,
-                DateOfBirth.MESSAGE_CONSTRAINTS);
+                DateOfBirth.MESSAGE_INVALID_DATE);
 
         // invalid phone
         assertParseFailure(parser,
@@ -412,6 +414,19 @@ public class AddCommandParserTest {
                 + DOB_DESC_BOB
                 + PHONE_DESC_BOB
                 + INVALID_EMAIL_DESC
+                + ADDRESS_DESC_BOB
+                + LOCATION_DESC_BOB
+                + TAG_DESC_HUSBAND
+                + TAG_DESC_FRIEND,
+                Email.MESSAGE_CONSTRAINTS);
+
+        // invalid email with no dot in domain
+        assertParseFailure(parser,
+                NAME_DESC_BOB
+                + GENDER_DESC_BOB
+                + DOB_DESC_BOB
+                + PHONE_DESC_BOB
+                + invalidNoDotEmailDesc
                 + ADDRESS_DESC_BOB
                 + LOCATION_DESC_BOB
                 + TAG_DESC_HUSBAND

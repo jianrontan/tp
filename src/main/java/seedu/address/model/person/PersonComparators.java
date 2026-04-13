@@ -76,7 +76,8 @@ public class PersonComparators {
             return firstLocation.compareToIgnoreCase(secondLocation);
         });
         COMPARATORS.put(ATTRIBUTE_DOB, Comparator.comparing(p -> p.getDateOfBirth().value));
-        COMPARATORS.put(ATTRIBUTE_PHONE, Comparator.comparing(p -> p.getPhone().value));
+        COMPARATORS.put(ATTRIBUTE_PHONE, Comparator.comparingLong((Person p) ->
+                Long.parseLong(p.getPhone().value.replace("+", ""))));
         COMPARATORS.put(ATTRIBUTE_EMAIL, Comparator.comparing(p -> p.getEmail().value.toLowerCase()));
         COMPARATORS.put(ATTRIBUTE_ADDRESS, Comparator.comparing(p -> p.getAddress().value.toLowerCase()));
         COMPARATORS.put(ATTRIBUTE_GENDER, Comparator.comparing(p -> p.getGender().value.name()));

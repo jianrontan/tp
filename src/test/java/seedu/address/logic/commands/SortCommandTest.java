@@ -173,13 +173,14 @@ public class SortCommandTest {
     @Test
     public void execute_sortByPhoneAscending_success() {
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "phone", "asc");
-        Comparator<Person> phoneComparator = Comparator.comparing(p -> p.getPhone().value);
+        Comparator<Person> phoneComparator = Comparator.comparingLong((Person p) ->
+                Long.parseLong(p.getPhone().value.replace("+", "")));
         SortCommand command = new SortCommand("phone", "asc");
         expectedModel.updatePersonListComparator(phoneComparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        // DANIEL (87652533), ALICE (94351253), ELLE (9482224), FIONA (9482427), GEORGE (9482442),
-        // CARL (95352563), BENSON (98765432)
-        assertEquals(Arrays.asList(DANIEL, ALICE, ELLE, FIONA, GEORGE, CARL, BENSON),
+        // ELLE (9482224), FIONA (9482427), GEORGE (9482442), DANIEL (87652533),
+        // ALICE (94351253), CARL (95352563), BENSON (98765432)
+        assertEquals(Arrays.asList(ELLE, FIONA, GEORGE, DANIEL, ALICE, CARL, BENSON),
                 model.getFilteredPersonList());
     }
 

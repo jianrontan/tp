@@ -148,6 +148,12 @@ public class SortCommandParserTest {
     }
 
     @Test
+    public void parse_extraPreambleText_throwsParseException() {
+        assertParseFailure(parser, " junk " + PREFIX_NAME,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_caseInsensitiveOrder_success() {
         SortCommand expectedCommand = new SortCommand("name", "asc");
 

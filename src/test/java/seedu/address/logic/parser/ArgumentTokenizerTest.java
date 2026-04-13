@@ -137,6 +137,15 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
+    public void tokenize_tabSeparators_treatedAsWhitespace() {
+        // Tab before prefix should be recognised the same as a space
+        String argsString = " p/value1\t-t value2";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash, dashT);
+        assertArgumentPresent(argMultimap, pSlash, "value1");
+        assertArgumentPresent(argMultimap, dashT, "value2");
+    }
+
+    @Test
     public void equalsMethod() {
         Prefix aaa = new Prefix("aaa");
 

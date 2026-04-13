@@ -14,6 +14,8 @@ import seedu.address.model.Model;
 public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
+    public static final String USER_GUIDE_REFERENCE =
+            "Refer to the user guide: https://ay2526s2-cs2103-f08-1a.github.io/tp/UserGuide.html";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows program usage instructions for all commands or a specific command.\n"
@@ -37,7 +39,7 @@ public class HelpCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         if (targetCommand.isEmpty()) {
-            return new CommandResult(getAllCommandsUsage(), true, false);
+            return new CommandResult(appendUserGuideReference(getAllCommandsUsage()), false, false);
         } else {
             return new CommandResult(getCommandUsage(targetCommand), false, false);
         }
@@ -52,6 +54,10 @@ public class HelpCommand extends Command {
         return CommandRegistry.getUsageMap().getOrDefault(
                 targetCommand,
                 "Unknown command: " + targetCommand + "\n\nType 'help' to see all available commands.");
+    }
+
+    private static String appendUserGuideReference(String helpContent) {
+        return helpContent + "\n\n" + USER_GUIDE_REFERENCE;
     }
 
     @Override

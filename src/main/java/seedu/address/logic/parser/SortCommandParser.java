@@ -71,6 +71,11 @@ public class SortCommandParser implements Parser<SortCommand> {
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_LOCATION, PREFIX_ORDER,
                 PREFIX_STATUS, PREFIX_PLAN, PREFIX_RATE);
 
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ORDER,
                 PREFIX_NAME, PREFIX_GENDER, PREFIX_DOB, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_LOCATION,

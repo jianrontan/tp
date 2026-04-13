@@ -11,7 +11,7 @@ public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Tag names should contain only alphanumeric characters, spaces and hyphens.\n"
-                    + "They should not start with a space or a hyphen.";
+                    + "They should not start with a hyphen. Leading/trailing spaces will be automatically removed.";
     public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} -]*";
 
     public final String tagName;

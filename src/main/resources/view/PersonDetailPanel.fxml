@@ -154,6 +154,14 @@
           </ScrollPane>
         </VBox>
 
+        <!-- Status -->
+        <VBox spacing="3">
+          <Label styleClass="detail-field-label" text="Status" />
+          <ScrollPane fitToHeight="true" fitToWidth="false" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER" styleClass="detail-field-scroll">
+            <Label fx:id="status" styleClass="detail-value-label" />
+          </ScrollPane>
+        </VBox>
+
         <!-- Tags -->
         <VBox spacing="3">
           <Label styleClass="detail-field-label" text="Tags" />
