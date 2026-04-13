@@ -81,7 +81,7 @@ Format: `help [COMMAND_WORD]`
 * The command word is case-insensitive. e.g. `help ADD` works the same as `help add`
 
 Examples:
-* `help` shows all available commands and their usage
+* `help` shows all available commands, their usage and also the User Guide URL at the end
 * `help add` shows only the usage instructions for the add command
 * `help filter` shows only the usage instructions for the filter command
 
