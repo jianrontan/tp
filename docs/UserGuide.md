@@ -100,7 +100,7 @@ Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/
 * Names with forward slashes (e.g., "s/o" for "son of") are not supported due to the "/" being used as a command delimiter. You can replace the slashes with spaces (e.g., "Muthu s/o Rajan" can be entered as "Muthu s o Rajan".)
 * `NAME` can contain alphanumeric characters, spaces, apostrophes (`'`), periods (`.`), and hyphens (`-`).
 * Other names with characters not supported like José Muñoz or 小明 should be replaced with suitable characters.
-* `NAME` is case-sensitive for duplicate detection
+* `NAME` is case-insensitive for duplicate detection (e.g. "John Doe" and "john doe" are treated as the same client)
 * `EMAIL_ADDRESS` must follow the rules below (format: `local-part@domain`, e.g. `alex@example.com`):
   * Local-part (before `@`)
     * Uses letters, digits, and `+`, `_`, `.`, `-`
@@ -336,7 +336,7 @@ Format: `sort ATTRIBUTE/ [o/ORDER]`
   * `n/` - Sort by name
   * `l/` - Sort by location (unassigned locations sort last in asc, first in desc)
   * `dob/` - Sort by date of birth
-  * `p/` - Sort by phone number
+  * `p/` - Sort by phone number (numerically; the `+` country code prefix is ignored for ordering)
   * `e/` - Sort by email address
   * `a/` - Sort by address
   * `g/` - Sort by gender
