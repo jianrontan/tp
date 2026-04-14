@@ -101,7 +101,7 @@ Format: `add n/NAME g/GENDER dob/DATE_OF_BIRTH p/PHONE_NUMBER e/EMAIL_ADDRESS a/
 * `NAME` must start with an alphanumeric character and end with an alphanumeric character or period (`.`).
 * `NAME` can contain alphanumeric characters, spaces, apostrophes (`'`), periods (`.`), and hyphens (`-`).
 * Other names with characters not supported like José Muñoz or 小明 should be replaced with suitable characters.
-* Two clients are considered duplicates only if they share the same name (case-insensitive) **and** the same phone number. This means clients with the same name but different phone numbers can both be added (e.g. two clients both named "Ashley Tan" with different phone numbers are treated as different clients).
+* Two clients are considered duplicates only if they share the same name (case-insensitive) **and** the same phone number. This means clients with the same name but different phone numbers can both be added (e.g. two clients both named "Ashley Tan" with different phone numbers are treated as different clients). Phone numbers are not treated as unique identifiers on their own, as clients may share a number (e.g. using a family member's contact).
 * `EMAIL_ADDRESS` must follow the rules below (format: `local-part@domain`, e.g. `alex@example.com`):
   * Local-part (before `@`)
     * Uses letters, digits, and `+`, `_`, `.`, `-`
